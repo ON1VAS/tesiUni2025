@@ -11,9 +11,13 @@ config_version=5
 [application]
 
 config/name="tesiUni2025"
-run/main_scene="uid://d1tvde23ldwap"
+run/main_scene="uid://cfq5tbf3r767k"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="res://icon.svg"
+
+[input_devices]
+
+sensors/enable_gravity=true
 
 [rendering]
 

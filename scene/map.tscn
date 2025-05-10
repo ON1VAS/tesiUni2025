@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=4 uid="uid://d1tvde23ldwap"]
+[gd_scene load_steps=13 format=4 uid="uid://cfq5tbf3r767k"]
 
 [ext_resource type="Texture2D" uid="uid://u6ku7qe6odsc" path="res://testures/Legacy-Fantasy - High Forest 2.3/Background/Background.png" id="1_bq37x"]
 [ext_resource type="PackedScene" uid="uid://cm1ru7bxfj1s0" path="res://scene/player.tscn" id="1_jp76l"]
