@@ -411,12 +411,14 @@ animation = &"idle"
 offset = Vector2(4, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-2, 21)
+position = Vector2(0, 21)
 shape = SubResource("RectangleShape2D_34jf3")
 
-[node name="SwordHitbox" type="Area2D" parent="."]
+[node name="SwordHitbox" type="Area2D" parent="." groups=["player_weapon"]]
+collision_layer = 2
+collision_mask = 32
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SwordHitbox"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SwordHitbox" groups=["player_weapon"]]
 position = Vector2(32, 20)
 shape = SubResource("RectangleShape2D_ml7e8")
 

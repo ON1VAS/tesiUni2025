@@ -15,6 +15,10 @@ run/main_scene="uid://cfq5tbf3r767k"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[global_group]
+
+player_weapon=""
+
 [input]
 
 attackfast={
@@ -31,6 +35,12 @@ attackpesant={
 [input_devices]
 
 sensors/enable_gravity=true
+
+[layer_names]
+
+2d_render/layer_2="player_weapon"
+2d_render/layer_6="enemy_hurt"
+2d_render/layer_7="enemy_attack"
 
 [rendering]
 

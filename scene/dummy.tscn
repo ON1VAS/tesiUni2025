@@ -1,0 +1,81 @@
+[gd_scene load_steps=11 format=3 uid="uid://40v2rc48ifjl"]
+
+[ext_resource type="Script" uid="uid://bbavyfi8q3l0i" path="res://script/dummy.gd" id="1_nljr0"]
+[ext_resource type="Texture2D" uid="uid://b4ksf5qjia7ki" path="res://testures/training coso/Training Dummy Sprite Sheet.png" id="1_rdt0c"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tk6c3"]
+atlas = ExtResource("1_rdt0c")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nljr0"]
+atlas = ExtResource("1_rdt0c")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mtq4m"]
+atlas = ExtResource("1_rdt0c")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8fkih"]
+atlas = ExtResource("1_rdt0c")
+region = Rect2(64, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qh2oe"]
+atlas = ExtResource("1_rdt0c")
+region = Rect2(96, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yhc6u"]
+atlas = ExtResource("1_rdt0c")
+region = Rect2(128, 32, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_nq7db"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tk6c3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nljr0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mtq4m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8fkih")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qh2oe")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yhc6u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tk6c3")
+}],
+"loop": false,
+"name": &"hit",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tk6c3")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_w4gf6"]
+
+[node name="dummy" type="Area2D"]
+scale = Vector2(1.3, 1.3)
+collision_layer = 2
+collision_mask = 32
+script = ExtResource("1_nljr0")
+
+[node name="spriteDummy" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_nq7db")
+animation = &"hit"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_w4gf6")

@@ -18,12 +18,20 @@ var attack_properties = {
 
 func _ready():
 	sword_hitbox.disabled = true #disattivato di default
-	hitbox_timer.timeout.connect(_on_hitbox_timer_timeout)
+	$SwordHitbox.set_collision_layer_value(2, true)  # Abilita layer 2 (player_weapon)
+	$SwordHitbox.set_collision_mask_value(6, true) #abilita la maschera per colpire i nemici
+	if not hitbox_timer.timeout.is_connected(_on_hitbox_timer_timeout):
+		hitbox_timer.timeout.connect(_on_hitbox_timer_timeout)
 	
 func start_attack(anim_name: String):
 	$AnimatedSprite2D.play(anim_name)
 	var props = attack_properties[anim_name]
 	hitbox_timer.start(props.delay) #si inizia ad attivarlo per la prima volta
+	
+	#non viene ancora usato, ma si potrebbe implementare
+	var damage = 10 #imposta il danno del player
+	emit_signal("hit_landed", damage) #non viene ancora usato, ma si potrebbe implementare
+
 func _physics_process(delta):
 	# Movimento e gravità
 	velocity.y += delta * GRAVITY
@@ -58,8 +66,13 @@ func _physics_process(delta):
 	
 	# Flip
 	$AnimatedSprite2D.flip_h = facing_direction < 0
-	$SwordHitbox/CollisionShape2D.x = -1
-	
+# Modifica la posizione dell'Area2D (SwordHitbox), non della CollisionShape
+	if facing_direction<0:
+		$SwordHitbox.position.x = 65 * facing_direction  # 65 va esattamete dall'altra parte
+		$CollisionShape2D.position.x = facing_direction + 10
+	else:
+		$SwordHitbox.position.x = 10 * facing_direction  # co 10 sta giusto davanti al cavaliere
+		$CollisionShape2D.position.x = facing_direction
 	move_and_slide()
 
 
