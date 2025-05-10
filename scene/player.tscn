@@ -1,6 +1,6 @@
 [gd_scene load_steps=14 format=3 uid="uid://cm1ru7bxfj1s0"]
 
-[ext_resource type="Texture2D" uid="uid://b68nmhcf5c8rf" path="res://testures/free_knight/Colour1/NoOutline/120x80_PNGSheets/_Idle.png" id="1_xo3ru"]
+[ext_resource type="Texture2D" uid="uid://boyyqx4je6gf" path="res://testures/free_knight/Colour1/NoOutline/120x80_PNGSheets/_Idle.png" id="1_xo3ru"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hjaqi"]
 atlas = ExtResource("1_xo3ru")
@@ -91,6 +91,7 @@ size = Vector2(20, 38)
 [node name="protagonista" type="CharacterBody2D"]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_dk1vr")
 animation = &"idle"
 
