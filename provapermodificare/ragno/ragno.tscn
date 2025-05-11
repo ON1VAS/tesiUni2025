@@ -209,6 +209,8 @@ radius = 474.001
 size = Vector2(30.4043, 24.4205)
 
 [node name="ragno" type="CharacterBody2D" groups=["nemici"]]
+collision_layer = 2
+collision_mask = 32
 script = ExtResource("1_lr5nt")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -237,9 +239,9 @@ unique_name_in_owner = true
 [node name="TimerDannoPreso" type="Timer" parent="."]
 wait_time = 0.3
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Hurtbox" type="Area2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
 position = Vector2(0, -2.38419e-07)
 scale = Vector2(1.13471, 0.706374)
 shape = SubResource("RectangleShape2D_o787w")
@@ -250,4 +252,4 @@ shape = SubResource("RectangleShape2D_o787w")
 [connection signal="timeout" from="Attacco/ragnatelaTimer/attacco_ragnatelaTimer" to="." method="_on_attacco_ragnatela_timer_timeout"]
 [connection signal="timeout" from="Attacco/cooldownTimer" to="." method="_on_cooldown_timer_timeout"]
 [connection signal="timeout" from="TimerDannoPreso" to="." method="_on_timer_danno_preso_timeout"]
-[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="area_entered" from="Hurtbox" to="." method="_on_area_2d_area_entered"]

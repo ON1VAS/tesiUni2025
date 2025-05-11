@@ -5,7 +5,7 @@ var movement_speed = 100
 @onready var anim = $AnimatedSprite2D
 @onready var hp = 20
 @onready var min_distance = 300
-@onready var hurtbox = $Area2D
+@onready var hurtbox = $Hurtbox
 
 var exp = preload("res://scene/exp_points.tscn")
 
@@ -34,7 +34,9 @@ func _ready():
 	anim.play("move")
 	self.set_collision_layer_value(6, true)  # Abilita layer 6 (enemy_hurt)
 	self.set_collision_mask_value(2, true)  # Deve rilevare layer 2 (player_weapon)
-	hurtbox.area_entered.connect(_on_hurtbox_area_entered)
+	hurtbox.set_collision_layer_value(6, true)
+	hurtbox.set_collision_mask_value(2, true)
+	hurtbox.area_entered.connect(_on_area_2d_area_entered)
 
 func attack():
 	if player_in_area and ragnatela_level > 0 and can_attack:
@@ -122,19 +124,22 @@ func _on_timer_danno_preso_timeout():
 		
 		
 
-func _on_hurtbox_area_entered(area: Area2D):
+
+func take_damage(amount: int):
+	hp -= amount
+	anim.play("damage")
+	print("Ragno colpito! Vita rimanente: ", hp)
+	
+	if hp <= 0:
+		self.collision_layer = false
+		anim.play("morte")
+		set_physics_process(false)
+		await (get_tree().create_timer(1.5).timeout)
+		self.queue_free()
+
+
+func _on_area_2d_area_entered(area: Area2D) -> void:
 	# Se l'area è la SwordHitbox del giocatore
 	if area.is_in_group("player_weapon"):
 		anim.play("damage")
 		take_damage(10)  # Danno base (puoi passare un valore dal player)
-
-func take_damage(amount: int):
-	hp -= amount
-	print("Manichino colpito! Vita rimanente: ", hp)
-	
-	if hp <= 0:
-		queue_free()
-
-
-func _on_area_2d_area_entered(area: Area2D) -> void:
-	pass # Replace with function body.

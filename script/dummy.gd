@@ -8,7 +8,7 @@ func _ready():
 	self.set_collision_layer_value(6, true)  # Abilita layer 6 (enemy_hurt)
 	self.set_collision_mask_value(2, true)  # Deve rilevare layer 2 (player_weapon)
 	area_entered.connect(_on_hurtbox_area_entered)
-	
+	print("Dummy pronto. Layer:", get_collision_layer(), " Mask:", get_collision_mask())
 	$spriteDummy.play("idle")
 func _on_hurtbox_area_entered(area: Area2D):
 	# Se l'area è la SwordHitbox del giocatore
