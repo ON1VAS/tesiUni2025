@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://cxeo5wmyggjvj"]
+
+[ext_resource type="Script" uid="uid://bojnj5gumlalg" path="res://script/exp_points.gd" id="1_6c8jq"]
+[ext_resource type="Texture2D" uid="uid://dpsr41yy6my" path="res://testures/exp temp.png" id="2_rlwpq"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_s35j2"]
+radius = 87.0919
+
+[node name="Exp points" type="Area2D"]
+script = ExtResource("1_6c8jq")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_s35j2")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -1)
+scale = Vector2(0.0572917, 0.0572917)
+texture = ExtResource("2_rlwpq")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

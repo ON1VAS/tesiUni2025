@@ -1,0 +1,76 @@
+[gd_scene load_steps=11 format=3 uid="uid://dy078pbj080np"]
+
+[ext_resource type="Script" uid="uid://bps5kkyecf2vs" path="res://provapermodificare/ragno/ragnatela.gd" id="1_qj5kv"]
+[ext_resource type="Texture2D" uid="uid://chbirkesm33yj" path="res://testures/enemy/Spider_Attack.png" id="2_msvq8"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_crd18"]
+radius = 18.1108
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pwu5i"]
+atlas = ExtResource("2_msvq8")
+region = Rect2(1, 0, 32, 38)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d74s5"]
+atlas = ExtResource("2_msvq8")
+region = Rect2(33, 0, 32, 38)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5p7wi"]
+atlas = ExtResource("2_msvq8")
+region = Rect2(65, 0, 32, 38)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5va7a"]
+atlas = ExtResource("2_msvq8")
+region = Rect2(97, 0, 32, 38)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fthxc"]
+atlas = ExtResource("2_msvq8")
+region = Rect2(129, 0, 32, 38)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_doopq"]
+atlas = ExtResource("2_msvq8")
+region = Rect2(161, 0, 32, 38)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_83mpc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pwu5i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d74s5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5p7wi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5va7a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fthxc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_doopq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_doopq")
+}],
+"loop": false,
+"name": &"attacco",
+"speed": 5.0
+}]
+
+[node name="ragnatela" type="Area2D" groups=["attacco"]]
+texture_filter = 1
+script = ExtResource("1_qj5kv")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_crd18")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(3, 5)
+scale = Vector2(1.96875, 1.52632)
+sprite_frames = SubResource("SpriteFrames_83mpc")
+animation = &"attacco"
+frame = 5
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

@@ -5,6 +5,9 @@ extends CharacterBody2D
 
 const GRAVITY = 400.0
 const JUMP_FORCE = -200
+const MAX_HEALTH = 100.00
+var currentMaxHealth = MAX_HEALTH
+var health = MAX_HEALTH
 @export var speed = 200
 var facing_direction = 1  # 1 = destra, -1 = sinistra
 
@@ -74,6 +77,25 @@ func _physics_process(delta):
 		$SwordHitbox.position.x = 10 * facing_direction  # co 10 sta giusto davanti al cavaliere
 		$CollisionShape2D.position.x = facing_direction
 	move_and_slide()
+
+func SetHealthBar(): #imposto barretta vita
+	$HealthBar.value = health
+	var health_perc = 0.5 + ((health / currentMaxHealth)/2 ) #il giocatore cambia dimensione in base a quanta vita ha
+
+func Damage (dam): #la vita diminuisce di un certo dam
+	health-= dam #fa diminuire la vita in base a quanto danno prendi
+	SetHealthBar() #aggiorna la healthbar in "tempo reale"
+	if health <= 0: #pe capire se funziona, qua po se deve fa la roba dell acrepaggine
+		die()
+
+
+func die():
+	health = 0  # Assicurati che la salute non vada sotto zero
+	#$death_sound.play()
+	$AnimatedSprite2D.play("death")
+	set_physics_process(false)  # Disabilita il movimento del personaggio
+	set_process(false)  # Disabilita altri processi
+	
 
 
 func _on_animated_sprite_2d_animation_finished() -> void:

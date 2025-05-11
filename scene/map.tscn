@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=4 uid="uid://cfq5tbf3r767k"]
+[gd_scene load_steps=15 format=4 uid="uid://cfq5tbf3r767k"]
 
 [ext_resource type="Texture2D" uid="uid://u6ku7qe6odsc" path="res://testures/Legacy-Fantasy - High Forest 2.3/Background/Background.png" id="1_bq37x"]
 [ext_resource type="PackedScene" uid="uid://cm1ru7bxfj1s0" path="res://scene/player.tscn" id="1_jp76l"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://drt2v5us55lpd" path="res://testures/Legacy-Fantasy - High Forest 2.3/Assets/Interior-01.png" id="3_bq37x"]
 [ext_resource type="Texture2D" uid="uid://b2bt0s7bwbjaw" path="res://testures/Legacy-Fantasy - High Forest 2.3/Assets/Props-Rocks.png" id="4_jp76l"]
 [ext_resource type="PackedScene" uid="uid://40v2rc48ifjl" path="res://scene/dummy.tscn" id="7_jp76l"]
+[ext_resource type="PackedScene" uid="uid://km2jwsltrngq" path="res://provapermodificare/ragno/ragno.tscn" id="8_7ac5c"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_7ac5c"]
 texture = ExtResource("1_nf54y")
@@ -1472,3 +1473,6 @@ shape = SubResource("RectangleShape2D_ui0ov")
 
 [node name="dummy" parent="." instance=ExtResource("7_jp76l")]
 position = Vector2(664, 440)
+
+[node name="ragno" parent="." instance=ExtResource("8_7ac5c")]
+position = Vector2(617, 439)
