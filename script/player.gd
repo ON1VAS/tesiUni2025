@@ -32,8 +32,8 @@ func start_attack(anim_name: String):
 	hitbox_timer.start(props.delay) #si inizia ad attivarlo per la prima volta
 	
 	#non viene ancora usato, ma si potrebbe implementare
-	var damage = 10 #imposta il danno del player
-	emit_signal("hit_landed", damage) #non viene ancora usato, ma si potrebbe implementare
+	#var damage = 10 #imposta il danno del player
+	#emit_signal("hit_landed", damage) #non viene ancora usato, ma si potrebbe implementare
 
 func _physics_process(delta):
 	# Movimento e gravità
