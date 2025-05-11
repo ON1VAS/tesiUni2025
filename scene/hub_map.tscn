@@ -1435,8 +1435,8 @@ sources/1 = SubResource("TileSetAtlasSource_d357p")
 sources/2 = SubResource("TileSetAtlasSource_rvlb8")
 sources/3 = SubResource("TileSetAtlasSource_ajdn0")
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_yvg75"]
-size = Vector2(128, 20)
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_xvopj"]
+b = Vector2(124, 0)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_c4g2m"]
 size = Vector2(1102, 114)
@@ -1464,15 +1464,15 @@ position = Vector2(124, 443)
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
 [node name="CollisionShape2DPlatform" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(440, 433)
-shape = SubResource("RectangleShape2D_yvg75")
+position = Vector2(378, 426)
+shape = SubResource("SegmentShape2D_xvopj")
+one_way_collision = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+[node name="CollisionShape2DFloor" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2(566, 546)
 shape = SubResource("RectangleShape2D_c4g2m")
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D"]
+[node name="CollisionShape2DBox" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2(328, 457)
 shape = SubResource("SegmentShape2D_yvg75")
 one_way_collision = true
-one_way_collision_margin = 0.0
