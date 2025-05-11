@@ -20,6 +20,7 @@ var attack_properties = {
 }
 
 func _ready():
+	$HealthBar.value = health
 	sword_hitbox.disabled = true #disattivato di default
 	$SwordHitbox.set_collision_layer_value(2, true)  # Abilita layer 2 (player_weapon)
 	$SwordHitbox.set_collision_mask_value(6, true) #abilita la maschera per colpire i nemici
