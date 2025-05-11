@@ -197,7 +197,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_covnp")
 }],
-"loop": true,
+"loop": false,
 "name": &"attack",
 "speed": 5.0
 }, {
@@ -325,9 +325,11 @@ script = ExtResource("1_u4yfr")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_soug6")
-animation = &"attack"
+animation = &"move"
 
 [node name="PlayerDetectionArea" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 32
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetectionArea"]
 shape = SubResource("CircleShape2D_yqa5d")
@@ -338,4 +340,9 @@ shape = SubResource("CircleShape2D_yqa5d")
 position = Vector2(-1.5, -4.5)
 shape = SubResource("RectangleShape2D_mh4gg")
 
+[node name="FireballSpawnPoint" type="Marker2D" parent="."]
+position = Vector2(24, 0)
+
+[connection signal="body_entered" from="PlayerDetectionArea" to="." method="_on_player_detection_area_body_entered"]
+[connection signal="body_exited" from="PlayerDetectionArea" to="." method="_on_player_detection_area_body_exited"]
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_hurtbox_area_entered"]

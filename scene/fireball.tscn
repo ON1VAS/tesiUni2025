@@ -1,7 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://q82sfuqywiev"]
+[gd_scene load_steps=11 format=3 uid="uid://q82sfuqywiev"]
 
 [ext_resource type="Script" uid="uid://d1bx7dlunddn1" path="res://script/fireball.gd" id="1_hwcit"]
 [ext_resource type="Texture2D" uid="uid://bkinpsn5hfi6d" path="res://testures/enemy/FireBall.png" id="1_xvsru"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hwcit"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hwcit"]
 atlas = ExtResource("1_xvsru")
@@ -53,12 +55,15 @@ animations = [{
 "speed": 15.0
 }]
 
-[node name="Fireball" type="Area2D"]
+[node name="Fireball" type="Area2D" groups=["attacco"]]
 script = ExtResource("1_hwcit")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_hwcit")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_mnk85")
 frame_progress = 0.410642
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

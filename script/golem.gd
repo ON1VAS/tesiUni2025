@@ -12,7 +12,7 @@ var palladifuoco = preload("res://scene/fireball.tscn")
 # Palla di fuoco
 var ragnatela_ammo = 0
 var ragnatela_baseammo = 1
-var ragnatela_attackspeed = 2
+var ragnatela_attackspeed = 200
 var ragnatela_level = 1
 var attack_cooldown = 2  # Tempo di recupero tra gli attacchi
 
@@ -28,6 +28,23 @@ func _ready():
 	hurtbox.set_collision_mask_value(2, true)
 	hurtbox.area_entered.connect(_on_area_2d_area_entered)
 	
+func _process(delta):
+	if can_attack and player:
+		shoot_fireball()
+		can_attack = false
+		await get_tree().create_timer(attack_cooldown).timeout
+		can_attack = true
+	
+
+
+func shoot_fireball():
+	var fireball = palladifuoco.instantiate()
+	fireball.global_position = $FireballSpawnPoint.global_position
+	var direction = (player.global_position - global_position).normalized()
+	fireball.direction = direction
+	fireball.speed = ragnatela_attackspeed
+	fireball.damage = 20
+	get_parent().add_child(fireball)
 
 func take_damage(amount: int):
 	hp -= amount
@@ -47,3 +64,13 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 	if area.is_in_group("player_weapon"):
 		anim.play("damage")
 		take_damage(10)  # Danno base (puoi passare un valore dal player)
+		
+
+
+func _on_player_detection_area_body_entered(body: Node2D) -> void:
+	if body.is_in_group("giocatore"):
+		can_attack = true
+
+func _on_player_detection_area_body_exited(body: Node2D) -> void:
+	if body.is_in_group("giocatore"):
+		can_attack = false
