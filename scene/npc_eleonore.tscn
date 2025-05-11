@@ -1,0 +1,60 @@
+[gd_scene load_steps=12 format=3 uid="uid://bsfslsux5w0mh"]
+
+[ext_resource type="Texture2D" uid="uid://dkn33yvyevvtq" path="res://testures/EJ-npcs/Eleonore/Idle/Idle1.png" id="1_1xkib"]
+[ext_resource type="Texture2D" uid="uid://b0hfgsf88xwkc" path="res://testures/EJ-npcs/Eleonore/Idle/Idle2.png" id="2_ch5sq"]
+[ext_resource type="Texture2D" uid="uid://e1kbdyp2rkpv" path="res://testures/EJ-npcs/Eleonore/Idle/Idle3.png" id="3_7qnfo"]
+[ext_resource type="Texture2D" uid="uid://bw0md0u57mlk6" path="res://testures/EJ-npcs/Eleonore/Idle/Idle4.png" id="4_trmpy"]
+[ext_resource type="Texture2D" uid="uid://cw0sdcuec1v4k" path="res://testures/EJ-npcs/Eleonore/Idle/Idle5.png" id="5_6bomn"]
+[ext_resource type="Texture2D" uid="uid://xbleuqaahqdb" path="res://testures/EJ-npcs/Eleonore/Idle/Idle6.png" id="6_5adsm"]
+[ext_resource type="Texture2D" uid="uid://bsnae40i5nwrf" path="res://testures/EJ-npcs/Eleonore/Idle/Idle7.png" id="7_j853u"]
+[ext_resource type="Texture2D" uid="uid://cn4xm7me5axpk" path="res://testures/EJ-npcs/Eleonore/Idle/Idle8.png" id="8_h6j4h"]
+[ext_resource type="Texture2D" uid="uid://dp84mmh6c8jhw" path="res://testures/EJ-npcs/Eleonore/Idle/Idle9.png" id="9_70ekr"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_odpph"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_1xkib")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_ch5sq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_7qnfo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_trmpy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_6bomn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_5adsm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_j853u")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_h6j4h")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_70ekr")
+}],
+"loop": true,
+"name": &"default",
+"speed": 8.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_60kj3"]
+size = Vector2(65, 65)
+
+[node name="npc_eleonore" type="Area2D"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_odpph")
+autoplay = "default"
+frame_progress = 0.354416
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_60kj3")

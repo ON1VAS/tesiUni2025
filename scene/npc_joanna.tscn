@@ -1,0 +1,48 @@
+[gd_scene load_steps=9 format=3 uid="uid://bdkp8v3e5bii4"]
+
+[ext_resource type="Texture2D" uid="uid://cq7yfvs46fklv" path="res://testures/EJ-npcs/Joanna/Idle/Idle1.png" id="1_w62xy"]
+[ext_resource type="Texture2D" uid="uid://dxg5m0j76kii5" path="res://testures/EJ-npcs/Joanna/Idle/Idle2.png" id="2_6vact"]
+[ext_resource type="Texture2D" uid="uid://bggcio5nb7fpq" path="res://testures/EJ-npcs/Joanna/Idle/Idle3.png" id="3_nlh1n"]
+[ext_resource type="Texture2D" uid="uid://cf1iaiacr107g" path="res://testures/EJ-npcs/Joanna/Idle/Idle4.png" id="4_cpkri"]
+[ext_resource type="Texture2D" uid="uid://dl4ku7kgj8u40" path="res://testures/EJ-npcs/Joanna/Idle/Idle5.png" id="5_7akp2"]
+[ext_resource type="Texture2D" uid="uid://df2fp74oly5ox" path="res://testures/EJ-npcs/Joanna/Idle/Idle6.png" id="6_rrdgq"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8slu6"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_w62xy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_6vact")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_nlh1n")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_cpkri")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_7akp2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_rrdgq")
+}],
+"loop": true,
+"name": &"default",
+"speed": 6.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5i7c4"]
+size = Vector2(71, 66)
+
+[node name="npc_Joanna" type="Area2D"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_8slu6")
+autoplay = "default"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -7)
+shape = SubResource("RectangleShape2D_5i7c4")
