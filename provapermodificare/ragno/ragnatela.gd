@@ -13,6 +13,7 @@ var attack_size = 1.0
 var bullet_life_time = 2
 var stick_time = 2
 var stuck = false
+var tempvel = 200
 
 #var target = slimechan
 var angle = Vector2.ZERO
@@ -40,12 +41,12 @@ func Stick():
 	self.queue_free()  # Fa scomparire la ragnatela dopo essere rimasta attaccata
 
 func slow_player_temporarily():
-	slimechan.speed = 50
+	slimechan.speed = tempvel / 2
 	await get_tree().create_timer(1).timeout
-	slimechan.speed = 400
+	slimechan.speed = tempvel * 2
 
 func RestorePlayerSpeed():
-	slimechan.speed = 400
+	slimechan.speed = tempvel
 
 func _on_body_entered(body):
 	if body.is_in_group("giocatore"):
