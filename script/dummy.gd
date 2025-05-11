@@ -17,8 +17,7 @@ func _on_hurtbox_area_entered(area: Area2D):
 		take_damage(10)  # Danno base (puoi passare un valore dal player)
 
 func take_damage(amount: int):
-	health -= amount
-	print("Manichino colpito! Vita rimanente: ", health)
+	#health -= amount #reso immortale
 	
 	if health <= 0:
 		queue_free()
