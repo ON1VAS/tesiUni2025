@@ -43,7 +43,7 @@ func Stick():
 func slow_player_temporarily():
 	slimechan.speed = tempvel / 2
 	await get_tree().create_timer(1).timeout
-	slimechan.speed = tempvel * 2
+	RestorePlayerSpeed() #ora la velocità torna normale
 
 func RestorePlayerSpeed():
 	slimechan.speed = tempvel
