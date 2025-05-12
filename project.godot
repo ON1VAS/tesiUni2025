@@ -15,6 +15,13 @@ run/main_scene="uid://cfq5tbf3r767k"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[display]
+
+window/size/viewport_width=1280
+window/size/viewport_height=720
+window/stretch/mode="viewport"
+window/stretch/aspect="expand"
+
 [global_group]
 
 player_weapon=""
@@ -63,6 +70,10 @@ attackpesant={
 [input_devices]
 
 sensors/enable_gravity=true
+
+[internationalization]
+
+locale/translations_pot_files=PackedStringArray("res://dialogue/dialogue1.dialogue")
 
 [layer_names]
 

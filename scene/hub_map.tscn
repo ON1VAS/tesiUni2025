@@ -1,7 +1,9 @@
-[gd_scene load_steps=58 format=4 uid="uid://dxdeq1u760j5c"]
+[gd_scene load_steps=60 format=4 uid="uid://dxdeq1u760j5c"]
 
+[ext_resource type="Script" uid="uid://c7fyigx7s0x64" path="res://script/hub_map.gd" id="1_33jsw"]
 [ext_resource type="PackedScene" uid="uid://cm1ru7bxfj1s0" path="res://scene/player.tscn" id="1_nmp41"]
 [ext_resource type="Texture2D" uid="uid://u6ku7qe6odsc" path="res://testures/Legacy-Fantasy - High Forest 2.3/Background/Background.png" id="1_pwk2i"]
+[ext_resource type="PackedScene" uid="uid://b50aqprkx4ob8" path="res://scene/DialogueBox.tscn" id="1_ygn3h"]
 [ext_resource type="Texture2D" uid="uid://cfkewdygssn8x" path="res://testures/gh-platform/Tree1.png" id="2_k37tt"]
 [ext_resource type="Texture2D" uid="uid://bqcirtba7bm2p" path="res://testures/Legacy-Fantasy - High Forest 2.3/Assets/Tiles.png" id="2_yvg75"]
 [ext_resource type="Texture2D" uid="uid://cdsx6tu5otur" path="res://testures/Legacy-Fantasy - High Forest 2.3/Assets/Tree-Assets.png" id="3_r3iyh"]
@@ -6225,15 +6227,21 @@ sources/0 = SubResource("TileSetAtlasSource_mfe2d")
 sources/1 = SubResource("TileSetAtlasSource_gev1w")
 
 [node name="hubMap" type="Node2D"]
+script = ExtResource("1_33jsw")
 metadata/_edit_horizontal_guides_ = [-27.0, 743.0, 22.0]
+
+[node name="DialogueBox" parent="." instance=ExtResource("1_ygn3h")]
+visible = false
+offset = Vector2(0, -15)
+transform = Transform2D(1, 0, 0, 1, 0, -15)
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground"]
 modulate = Color(0.606477, 0.39443, 0.467448, 1)
 texture_filter = 1
-position = Vector2(573, 222)
-scale = Vector2(3.09191, 3.09191)
+position = Vector2(660, 245)
+scale = Vector2(3.7261, 3.7261)
 texture = ExtResource("1_pwk2i")
 
 [node name="Sprite2D2" type="Sprite2D" parent="ParallaxBackground"]
@@ -6300,9 +6308,10 @@ scale = Vector2(1.3, -1.3)
 position = Vector2(563, 406)
 rotation = 3.14159
 scale = Vector2(0.75, -0.75)
+script = null
 
 [node name="npc_eleonore" parent="." instance=ExtResource("19_i0hfc")]
-position = Vector2(1020, 470)
+position = Vector2(1023, 470)
 rotation = 3.14159
 scale = Vector2(0.7, -0.7)
 
