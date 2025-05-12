@@ -101,7 +101,6 @@ func die():
 	$AnimatedSprite2D.play("death")
 	set_physics_process(false)  # Disabilita il movimento del personaggio
 	set_process(false)  # Disabilita altri processi
-	
 
 
 func _on_animated_sprite_2d_animation_finished() -> void:

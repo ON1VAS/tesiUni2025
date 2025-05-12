@@ -1,7 +1,9 @@
-[gd_scene load_steps=15 format=3 uid="uid://dvtsyd4yk0nba"]
+[gd_scene load_steps=21 format=3 uid="uid://dvtsyd4yk0nba"]
 
+[ext_resource type="Script" uid="uid://coo3rs8m4bhkw" path="res://script/ape.gd" id="1_1ism8"]
 [ext_resource type="Texture2D" uid="uid://b4bynv33vav3p" path="res://testures/Legacy-Fantasy - High Forest 2.3/Mob/Small Bee/Attack/Attack-Sheet.png" id="1_4ticg"]
 [ext_resource type="Texture2D" uid="uid://dpxmcfa8g8cel" path="res://testures/Legacy-Fantasy - High Forest 2.3/Mob/Small Bee/Hit/Hit-Sheet.png" id="3_1ism8"]
+[ext_resource type="Texture2D" uid="uid://eheyrq2vdjqq" path="res://testures/Legacy-Fantasy - High Forest 2.3/Mob/Small Bee/Fly/Fly-Sheet.png" id="4_qg2cn"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qg2cn"]
 atlas = ExtResource("1_4ticg")
@@ -35,6 +37,22 @@ region = Rect2(128, 0, 64, 64)
 atlas = ExtResource("3_1ism8")
 region = Rect2(192, 0, 64, 64)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_bmm0p"]
+atlas = ExtResource("4_qg2cn")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lw2h2"]
+atlas = ExtResource("4_qg2cn")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v26vp"]
+atlas = ExtResource("4_qg2cn")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k856h"]
+atlas = ExtResource("4_qg2cn")
+region = Rect2(192, 0, 64, 64)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_2gki6"]
 animations = [{
 "frames": [{
@@ -59,11 +77,6 @@ animations = [{
 "name": &"death",
 "speed": 5.0
 }, {
-"frames": [],
-"loop": true,
-"name": &"idle",
-"speed": 5.0
-}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_2gki6")
@@ -76,6 +89,23 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_6ay0e")
+}],
+"loop": true,
+"name": &"hurt",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bmm0p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lw2h2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v26vp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k856h")
 }],
 "loop": true,
 "name": &"move",
@@ -92,12 +122,12 @@ size = Vector2(36, 37)
 size = Vector2(15, 14)
 
 [node name="Ape" type="CharacterBody2D"]
+script = ExtResource("1_1ism8")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_2gki6")
-animation = &"death"
-frame_progress = 0.407126
+animation = &"hurt"
 
 [node name="PlayerDetectionArea" type="Area2D" parent="."]
 collision_layer = 2
@@ -113,7 +143,14 @@ position = Vector2(4, -2.5)
 shape = SubResource("RectangleShape2D_mtwqk")
 
 [node name="Pungiglione" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 32
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Pungiglione"]
 position = Vector2(-10.5, 13)
 shape = SubResource("RectangleShape2D_6ay0e")
+
+[node name="HitboxTimer" type="Timer" parent="."]
+
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
+[connection signal="timeout" from="HitboxTimer" to="." method="_on_hitbox_timer_timeout"]
