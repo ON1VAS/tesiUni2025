@@ -1,5 +1,6 @@
 extends CharacterBody2D
 
+
 var movement_speed = 100 
 @onready var player = get_tree().get_first_node_in_group("giocatore") 
 @onready var anim = $AnimatedSprite2D
@@ -12,6 +13,8 @@ var movement_speed = 100
 var damage = 10
 var is_attacking = false
 var attack_direction = Vector2.ZERO
+var attack_cooldown = 1 #Tempo di attesa tra gli attacchi
+var last_attack_time = 0.0
 
 func _ready():
 	print(self.name)
@@ -42,7 +45,7 @@ func _physics_process(delta: float) -> void:
 			velocity = Vector2.ZERO
 		
 		# Decidi quando fare l'attacco speciale (qui uso una probabilità del 10% ogni frame)
-		if randf() < 0.01 and not is_attacking:
+		if not is_attacking and (last_attack_time + attack_cooldown) < Engine.get_physics_frames():
 			perform_sting_attack(direction)
 # Configurazione hitbox per ogni animazione perchè se cambio gli sprite urlo, accomodiamo per i prossimi attacchi anche
 var attack_properties = {
@@ -53,8 +56,9 @@ var attack_properties = {
 func perform_sting_attack(direction: Vector2):
 	is_attacking = true
 	# Scegli una direzione diagonale basata sulla direzione verso il giocatore
-	attack_direction = direction.rotated(deg_to_rad(45 * sign(randf_range(-1, 1))))
+	attack_direction = direction
 	anim.play("sting_attack")
+	last_attack_time = Engine.get_physics_frames()
 	# Attiva l'hitbox dopo un breve ritardo
 	await get_tree().create_timer(attack_properties["sting_attack"]["delay"]).timeout
 	sword_hitbox.disabled = false
@@ -100,8 +104,11 @@ func _on_hitbox_timer_timeout() -> void:
 			sword_hitbox.disabled = true
 			
 			# Se ci sono più keyframe, programma la prossima attivazione
-			var next_activation = props.delay * 1.5  # Regola questo valore
-			hitbox_timer.start(next_activation)
+			if props.keyframes.size() > 1:
+				var next_keyframe = props.keyframes[1]
+				hitbox_timer.start(next_keyframe)  # Attiva il prossimo keyframe
+			else:
+				hitbox_timer.stop()  # Ferma il timer se non ci sono più keyframeon)
 
 
 func _on_hurtbox_area_entered(area: Area2D) -> void:
