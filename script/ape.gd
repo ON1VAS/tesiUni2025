@@ -10,7 +10,7 @@ var movement_speed = 100
 @onready var sword_hitbox = $Pungiglione/CollisionShape2D
 @onready var hitbox_timer = $HitboxTimer
 
-var damage = 10
+var damage = 15
 var is_attacking = false
 var attack_direction = Vector2.ZERO
 var attack_cooldown = 1 #Tempo di attesa tra gli attacchi
@@ -29,7 +29,7 @@ func _ready():
 	if $Hurtbox.area_entered.is_connected(_on_hurtbox_area_entered):
 		$Hurtbox.area_entered.disconnect(_on_hurtbox_area_entered)
 	$Hurtbox.area_entered.connect(_on_hurtbox_area_entered)
-	
+	$Pungiglione.body_entered.connect(_on_pungiglione_body_entered)
 
 func _physics_process(delta: float) -> void:
 	if is_attacking:
@@ -115,3 +115,10 @@ func _on_hurtbox_area_entered(area: Area2D) -> void:
 	if area.is_in_group("player_weapon"):
 		anim.play("attack")
 		take_damage(10)
+
+
+func _on_pungiglione_body_entered(body: Node2D) -> void:
+	print("Hitbox ha colpito: ", body.name)
+	if body.is_in_group("giocatore"):
+		print("E' un giocatore! Infliggo danno")
+		body.Damage(damage)
