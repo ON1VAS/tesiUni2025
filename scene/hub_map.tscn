@@ -1,4 +1,4 @@
-[gd_scene load_steps=60 format=4 uid="uid://dxdeq1u760j5c"]
+[gd_scene load_steps=61 format=4 uid="uid://dxdeq1u760j5c"]
 
 [ext_resource type="Script" uid="uid://c7fyigx7s0x64" path="res://script/hub_map.gd" id="1_33jsw"]
 [ext_resource type="PackedScene" uid="uid://cm1ru7bxfj1s0" path="res://scene/player.tscn" id="1_nmp41"]
@@ -6226,6 +6226,9 @@ texture = ExtResource("3_xvopj")
 sources/0 = SubResource("TileSetAtlasSource_mfe2d")
 sources/1 = SubResource("TileSetAtlasSource_gev1w")
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_33jsw"]
+size = Vector2(49, 78)
+
 [node name="hubMap" type="Node2D"]
 script = ExtResource("1_33jsw")
 metadata/_edit_horizontal_guides_ = [-27.0, 743.0, 22.0]
@@ -6310,7 +6313,7 @@ rotation = 3.14159
 scale = Vector2(0.75, -0.75)
 
 [node name="npc_eleonore" parent="." instance=ExtResource("19_i0hfc")]
-position = Vector2(1023, 470)
+position = Vector2(978, 471)
 rotation = 3.14159
 scale = Vector2(0.7, -0.7)
 
@@ -6373,3 +6376,10 @@ texture_filter = 1
 position = Vector2(12, -5)
 tile_map_data = PackedByteArray("AAAlAB0AAQAKAAsAAAAlAB4AAQAKAAwAAAAmAB0AAQALAAsAAAAmAB4AAQALAAwAAAAnAB0AAQAMAAsAAAAnAB4AAQAMAAwAAAA1AB0AAQAKAAsAAAA1AB4AAQAKAAwAAAA2AB0AAQALAAsAAAA2AB4AAQALAAwAAAA3AB0AAQAMAAsAAAA3AB4AAQAMAAwAAAA=")
 tile_set = SubResource("TileSet_c4g2m")
+
+[node name="Area2DstartGame" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2DstartGame"]
+position = Vector2(1125, 452)
+shape = SubResource("RectangleShape2D_33jsw")
+debug_color = Color(0.867391, 0.103538, 0.816995, 0.42)

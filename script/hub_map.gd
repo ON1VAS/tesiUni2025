@@ -4,10 +4,12 @@ extends Node2D
 @onready var npcJoanna = $npc_Joanna  # Riferimento al nodo NPC
 @onready var npcEleonore = $npc_eleonore  # Riferimento al nodo NPC
 @onready var player = $protagonista
+@onready var startGame = $Area2DstartGame
 var player_in_range = false
 var can_start_dialogue = true  # Nuovo flag per controllare la possibilità di iniziare dialogo
 var dialogues = {}
 var npc_name = ""
+var can_start_game = false
 
 func _ready():
 	npcJoanna.connect("body_entered", _on_npc_body_entered.bind("npc_Joanna"))
@@ -15,6 +17,8 @@ func _ready():
 	npcEleonore.connect("body_entered", _on_npc_body_entered.bind("npc_Eleonore"))
 	npcEleonore.connect("body_exited", _on_npc_body_exited.bind("npc_Eleonore"))
 	
+	startGame.connect("body_entered", _on_start_game_area_entered)
+	startGame.connect("body_exited", _on_start_game_area_exited)
 	load_dialogues()
 	# Ascolta il segnale dalla dialogue box se viene aggiunto (opzionale)
 	# if dialogue_box.has_signal("dialogue_ended"):
@@ -60,6 +64,10 @@ func load_dialogues():
 func _input(event):
 	if player_in_range and can_start_dialogue and event.is_action_pressed("ui_accept"):
 		_start_dialogue()
+	if can_start_game and event.is_action_pressed("ui_accept"):
+		scene_change()
+		
+		
 
 func _start_dialogue():
 	if npc_name=="npc_Eleonore":
@@ -80,4 +88,20 @@ func _start_dialogue():
 		can_start_dialogue = false  # Impedisco riavvio del dialogo finché non esce e rientra
 	else:
 		print("dialogo non trovato per ", npc_name)
-	
+
+#cambio scena, inizio gioco
+func _on_start_game_area_entered(body):
+	if body.name == "protagonista":
+		dialogue_box.talk_prompt("Premi [E] per iniziare l'avventura")
+		dialogue_box.visible = true
+		can_start_game = true
+		print("entrata ", can_start_game)
+
+func _on_start_game_area_exited(body):
+	can_start_game = false
+	dialogue_box.visible = false
+	print("uscita ", can_start_game)
+
+func scene_change():
+	#cambio scena
+	get_tree().change_scene_to_file("res://scene/map.tscn")

@@ -23,7 +23,7 @@ func show_dialogue(lines: Array):
 # Mostra la prossima riga del dialogo
 func _show_next_line():
 	if current_line < dialogue_lines.size():
-		print("Mostrando riga: ", current_line)  # Debug: per vedere quale riga viene visualizzata
+		#print("Mostrando riga: ", current_line)  # Debug: per vedere quale riga viene visualizzata
 		
 		
 		dialogue_label.text = dialogue_lines[current_line]  # Mostra la riga corrente
