@@ -6244,10 +6244,10 @@ position = Vector2(660, 245)
 scale = Vector2(3.7261, 3.7261)
 texture = ExtResource("1_pwk2i")
 
-[node name="Sprite2D2" type="Sprite2D" parent="ParallaxBackground"]
+[node name="Sprite2D2" type="Sprite2D" parent="."]
 texture_filter = 1
-position = Vector2(22, 405)
-scale = Vector2(1.33654, 1.33654)
+position = Vector2(-46, 383)
+scale = Vector2(1.11539, 1.11539)
 texture = ExtResource("2_k37tt")
 
 [node name="TileMapLayerAlberi" type="TileMapLayer" parent="."]
@@ -6320,7 +6320,7 @@ position = Vector2(124, 443)
 [node name="Camera2D2" type="Camera2D" parent="protagonista"]
 zoom = Vector2(2.3, 2.3)
 limit_left = -50
-limit_right = 1120
+limit_right = 1140
 limit_bottom = 550
 limit_smoothed = true
 

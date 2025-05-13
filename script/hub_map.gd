@@ -24,6 +24,8 @@ func _on_npc_body_entered(body, npc):
 		npc_name = npc
 		player_in_range = true
 		can_start_dialogue = true  # Reset possibilità dialogo solo entrando nell'area
+		dialogue_box.visible = true
+		dialogue_box.talk_prompt("Parla")
 		print("Player entrato nell'area dell'NPC")
 		print(npc_name)
 
@@ -31,6 +33,7 @@ func _on_npc_body_exited(body,npc):
 	if body.name == "protagonista":
 		player_in_range = false
 		can_start_dialogue = true  # anche se esce, resetto questa flag per sicurezza
+		dialogue_box.visible = false
 		print("Player uscito dall'area dell'NPC")
 		npc_name = npc
 

@@ -46,7 +46,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_60kj3"]
-size = Vector2(65, 65)
+size = Vector2(176.25, 93.5)
 
 [node name="npc_eleonore" type="Area2D"]
 
@@ -57,4 +57,5 @@ autoplay = "default"
 frame_progress = 0.354416
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1, -19)
 shape = SubResource("RectangleShape2D_60kj3")
