@@ -1,12 +1,13 @@
 {
 	"npc_Joanna": [
-		"Ciao viaggiatore",
-		"anche tu tifi foggia?",
-		"zio pera..."
+		"Ciao viaggiatore, sembri molto forte",
+		"ti prego, esci e portaci dei viveri. 
+			Sei la nostra unica speranza",
+		"ma sta attento, lì fuori è pieno di pericoli...",
 	],
 	"npc_Eleonore": [
-		"Ciao bro",
-		"anche tu tifi napoli?",
-		"zio pera at pedals..."
+		"Hey viaggiatore, stai uscendo?",
+		"Buona fortuna e non stare troppo lì fuori",
+		"i morti sono le uniche cose che qui non mancano..."
 	]
 }

@@ -3,6 +3,7 @@ extends Node2D
 @onready var dialogue_box = $DialogueBox  # Riferimento al nodo DialogueBox
 @onready var npcJoanna = $npc_Joanna  # Riferimento al nodo NPC
 @onready var npcEleonore = $npc_eleonore  # Riferimento al nodo NPC
+@onready var player = $protagonista
 var player_in_range = false
 var can_start_dialogue = true  # Nuovo flag per controllare la possibilità di iniziare dialogo
 var dialogues = {}
@@ -25,7 +26,7 @@ func _on_npc_body_entered(body, npc):
 		player_in_range = true
 		can_start_dialogue = true  # Reset possibilità dialogo solo entrando nell'area
 		dialogue_box.visible = true
-		dialogue_box.talk_prompt("Parla")
+		dialogue_box.talk_prompt("Parla [E]")
 		print("Player entrato nell'area dell'NPC")
 		print(npc_name)
 
@@ -48,7 +49,6 @@ func load_dialogues():
 		
 		if parsed != null:  # Controllo se il parsing è riuscito
 			dialogues = parsed
-			print("Dialoghi caricati con successo! Chiavi: ", dialogues.keys())
 		else:
 			print("Errore nel parsing del JSON. Verifica la sintassi del file.")
 		
@@ -59,10 +59,21 @@ func load_dialogues():
 
 func _input(event):
 	if player_in_range and can_start_dialogue and event.is_action_pressed("ui_accept"):
-		print("Tasto di interazione premuto")
 		_start_dialogue()
 
 func _start_dialogue():
+	if npc_name=="npc_Eleonore":
+		if player.position.x > 1023.0:
+			$npc_eleonore/AnimatedSprite2D.flip_h = true
+		else:
+			$npc_eleonore/AnimatedSprite2D.flip_h = false
+	
+	if npc_name=="npc_Joanna":
+		if player.position.x > 546.0:
+			$npc_Joanna/AnimatedSprite2D.flip_h = true
+		else:
+			$npc_Joanna/AnimatedSprite2D.flip_h = false
+	
 	
 	if dialogues.has(npc_name):
 		dialogue_box.show_dialogue(dialogues[npc_name])
