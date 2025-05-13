@@ -47,6 +47,7 @@ func _physics_process(delta: float) -> void:
 # Configurazione hitbox per ogni animazione perchè se cambio gli sprite urlo, accomodiamo per i prossimi attacchi anche
 var attack_properties = {
 	"attack": {"delay": 0.1, "duration": 0.4, "keyframes": [1,3]},
+	"sting_attack": {"delay": 0.1, "duration": 0.4, "keyframes": [1, 3]},
 }
 
 func perform_sting_attack(direction: Vector2):
@@ -67,7 +68,7 @@ func perform_sting_attack(direction: Vector2):
 
 func _on_animated_sprite_2d_animation_finished() -> void:
 	if $AnimatedSprite2D.animation in attack_properties.keys():
-		if $AnimatedSprite2D.animation == "sting_attack":
+		if $AnimatedSprite2D.animation == "sting_attack" and is_attacking:
 			return
 		sword_hitbox.disabled = true #Non mi serve più tenerla attiva
 		$AnimatedSprite2D.play("idle")
