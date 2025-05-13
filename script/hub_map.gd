@@ -63,13 +63,13 @@ func _input(event):
 
 func _start_dialogue():
 	if npc_name=="npc_Eleonore":
-		if player.position.x > 1023.0:
+		if player.position.x > npcEleonore.position.x:
 			$npc_eleonore/AnimatedSprite2D.flip_h = true
 		else:
 			$npc_eleonore/AnimatedSprite2D.flip_h = false
 	
 	if npc_name=="npc_Joanna":
-		if player.position.x > 546.0:
+		if player.position.x > npcJoanna.position.x:
 			$npc_Joanna/AnimatedSprite2D.flip_h = true
 		else:
 			$npc_Joanna/AnimatedSprite2D.flip_h = false
