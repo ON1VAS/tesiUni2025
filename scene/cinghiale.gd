@@ -87,7 +87,9 @@ func _handle_normal_state(delta: float):
 		velocity.x = lerp(velocity.x, direction.x * movement_speed, acceleration * delta * 60.0)
 		
 		# Flip sprite
-		if direction.x != 0:
+		if direction.x > 0:
+			anim.scale.x = -(sign(direction.x) * abs(anim.scale.x))
+		elif direction.x < 0:
 			anim.scale.x = sign(direction.x) * abs(anim.scale.x)
 	else:
 		velocity.x = lerp(velocity.x, 0.0, friction * delta * 60.0)
@@ -126,7 +128,7 @@ func perform_charge_attack(direction: Vector2):
 	
 	if is_charging:  # Se non è stato interrotto
 		anim.play("charge_attack")
-		sword_hitbox.disabled = false
+		sword_hitbox.call_deferred("set_disabled", false)
 		
 		# Timer durata carica
 		await get_tree().create_timer(charge_duration).timeout
@@ -134,7 +136,7 @@ func perform_charge_attack(direction: Vector2):
 
 func _end_charge():
 	is_charging = false
-	sword_hitbox.disabled = true
+	sword_hitbox.call_deferred("set_disabled", true)
 	velocity.x = 0.0
 	anim.play("move")
 
@@ -143,7 +145,7 @@ func _end_charge_with_impact():
 	velocity.x = -attack_direction.x * movement_speed * 0.5
 	velocity.y = -150
 	is_charging = false
-	sword_hitbox.disabled = true
+	sword_hitbox.call_deferred("set_disabled", true)
 	anim.play("hurt")
 	await get_tree().create_timer(0.5).timeout
 	anim.play("move")
@@ -168,12 +170,12 @@ func _die():
 # ===== SEGNALI =====
 func _on_hurtbox_area_entered(area: Area2D):
 	if area.is_in_group("player_weapon"):
-		take_damage(10)
+		take_damage(damage)
 
 func _on_incornata_body_entered(body: Node2D):
 	if body.is_in_group("giocatore"):
 		body.Damage(damage)
-		_end_charge_with_impact()
+		call_deferred("_end_charge_with_impact")
 
 func _on_animated_sprite_2d_animation_finished():
 	if anim.animation == "charge_anticipation" and is_charging:
