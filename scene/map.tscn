@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=4 uid="uid://cfq5tbf3r767k"]
+[gd_scene load_steps=18 format=4 uid="uid://cfq5tbf3r767k"]
 
 [ext_resource type="Texture2D" uid="uid://u6ku7qe6odsc" path="res://testures/Legacy-Fantasy - High Forest 2.3/Background/Background.png" id="1_bq37x"]
 [ext_resource type="PackedScene" uid="uid://cm1ru7bxfj1s0" path="res://scene/player.tscn" id="1_jp76l"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://b2bt0s7bwbjaw" path="res://testures/Legacy-Fantasy - High Forest 2.3/Assets/Props-Rocks.png" id="4_jp76l"]
 [ext_resource type="PackedScene" uid="uid://40v2rc48ifjl" path="res://scene/dummy.tscn" id="7_jp76l"]
 [ext_resource type="PackedScene" uid="uid://bthh718uavc0f" path="res://scene/golem.tscn" id="9_8qxkh"]
+[ext_resource type="PackedScene" uid="uid://dcskbt4mltl8y" path="res://scene/slime.tscn" id="10_0bc6k"]
 [ext_resource type="PackedScene" uid="uid://d2n7yyyc73rwo" path="res://scene/chinghiale.tscn" id="11_8vfk2"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_7ac5c"]
@@ -1482,4 +1483,7 @@ position = Vector2(664, 440)
 position = Vector2(325, 354)
 
 [node name="Cinghiale" parent="." instance=ExtResource("11_8vfk2")]
-position = Vector2(984, 166)
+position = Vector2(536, 425)
+
+[node name="Slime" parent="." instance=ExtResource("10_0bc6k")]
+position = Vector2(929, 182)
