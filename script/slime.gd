@@ -40,6 +40,8 @@ func _ready():
 	$SlamHitbox.set_collision_layer_value(2, true)  # Enable layer 2 (player_weapon)
 	$SlamHitbox.set_collision_mask_value(1, true) # Enable mask to hit enemies
 	$SlamHitbox.body_entered.connect(_on_slam_hitbox_body_entered)
+	hurtbox.set_collision_layer_value(6, true)
+	hurtbox.set_collision_mask_value(2, true)
 	
 	# Set collision shape
 	var shape = CircleShape2D.new()
@@ -177,12 +179,12 @@ func take_damage(amount: int):
 	anim.play("hurt")
 	
 	if hp <= 0:
-		_die()
+		die()
 	else:
 		await anim.animation_finished
 		anim.play("idle")
 
-func _die():
+func die():
 	set_collision_layer_value(1, false)
 	anim.play("death")
 	set_physics_process(false)
