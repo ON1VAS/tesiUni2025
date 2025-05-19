@@ -92,7 +92,7 @@ func _start_dialogue():
 #cambio scena, inizio gioco
 func _on_start_game_area_entered(body):
 	if body.name == "protagonista":
-		dialogue_box.talk_prompt("Premi [E] per iniziare l'avventura")
+		dialogue_box.talk_prompt("Premi [E] per uscire e difendere la base")
 		dialogue_box.visible = true
 		can_start_game = true
 		print("entrata ", can_start_game)
@@ -104,4 +104,4 @@ func _on_start_game_area_exited(body):
 
 func scene_change():
 	#cambio scena
-	get_tree().change_scene_to_file("res://scene/map.tscn")
+	get_tree().change_scene_to_file("res://scene/game.tscn")
