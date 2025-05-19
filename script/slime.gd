@@ -45,7 +45,7 @@ func _ready():
 	
 	# Set collision shape
 	var shape = CircleShape2D.new()
-	shape.radius = 12.0  # Adjust to your slime size
+	shape.radius = 12.0  # collisione a raggio 12 per prendere tutto lo slime
 	collision_shape.shape = shape
 	
 	# Configure raycast
