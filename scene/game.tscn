@@ -1,8 +1,9 @@
-[gd_scene load_steps=37 format=4 uid="uid://bfb3n5ulrxtxq"]
+[gd_scene load_steps=41 format=4 uid="uid://bfb3n5ulrxtxq"]
 
 [ext_resource type="PackedScene" uid="uid://cm1ru7bxfj1s0" path="res://scene/player.tscn" id="1_5kiuu"]
 [ext_resource type="Script" uid="uid://p03x4ile571r" path="res://script/game.gd" id="1_81276"]
 [ext_resource type="Texture2D" uid="uid://cequvijnwrxuy" path="res://testures/gh-platform/GandalfHardcore Background layers/Normal BG/GandalfHardcore Background layers_layer 5.png" id="2_17rxn"]
+[ext_resource type="PackedScene" uid="uid://b50aqprkx4ob8" path="res://scene/DialogueBox.tscn" id="2_ve786"]
 [ext_resource type="Texture2D" uid="uid://dj5lht0vs8ttw" path="res://testures/gh-platform/Floor Tiles1.png" id="2_xwcet"]
 [ext_resource type="Texture2D" uid="uid://d4mge4enxynx6" path="res://testures/gh-platform/Floor Tiles2.png" id="3_p1ry8"]
 [ext_resource type="Texture2D" uid="uid://c6fhovnx6lr4w" path="res://testures/gh-platform/GandalfHardcore Background layers/Normal BG/GandalfHardcore Background layers_layer 4.png" id="3_yq8tf"]
@@ -3264,6 +3265,42 @@ animations = [{
 "speed": 2.0
 }]
 
+[sub_resource type="Animation" id="Animation_ve786"]
+resource_name = "dissolvenza"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("scudo:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0.666667), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_0lu6w"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("scudo:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_i6gbm"]
+_data = {
+&"RESET": SubResource("Animation_0lu6w"),
+&"dissolvenza": SubResource("Animation_ve786")
+}
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_ve786"]
 radius = 9.35368
 
@@ -3278,6 +3315,8 @@ size = Vector2(334.041, 32.789)
 
 [node name="game" type="Node2D"]
 script = ExtResource("1_81276")
+
+[node name="DialogueBox" parent="." instance=ExtResource("2_ve786")]
 
 [node name="sfondo" type="Parallax2D" parent="."]
 z_index = -1
@@ -3321,7 +3360,7 @@ tile_map_data = PackedByteArray("AAB5AAUAAQAIAAQAAAB5AAYAAQAIAAUAAAB5AAcAAQAIAAY
 tile_set = SubResource("TileSet_0lu6w")
 
 [node name="protagonista" parent="." instance=ExtResource("1_5kiuu")]
-position = Vector2(2294, 87)
+position = Vector2(1969, 104)
 
 [node name="Camera2D" type="Camera2D" parent="protagonista"]
 position = Vector2(0, -38)
@@ -3340,10 +3379,17 @@ position = Vector2(1981, -128)
 scale = Vector2(17, 17)
 
 [node name="scudo" type="AnimatedSprite2D" parent="Area2Dscudo"]
-modulate = Color(1, 1, 1, 0.654902)
+self_modulate = Color(1, 1, 1, 0.666667)
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_ux4dc")
 autoplay = "default"
+frame_progress = 0.714308
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Area2Dscudo/scudo"]
+root_node = NodePath("../..")
+libraries = {
+&"": SubResource("AnimationLibrary_i6gbm")
+}
 
 [node name="hitboxScudo" type="CollisionShape2D" parent="Area2Dscudo"]
 position = Vector2(-0.647059, 12.5882)
