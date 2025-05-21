@@ -3227,22 +3227,23 @@ sources/4 = SubResource("TileSetAtlasSource_jhlss")
 sources/5 = SubResource("TileSetAtlasSource_i6gbm")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ym5sv"]
-size = Vector2(3907.5, 83)
+size = Vector2(5023, 83)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_17rxn"]
-size = Vector2(20, 359)
+size = Vector2(384, 33)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yq8tf"]
-size = Vector2(34, 364)
+size = Vector2(334.041, 32.789)
 
 [node name="game" type="Node2D"]
 
 [node name="sfondo" type="Parallax2D" parent="."]
 z_index = -1
 texture_filter = 1
-scroll_offset = Vector2(0, 25)
+scroll_offset = Vector2(0, 40)
 repeat_size = Vector2(1024, 0)
 repeat_times = 8
+metadata/_edit_lock_ = true
 
 [node name="Sprite2D5" type="Sprite2D" parent="sfondo"]
 position = Vector2(-2, 0)
@@ -3278,7 +3279,7 @@ tile_map_data = PackedByteArray("AAB5AAUAAQAIAAQAAAB5AAYAAQAIAAUAAAB5AAcAAQAIAAY
 tile_set = SubResource("TileSet_0lu6w")
 
 [node name="protagonista" parent="." instance=ExtResource("1_5kiuu")]
-position = Vector2(1970, 103)
+position = Vector2(3750, 83)
 
 [node name="Camera2D" type="Camera2D" parent="protagonista"]
 position = Vector2(0, -38)
@@ -3294,14 +3295,18 @@ tile_set = SubResource("TileSet_yq8tf")
 
 [node name="hitboxes" type="StaticBody2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="hitboxes"]
-position = Vector2(1957, 186)
+[node name="pavimento" type="CollisionShape2D" parent="hitboxes"]
+position = Vector2(1928.5, 186)
 shape = SubResource("RectangleShape2D_ym5sv")
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="hitboxes"]
-position = Vector2(0, 10.5)
+[node name="murosx" type="CollisionShape2D" parent="hitboxes"]
+position = Vector2(-14, -8)
+rotation = 1.5708
 shape = SubResource("RectangleShape2D_17rxn")
+one_way_collision = true
 
-[node name="CollisionShape2D3" type="CollisionShape2D" parent="hitboxes"]
-position = Vector2(3916, -5)
+[node name="murodx" type="CollisionShape2D" parent="hitboxes"]
+position = Vector2(3918, 3)
+rotation = 4.71239
 shape = SubResource("RectangleShape2D_yq8tf")
+one_way_collision = true
