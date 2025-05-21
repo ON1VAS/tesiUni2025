@@ -1,9 +1,5 @@
 extends Node2D
 #configurazione dello spawner
-@onready var ape = "res://scene/ape.tscn"
-@onready var golem = "res://scene/golem.tscn"
-@onready var cinghiale = "res://scene/chinghiale.tscn"
-@onready var slime = "res://scene/slime.tscn"
 @export var enemies: Array[PackedScene] = []
 @export var spawn_points: Array[Marker2D] = []
 @export var max_enemies: int = 5
@@ -21,9 +17,6 @@ func _ready():
 	
 
 
-
-
-
 func _on_timer_timeout() -> void:
 	if current_enemies >= max_enemies:
 		return
@@ -36,7 +29,7 @@ func spawn_enemy():
 	enemy.global_position = spawn_point.global_position
 	add_child(enemy)
 	current_enemies += 1
-	print("nemico spawnato: ", enemy.name)
+	print("nemico spawnato: ", enemy.name," ", spawn_point.name)
 
 func _on_game_game_started() -> void:
 	$Timer.start()
