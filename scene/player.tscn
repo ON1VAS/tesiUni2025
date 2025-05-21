@@ -1,7 +1,8 @@
-[gd_scene load_steps=75 format=3 uid="uid://cm1ru7bxfj1s0"]
+[gd_scene load_steps=77 format=3 uid="uid://cm1ru7bxfj1s0"]
 
 [ext_resource type="Script" uid="uid://bs5jcynrust28" path="res://script/player.gd" id="1_fvtld"]
 [ext_resource type="Texture2D" uid="uid://boyyqx4je6gf" path="res://testures/free_knight/Colour1/NoOutline/120x80_PNGSheets/_Idle.png" id="1_xo3ru"]
+[ext_resource type="Shader" uid="uid://bbu60sojkuuou" path="res://scene/player.gdshader" id="2_34jf3"]
 [ext_resource type="Texture2D" uid="uid://83qhub7amk1f" path="res://testures/free_knight/Colour1/NoOutline/120x80_PNGSheets/_Attack.png" id="2_g2vtq"]
 [ext_resource type="Texture2D" uid="uid://ct6glfo1ck0xf" path="res://testures/free_knight/Colour1/NoOutline/120x80_PNGSheets/_Fall.png" id="2_oh5ij"]
 [ext_resource type="Texture2D" uid="uid://ckr6j7ls3h3ba" path="res://testures/free_knight/Colour1/NoOutline/120x80_PNGSheets/_Attack2.png" id="3_2fvbb"]
@@ -12,6 +13,11 @@
 [ext_resource type="Texture2D" uid="uid://dcpyrbda68rpq" path="res://testures/free_knight/Colour1/NoOutline/120x80_PNGSheets/_Attack2NoMovement.png" id="5_ihjo1"]
 [ext_resource type="Texture2D" uid="uid://dwlhvkjlul70c" path="res://testures/free_knight/Colour1/NoOutline/120x80_PNGSheets/_Death.png" id="6_dk1vr"]
 [ext_resource type="Texture2D" uid="uid://bvub4cikyq5o0" path="res://testures/free_knight/Colour1/NoOutline/120x80_PNGSheets/_Hit.png" id="8_34jf3"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_u7b46"]
+shader = ExtResource("2_34jf3")
+shader_parameter/outline_thickness = 2.0
+shader_parameter/outline_color = Color(1, 1, 1, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pk8el"]
 atlas = ExtResource("2_g2vtq")
@@ -495,6 +501,7 @@ script = ExtResource("1_fvtld")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
+material = SubResource("ShaderMaterial_u7b46")
 sprite_frames = SubResource("SpriteFrames_dk1vr")
 animation = &"run"
 offset = Vector2(4, 0)

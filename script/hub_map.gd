@@ -5,13 +5,20 @@ extends Node2D
 @onready var npcEleonore = $npc_eleonore  # Riferimento al nodo NPC
 @onready var player = $protagonista
 @onready var startGame = $Area2DstartGame
+@onready var player_an_sp = $protagonista/AnimatedSprite2D
 var player_in_range = false
 var can_start_dialogue = true  # Nuovo flag per controllare la possibilità di iniziare dialogo
 var dialogues = {}
 var npc_name = ""
 var can_start_game = false
+var shader_material = ShaderMaterial.new()
+
+
 
 func _ready():
+	var shader = preload("res://scene/player.gdshader")
+	shader_material.shader = shader
+	player_an_sp.material = null #di default è spenta
 	npcJoanna.connect("body_entered", _on_npc_body_entered.bind("npc_Joanna"))
 	npcJoanna.connect("body_exited", _on_npc_body_exited.bind("npc_Joanna"))
 	npcEleonore.connect("body_entered", _on_npc_body_entered.bind("npc_Eleonore"))
