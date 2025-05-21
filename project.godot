@@ -24,6 +24,7 @@ window/stretch/aspect="expand"
 [global_group]
 
 player_weapon=""
+enemies=""
 
 [input]
 

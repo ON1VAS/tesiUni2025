@@ -6,6 +6,8 @@ extends Node2D
 @onready var dialogue_box = $DialogueBox #per le interazioni e i dialoghi
 var shader_material = ShaderMaterial.new()
 var can_start = true
+signal game_started
+
 
 func _ready():
 	var shader = preload("res://scene/player.gdshader")
@@ -33,7 +35,8 @@ func _on_area_2_dscudo_body_entered(body: Node2D) -> void:
 		player_an_sp.material = shader_material
 
 func _input(event: InputEvent) -> void:
-	if can_start and event.is_action_pressed("ui_accept"):
+	if can_start and event.is_action_pressed("ui_accept"): #fa scomparire la barriera e inizia la "difesa"
 		$Area2Dscudo/scudo/AnimationPlayer.play("dissolvenza")
 		_on_area_2_dscudo_body_exited(player)
 		$Area2Dscudo.monitoring = false
+		game_started.emit()

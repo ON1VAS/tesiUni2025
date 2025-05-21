@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=4 uid="uid://bfb3n5ulrxtxq"]
+[gd_scene load_steps=42 format=4 uid="uid://bfb3n5ulrxtxq"]
 
 [ext_resource type="PackedScene" uid="uid://cm1ru7bxfj1s0" path="res://scene/player.tscn" id="1_5kiuu"]
 [ext_resource type="Script" uid="uid://p03x4ile571r" path="res://script/game.gd" id="1_81276"]
@@ -15,6 +15,7 @@
 [ext_resource type="Texture2D" uid="uid://bnthn6w8n1nw3" path="res://testures/gh-platform/House Tiles.png" id="7_5g16k"]
 [ext_resource type="Texture2D" uid="uid://drt2v5us55lpd" path="res://testures/Legacy-Fantasy - High Forest 2.3/Assets/Interior-01.png" id="7_sng2h"]
 [ext_resource type="Texture2D" uid="uid://djp12utixdqct" path="res://testures/Enemy_Galore_I/Slime/Slime_Spiked_Ability.png" id="13_5g16k"]
+[ext_resource type="Script" uid="uid://dm6owndp4a6s6" path="res://script/enemy_spawner.gd" id="16_0lu6w"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ym5sv"]
 texture = ExtResource("7_5g16k")
@@ -3413,5 +3414,19 @@ rotation = 4.71239
 shape = SubResource("RectangleShape2D_yq8tf")
 one_way_collision = true
 
+[node name="EnemySpawner" type="Node2D" parent="." node_paths=PackedStringArray("spawn_points")]
+script = ExtResource("16_0lu6w")
+spawn_points = [NodePath("spawnerDx"), NodePath("spawnerSx")]
+
+[node name="spawnerSx" type="Marker2D" parent="EnemySpawner"]
+position = Vector2(-522, 72)
+
+[node name="spawnerDx" type="Marker2D" parent="EnemySpawner"]
+position = Vector2(4179, 74)
+
+[node name="Timer" type="Timer" parent="EnemySpawner"]
+
+[connection signal="game_started" from="." to="EnemySpawner" method="_on_game_game_started"]
 [connection signal="body_entered" from="Area2Dscudo" to="." method="_on_area_2_dscudo_body_entered"]
 [connection signal="body_exited" from="Area2Dscudo" to="." method="_on_area_2_dscudo_body_exited"]
+[connection signal="timeout" from="EnemySpawner/Timer" to="EnemySpawner" method="_on_timer_timeout"]
