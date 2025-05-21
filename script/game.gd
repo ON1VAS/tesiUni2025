@@ -15,10 +15,12 @@ func _ready():
 	
 
 func _on_area_2_dscudo_body_exited(body: Node2D) -> void:
-	print("uscito")
-	player_an_sp.material = null
+	if body.name == "protagonista":
+		print("uscito")
+		player_an_sp.material = null
 
 
 func _on_area_2_dscudo_body_entered(body: Node2D) -> void:
-	print("entrato")
-	player_an_sp.material = shader_material
+	if body.name == "protagonista":
+		print("entrato")
+		player_an_sp.material = shader_material
