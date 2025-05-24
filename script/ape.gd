@@ -68,7 +68,7 @@ func perform_sting_attack(direction: Vector2):
 	# Termina l'attacco dopo un po'
 	await get_tree().create_timer(0.5).timeout
 	is_attacking = false
-	anim.play("idle")
+	anim.play("move")
 
 func _on_animated_sprite_2d_animation_finished() -> void:
 	if $AnimatedSprite2D.animation in attack_properties.keys():
