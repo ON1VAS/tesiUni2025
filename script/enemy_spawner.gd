@@ -10,17 +10,18 @@ var current_enemies: int = 0
 func _ready():
 	$Timer.wait_time = spawn_interval #fa il preload dei nemici e li aggiunge all'array
 	enemies.append(preload("res://scene/ape.tscn"))
-	enemies.append(preload("res://scene/golem.tscn"))
-	enemies.append(preload("res://scene/chinghiale.tscn"))
-	enemies.append(preload("res://scene/slime.tscn"))
+	#enemies.append(preload("res://scene/golem.tscn"))
+	#enemies.append(preload("res://scene/chinghiale.tscn"))
+	#enemies.append(preload("res://provapermodificare/ragno/ragno.tscn"))
+	#enemies.append(preload("res://scene/slime.tscn"))
 
 
-func _on_timer_timeout() -> void:
+func _on_timer_timeout() -> void: #loop che spawna i nemici
 	if current_enemies >= max_enemies:
 		return
 	spawn_enemy()
 
-func spawn_enemy():
+func spawn_enemy(): #spawna i nemici
 	var enemy_scene = enemies.pick_random()
 	var spawn_point = spawn_points.pick_random()
 	var enemy = enemy_scene.instantiate()
@@ -29,5 +30,5 @@ func spawn_enemy():
 	current_enemies += 1
 	print("nemico spawnato: ", enemy.name," ", spawn_point.name)
 
-func _on_game_game_started() -> void:
+func _on_game_game_started() -> void: #timer
 	$Timer.start()

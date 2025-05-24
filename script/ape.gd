@@ -32,6 +32,14 @@ func _ready():
 	$Pungiglione.body_entered.connect(_on_pungiglione_body_entered)
 
 func _physics_process(delta: float) -> void:
+	if player.global_position.x < self.global_position.x:
+		anim.flip_h = false
+	else:
+		anim.flip_h = true
+		
+	
+	
+	
 	if is_attacking:
 		# Durante l'attacco, muovi l'ape in diagonale
 		velocity = attack_direction * movement_speed * 1.5  # Aumenta la velocità durante l'attacco
@@ -65,6 +73,7 @@ func perform_sting_attack(direction: Vector2):
 	# Disattiva l'hitbox dopo la durata
 	await get_tree().create_timer(attack_properties["sting_attack"]["duration"]).timeout
 	sword_hitbox.disabled = true
+	anim.play("move")
 	# Termina l'attacco dopo un po'
 	await get_tree().create_timer(0.5).timeout
 	is_attacking = false
