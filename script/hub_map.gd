@@ -37,8 +37,7 @@ func _on_npc_body_entered(body, npc):
 		player_in_range = true
 		can_start_dialogue = true  # Reset possibilità dialogo solo entrando nell'area
 		dialogue_box.visible = true
-		dialogue_box.talk_prompt("Parla [E]")
-		print("Player entrato nell'area dell'NPC")
+		dialogue_box.show_dialogue(dialogues["Talk"])
 		print(npc_name)
 
 func _on_npc_body_exited(body,npc):
@@ -46,7 +45,6 @@ func _on_npc_body_exited(body,npc):
 		player_in_range = false
 		can_start_dialogue = true  # anche se esce, resetto questa flag per sicurezza
 		dialogue_box.visible = false
-		print("Player uscito dall'area dell'NPC")
 		npc_name = npc
 
 #res://dialogue/dialogues.json
@@ -77,13 +75,13 @@ func _input(event):
 		
 
 func _start_dialogue():
-	if npc_name=="npc_Eleonore":
+	if npc_name=="npc_Eleonore": #npc_Eleonore si girano se giocatore si trova dietro di lei
 		if player.position.x > npcEleonore.position.x:
 			$npc_eleonore/AnimatedSprite2D.flip_h = true
 		else:
 			$npc_eleonore/AnimatedSprite2D.flip_h = false
 	
-	if npc_name=="npc_Joanna":
+	if npc_name=="npc_Joanna": #npc_Joanna si gira se giocatore si trova dietro di lei
 		if player.position.x > npcJoanna.position.x:
 			$npc_Joanna/AnimatedSprite2D.flip_h = true
 		else:
@@ -99,7 +97,7 @@ func _start_dialogue():
 #cambio scena, inizio gioco
 func _on_start_game_area_entered(body):
 	if body.name == "protagonista":
-		dialogue_box.talk_prompt("Premi [E] per uscire e difendere la base")
+		dialogue_box.show_dialogue(dialogues["Exit"])
 		dialogue_box.visible = true
 		can_start_game = true
 		print("entrata ", can_start_game)

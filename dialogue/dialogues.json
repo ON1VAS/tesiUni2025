@@ -9,5 +9,14 @@
 		"Hey viaggiatore, stai uscendo?",
 		"Buona fortuna e non stare troppo lì fuori",
 		"i morti sono le uniche cose che qui non mancano..."
+	],
+	"Exit": [
+		"Premi [E] per uscire e difendere la base"
+	],
+	"Talk": [
+		"Parla [E]"
+	],
+	"startDefense": [
+		"Premi [E] per disattivare lo scudo e iniziare la difesa"
 	]
 }
