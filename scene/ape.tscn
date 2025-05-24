@@ -153,7 +153,7 @@ script = ExtResource("1_1ism8")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_2gki6")
-animation = &"sting_attack"
+animation = &"move"
 
 [node name="PlayerDetectionArea" type="Area2D" parent="."]
 collision_layer = 2
