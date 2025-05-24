@@ -6241,7 +6241,6 @@ transform = Transform2D(1, 0, 0, 1, 0, -15)
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground"]
-modulate = Color(0.606477, 0.39443, 0.467448, 1)
 texture_filter = 1
 position = Vector2(660, 245)
 scale = Vector2(3.7261, 3.7261)

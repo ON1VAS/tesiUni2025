@@ -8,13 +8,11 @@ extends Node2D
 var current_enemies: int = 0
 
 func _ready():
-	$Timer.wait_time = spawn_interval
+	$Timer.wait_time = spawn_interval #fa il preload dei nemici e li aggiunge all'array
 	enemies.append(preload("res://scene/ape.tscn"))
 	enemies.append(preload("res://scene/golem.tscn"))
 	enemies.append(preload("res://scene/chinghiale.tscn"))
 	enemies.append(preload("res://scene/slime.tscn"))
-	
-	
 
 
 func _on_timer_timeout() -> void:
