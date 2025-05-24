@@ -75,7 +75,7 @@ func _on_animated_sprite_2d_animation_finished() -> void:
 		if $AnimatedSprite2D.animation == "sting_attack" and is_attacking:
 			return
 		sword_hitbox.disabled = true #Non mi serve più tenerla attiva
-		$AnimatedSprite2D.play("idle")
+		$AnimatedSprite2D.play("move")
 
 func take_damage(amount: int):
 	hp -= amount
