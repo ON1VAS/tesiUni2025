@@ -2,17 +2,17 @@ extends CharacterBody2D
 
 # --- Variabili Esportabili ---
 @export var movement_speed: float = 30.0
-@export var gravity: float = 980.0
+@export var gravity: float = 980.0 # Assicurati che sia lo stesso del progetto o un valore sensato
 @export var hp: int = 150
-@export var detection_range_agro: float = 250.0 # Raggio in cui inizia a seguire e può attaccare
-@export var attack_cooldown_time: float = 2.5 # Tempo tra un attacco e l'altro
-# @export var attack_range: float = 80.0 # Non più strettamente necessario se attacca ovunque in detection_range
+@export var detection_range_agro: float = 250.0
+@export var attack_cooldown_time: float = 2.5
 
 # --- Riferimenti ai Nodi ---
-@onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D # Per flip_h
+@onready var animation_player: AnimationPlayer = $AnimationPlayer # Per gestire le animazioni e i method calls
 @onready var player_detection_area: Area2D = $PlayerDetectionArea
 @onready var hurtbox: Area2D = $Hurtbox
-@onready var spike_spawn_point: Marker2D = $SpikeSpawnPoint # Assicurati che esista
+@onready var spike_spawn_point: Marker2D = $SpikeSpawnPoint
 @onready var ray_cast_floor: RayCast2D = $RayCastFloor
 @onready var ray_cast_front: RayCast2D = $RayCastFront
 
@@ -22,7 +22,7 @@ const SPINE_SCENE = preload("res://scene/spine.tscn") # CAMBIA QUESTO PATH SE NE
 # --- Variabili di Stato ---
 enum State { IDLE, RUN, ATTACKING, HURT, DEAD }
 var current_state: State = State.IDLE
-var player_ref: CharacterBody2D = null # Ora specifico che ci aspettiamo un CharacterBody2D per il giocatore
+var player_ref: CharacterBody2D = null
 var can_attack: bool = true
 var time_since_last_attack: float = 0.0
 
@@ -46,13 +46,20 @@ func _ready() -> void:
 			(detection_shape.shape as CircleShape2D).radius = detection_range_agro
 		# Aggiungi logica per altre forme se necessario
 
-	animated_sprite.animation_finished.connect(_on_animation_finished)
+	# Connetti il segnale animation_finished dall'AnimationPlayer
+	if animation_player:
+		animation_player.animation_finished.connect(_on_animation_finished)
+	else:
+		print_rich("[color=red]ATTENZIONE: AnimationPlayer non trovato per GolemPietra. Le animazioni e i method call non funzioneranno correttamente.[/color]")
+
+
 	change_state(State.IDLE)
-	time_since_last_attack = attack_cooldown_time
+	time_since_last_attack = attack_cooldown_time # Permette di attaccare subito all'inizio se il player è in range
 
 
 func _physics_process(delta: float) -> void:
-	if not is_on_floor():
+	# Gravità (solo se non sei in stato DEAD, altrimenti potrebbe cadere all'infinito)
+	if current_state != State.DEAD and not is_on_floor():
 		velocity.y += gravity * delta
 
 	if not can_attack:
@@ -69,51 +76,56 @@ func _physics_process(delta: float) -> void:
 		State.ATTACKING:
 			_state_attacking()
 		State.HURT:
+			# La logica di ritorno allo stato precedente è in _on_animation_finished
 			pass
 		State.DEAD:
+			# La logica di queue_free è in _on_animation_finished
 			pass
 
-	move_and_slide()
-	_update_sprite_facing_direction()
+	# Evita move_and_slide se morto, per permettere all'animazione di morte di completarsi senza movimenti strani
+	if current_state != State.DEAD:
+		move_and_slide()
+		_update_sprite_facing_direction()
 
 
 func change_state(new_state: State) -> void:
-	if current_state == new_state and new_state != State.ATTACKING: # Permette di ri-entrare in ATTACKING per scegliere un nuovo tipo
+	if current_state == new_state and new_state != State.ATTACKING:
 		return
 	
-	# Se si stava già attaccando e si vuole attaccare di nuovo, permettilo se l'animazione precedente è finita
-	# Questo viene gestito da _on_animation_finished
-	
 	current_state = new_state
-	# print("GolemPietra state: ", State.keys()[new_state])
+	# print("GolemPietra state: ", State.keys()[new_state]) # Debug
+
+	if not animation_player:
+		print_rich("[color=red]GolemPietra: AnimationPlayer non trovato. Impossibile cambiare animazione.[/color]")
+		return
 
 	match current_state:
 		State.IDLE:
-			animated_sprite.play("idle")
+			animation_player.play("idle")
 			velocity.x = 0
 		State.RUN:
-			animated_sprite.play("run")
+			animation_player.play("run")
 		State.ATTACKING:
 			velocity.x = 0 # Fermati mentre attacchi
 			current_attack_type = randi_range(1, 3)
-			animated_sprite.play("attack" + str(current_attack_type))
+			animation_player.play("attack" + str(current_attack_type)) # Es. "attack1", "attack2", "attack3"
 			can_attack = false
 			time_since_last_attack = 0.0
 		State.HURT:
-			animated_sprite.play("hurt")
+			animation_player.play("hurt")
 			velocity.x = 0
 		State.DEAD:
-			animated_sprite.play("death")
-			set_physics_process(false)
+			animation_player.play("death")
+			set_physics_process(false) # Stoppa la logica principale
+			# Disabilita collisioni
 			collision_layer = 0
 			collision_mask = 0
-			if hurtbox: hurtbox.queue_free()
+			if hurtbox and is_instance_valid(hurtbox): # Controllo aggiuntivo
+				hurtbox.queue_free()
 
 
 func _state_idle() -> void:
-	# Se il player entra nella detection area (gestito dal segnale), cambia stato.
-	# Questo stato è principalmente per quando non c'è un player target.
-	if player_ref: # Se per caso il player è stato rilevato e poi si è usciti dalla logica di run
+	if player_ref:
 		change_state(State.RUN)
 
 
@@ -122,60 +134,54 @@ func _state_run(delta: float) -> void:
 		change_state(State.IDLE)
 		return
 
-	var direction_to_player = (player_ref.global_position - global_position).normalized()
-	# var distance_to_player = global_position.distance_to(player_ref.global_position) # Non più strettamente necessario per la decisione di attaccare qui
-
 	# Se il player è nell'area di detection E possiamo attaccare
-	if can_attack: # Il check se player_ref esiste è già fatto sopra
+	if can_attack: # Il check se player_ref esiste è già fatto implicitamente (non saremmo in RUN)
 		change_state(State.ATTACKING)
-	else:
-		# Muoviti verso il giocatore se non stai attaccando
-		velocity.x = direction_to_player.x * movement_speed
+		return # Esci subito per non eseguire il codice di movimento sottostante
 
-		if is_on_floor() and (ray_cast_front.is_colliding() or not ray_cast_floor.is_colliding()):
-			velocity.x = 0
-		
-		if direction_to_player.x != 0:
-			animated_sprite.flip_h = direction_to_player.x < 0
+	# Movimento verso il giocatore se non si sta attaccando
+	var direction_to_player = (player_ref.global_position - global_position).normalized()
+	velocity.x = direction_to_player.x * movement_speed
+
+	# Controllo ostacoli/precipizi (base)
+	if is_on_floor() and (ray_cast_front.is_colliding() or not ray_cast_floor.is_colliding()):
+		velocity.x = 0 # Fermati per non sbattere/cadere
+	
+	# Il facing è gestito da _update_sprite_facing_direction
 
 
 func _state_attacking() -> void:
-	# L'azione di spawn delle spine è gestita dalla chiamata di metodo nell'animazione.
-	# Mantieni il Golem girato verso il giocatore durante l'attacco.
-	if player_ref:
-		var direction_to_player = (player_ref.global_position - global_position).normalized()
-		if direction_to_player.x != 0:
-			animated_sprite.flip_h = direction_to_player.x < 0
+	# L'azione di spawn delle spine è gestita dalla chiamata di metodo nell'AnimationPlayer.
+	# Mantieni il Golem girato verso il giocatore durante l'attacco (gestito da _update_sprite_facing_direction).
+	pass
 
 
-# --- Funzione di Attacco (chiamata tramite AnimationPlayer o AnimatedSprite2D method call tracks) ---
+# --- Funzione di Attacco (chiamata tramite AnimationPlayer method call tracks) ---
 func _spawn_spikes(attack_variation: int = 1) -> void:
+	
 	if not SPINE_SCENE:
 		print_rich("[color=red]Errore: Scena delle spine non caricata! Controlla il path.[/color]")
 		return
 	if not spike_spawn_point:
 		print_rich("[color=red]Errore: SpikeSpawnPoint non trovato! Le spine non possono essere spawnate.[/color]")
 		return
+	if not is_instance_valid(get_tree().current_scene):
+		print_rich("[color=red]Errore: La scena corrente non è valida. Impossibile aggiungere le spine.[/color]")
+		return
+
 
 	var spikes_instance = SPINE_SCENE.instantiate()
 	
-	# Qui potresti voler configurare le spine diversamente in base a 'attack_variation'
-	# Ad esempio, la scena 'spine.tscn' potrebbe avere una funzione per settare un pattern o un effetto.
 	if spikes_instance.has_method("set_variation"):
 		spikes_instance.set_variation(attack_variation)
-	elif "variation" in spikes_instance: # Se 'variation' è una proprietà @export var
+	elif "variation" in spikes_instance:
 		spikes_instance.variation = attack_variation
 	
-	# Posiziona le spine (potrebbe essere relativo al Golem o al Giocatore a seconda del design)
-	# Qui usiamo spike_spawn_point del Golem.
 	spikes_instance.global_position = spike_spawn_point.global_position
-
-	# Orienta le spine (opzionale, se le spine hanno una direzione)
-	# if player_ref:
-	#     var direction_to_player = (player_ref.global_position - spikes_instance.global_position).normalized()
-	#     spikes_instance.rotation = direction_to_player.angle() # Esempio
+	
 		
-	get_tree().current_scene.add_child(spikes_instance) # Aggiungi alla scena principale
+	# Aggiungi le spine alla scena (preferibilmente non come figlio del Golem)
+	get_tree().current_scene.add_child(spikes_instance)
 	# print("GolemPietra: Spine (variazione ", attack_variation, ") evocate!")
 
 
@@ -187,62 +193,68 @@ func take_damage(amount: int) -> void:
 	# print("GolemPietra colpito! Vita rimanente: ", hp)
 
 	if hp <= 0:
-		change_state(State.DEAD)
+		if current_state != State.DEAD: # Evita di chiamare change_state(DEAD) più volte
+			change_state(State.DEAD)
 	else:
-		change_state(State.HURT)
+		if current_state != State.HURT: # Evita di chiamare change_state(HURT) se già in HURT
+			change_state(State.HURT)
 
 
-func _on_animation_finished() -> void:
-	var current_animation_name = animated_sprite.animation
+# Segnale dall'AnimationPlayer
+func _on_animation_finished(anim_name: StringName) -> void:
+	var current_animation_name_str = str(anim_name)
 	
-	if current_animation_name.begins_with("attack"):
-		if player_ref: # Se il player è ancora targettabile
-			change_state(State.RUN) # Torna a inseguire/valutare se attaccare di nuovo
-		else:
-			change_state(State.IDLE)
-	elif current_animation_name == "hurt":
+	if current_animation_name_str.begins_with("attack"):
+		# Dopo un attacco, torna a idle o run
 		if player_ref:
 			change_state(State.RUN)
 		else:
 			change_state(State.IDLE)
-	elif current_animation_name == "death":
-		queue_free()
+	elif current_animation_name_str == "hurt":
+		# Dopo essere stato colpito, torna a idle o run
+		if player_ref:
+			change_state(State.RUN)
+		else:
+			change_state(State.IDLE)
+	elif current_animation_name_str == "death":
+		queue_free() # Rimuovi il Golem dalla scena
 
 
 func _on_player_detection_area_body_entered(body: Node2D) -> void:
 	if body.is_in_group("giocatore") and body is CharacterBody2D:
-		player_ref = body as CharacterBody2D # Salva il riferimento al giocatore
-		if current_state == State.IDLE:
+		player_ref = body as CharacterBody2D
+		if current_state == State.IDLE: # Se era fermo, inizia a muoversi/valutare attacco
 			change_state(State.RUN)
 
 
 func _on_player_detection_area_body_exited(body: Node2D) -> void:
 	if body == player_ref:
-		player_ref = null # "Dimentica" il giocatore
-		if current_state == State.RUN or current_state == State.ATTACKING: # Se lo stava inseguendo o attaccando
+		player_ref = null
+		# Se il Golem stava inseguendo o attaccando (o era appena tornato in RUN dopo un attacco)
+		# e il giocatore esce, dovrebbe tornare a IDLE.
+		if current_state == State.RUN or current_state == State.ATTACKING:
 			change_state(State.IDLE)
 
 
 func _on_hurtbox_area_entered(area: Area2D) -> void:
 	if area.is_in_group("player_weapon"):
-		var damage_amount = 10
-		if area.has_method("get_damage"):
+		var damage_amount = 10 # Danno di default
+		if area.has_method("get_damage"): # Metodo preferito
 			damage_amount = area.get_damage()
-		elif "damage" in area:
+		elif "damage" in area: # Fallback a proprietà esportata
 			damage_amount = area.damage
 		
 		take_damage(damage_amount)
 
 
 func _update_sprite_facing_direction() -> void:
-	# Se si muove, si gira in base alla velocità
-	if velocity.x > 0.1:
-		animated_sprite.flip_h = false
-	elif velocity.x < -0.1:
-		animated_sprite.flip_h = true
-	# Se non si muove (es. idle o attacking) e c'è un player, si gira verso il player
-	elif player_ref:
-		if player_ref.global_position.x > global_position.x:
-			animated_sprite.flip_h = false
-		elif player_ref.global_position.x < global_position.x:
+	# Se si muove (stato RUN e velocità effettiva)
+	if current_state == State.RUN and abs(velocity.x) > 0.1:
+		animated_sprite.flip_h = velocity.x < 0
+	# Se sta attaccando o è fermo (IDLE/HURT) ma c'è un player, si gira verso il player
+	elif player_ref and (current_state == State.ATTACKING or current_state == State.IDLE or current_state == State.HURT):
+		if player_ref.global_position.x < global_position.x:
 			animated_sprite.flip_h = true
+		elif player_ref.global_position.x > global_position.x:
+			animated_sprite.flip_h = false
+	# Altrimenti (es. morto, o nessuna velocità e nessun player_ref), non cambiare flip_h

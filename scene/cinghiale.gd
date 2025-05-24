@@ -46,7 +46,7 @@ func _ready():
 	
 	# Imposta forma collisione
 	var shape = RectangleShape2D.new()
-	shape.size = Vector2(30.0, 30.0)  # Adatta alle tue dimensioni
+	shape.size = Vector2(30.0, 20.0)  # Adatta alle tue dimensioni
 	collision_shape.shape = shape
 	
 	# Configura raycast
