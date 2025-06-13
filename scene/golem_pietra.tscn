@@ -255,7 +255,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_4g08x")
 }],
 "loop": false,
-"name": &"attackA",
+"name": &"attack1",
 "speed": 7.0
 }, {
 "frames": [{
@@ -284,7 +284,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_72rj6")
 }],
 "loop": false,
-"name": &"attackB",
+"name": &"attack2",
 "speed": 7.0
 }, {
 "frames": [{
@@ -319,7 +319,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_oem37")
 }],
 "loop": false,
-"name": &"attackC",
+"name": &"attack3",
 "speed": 7.0
 }, {
 "frames": [{
@@ -427,7 +427,7 @@ script = ExtResource("1_ajln3")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_7vm2m")
-animation = &"run"
+animation = &"attack3"
 
 [node name="PlayerDetectionArea" type="Area2D" parent="."]
 collision_layer = 2
