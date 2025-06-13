@@ -56,3 +56,17 @@ func _input(event: InputEvent) -> void:
 		_on_area_2_dscudo_body_exited(player)
 		$Area2Dscudo.monitoring = false
 		game_started.emit()
+
+
+func _on_enemy_spawner_wave_ended() -> void:
+	
+	dialogue_box.visible = true
+	dialogue_box.show_dialogue(dialogues["waveEnded"])
+	var timer = Timer.new()
+	timer.wait_time = 5.0
+	timer.one_shot = true
+	add_child(timer)  # add the timer to the scene tree to work correctly
+	timer.start()
+	await timer.timeout
+	dialogue_box.visible = false
+	timer.queue_free()  # cleanup the timer

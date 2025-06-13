@@ -40,7 +40,6 @@ func _physics_process(delta: float) -> void:
 		anim.flip_h = false
 	else:
 		anim.flip_h = true
-		
 	
 	
 	
@@ -91,24 +90,24 @@ func _on_animated_sprite_2d_animation_finished() -> void:
 		$AnimatedSprite2D.play("move")
 
 func take_damage(amount: int):
-	if (is_dead == false):
-		hp -= amount
-		anim.play("hurt")
-		print("Ape colpita! Vita rimanente: ", hp)
+	if is_dead:
+		return
 		
-		if hp <= 0:
-			self.collision_layer = false
-			anim.play("death")
-			set_physics_process(false)
-			await anim.animation_finished
-			
-			#conta il nemico come morto
-			if (death_sig_emitted<1):
-				dead.emit()
-				death_sig_emitted+=1
-			is_dead = true
-			
-			self.queue_free()
+	hp -= amount
+	anim.play("hurt")
+	print("Ape colpita! Vita rimanente: ", hp)
+	if hp > 0:
+		anim.play("hurt")
+	if hp <= 0:
+		set_collision_layer_value(1, false)
+		anim.play("death")
+		set_physics_process(false)
+		await anim.animation_finished
+		if death_sig_emitted == 1:
+			dead.emit()
+			death_sig_emitted += 1
+		queue_free()
+
 
 func _on_hitbox_timer_timeout() -> void:
 	var current_anim = $AnimatedSprite2D.animation
@@ -133,7 +132,7 @@ func _on_hitbox_timer_timeout() -> void:
 
 
 func _on_hurtbox_area_entered(area: Area2D) -> void:
-	if area.is_in_group("player_weapon"):
+	if area.is_in_group("player_weapon") and !is_dead:
 		anim.play("attack")
 		take_damage(10)
 
