@@ -15,6 +15,10 @@ var is_attacking = false
 var attack_direction = Vector2.ZERO
 var attack_cooldown = 1 #Tempo di attesa tra gli attacchi
 var last_attack_time = 0.0
+#servono pe capire quando il nemico è morto e far progredire i progressi della wave
+signal dead
+var death_sig_emitted = 0
+var is_dead = false
 
 func _ready():
 	print(self.name)
@@ -87,16 +91,24 @@ func _on_animated_sprite_2d_animation_finished() -> void:
 		$AnimatedSprite2D.play("move")
 
 func take_damage(amount: int):
-	hp -= amount
-	anim.play("hurt")
-	print("Ape colpita! Vita rimanente: ", hp)
-	
-	if hp <= 0:
-		self.collision_layer = false
-		anim.play("death")
-		set_physics_process(false)
-		await anim.animation_finished
-		self.queue_free()
+	if (is_dead == false):
+		hp -= amount
+		anim.play("hurt")
+		print("Ape colpita! Vita rimanente: ", hp)
+		
+		if hp <= 0:
+			self.collision_layer = false
+			anim.play("death")
+			set_physics_process(false)
+			await anim.animation_finished
+			
+			#conta il nemico come morto
+			if (death_sig_emitted<1):
+				dead.emit()
+				death_sig_emitted+=1
+			is_dead = true
+			
+			self.queue_free()
 
 func _on_hitbox_timer_timeout() -> void:
 	var current_anim = $AnimatedSprite2D.animation

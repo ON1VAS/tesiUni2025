@@ -9,7 +9,6 @@ var can_start = true
 var dialogues = {}
 signal game_started
 
-
 func _ready():
 	var shader = preload("res://scene/player.gdshader")
 	shader_material.shader = shader
@@ -21,7 +20,7 @@ func load_dialogues():
 	var file = FileAccess.open("res://dialogue/dialogues.json", FileAccess.READ)
 	if file:
 		var json_text = file.get_as_text()
-		print("Contenuto del file JSON: ", json_text)  # Debug: visualizza il contenuto
+		#eprint("Contenuto del file JSON: ", json_text)  # Debug: visualizza il contenuto
 		
 		var parsed = JSON.parse_string(json_text)
 		
