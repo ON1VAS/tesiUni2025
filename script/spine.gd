@@ -4,8 +4,11 @@ extends CharacterBody2D # Considera cambiarlo a Node2D se le spine non si muovon
 # --- Variabili Esportabili ---
 @export var lifetime: float = 2.0
 @export var animation_name: String = "spawn" # Es. "spawn", "idle_loop", "despawn"
+@export var gravity: float = 980.0
 @export var damage_amount: int = 15
 @export var variation: int = 1 # Per differenziare le spine spawnate dal Golem
+@export var throw_speed: float = 150.0
+var target_direction: Vector2 = Vector2.ZERO
 
 # --- Riferimenti ai Nodi ---
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
@@ -51,6 +54,20 @@ func _ready() -> void:
 		#     animated_sprite.play("idle_loop") # Assumendo che tu abbia un'animazione "idle_loop"
 	else:
 		print_rich("[color=yellow]Spine Warning:[/color] AnimatedSprite2D non trovato o nome animazione non specificato.")
+	
+	match variation:
+		1: # Spine da terra
+			z_index = 0  # Sotto al giocatore
+			if hitbox_area:
+				hitbox_area.position.y = 10
+		2: # Spine dall'alto
+			z_index = 10  # Sopra al giocatore
+			# Aggiungi gravità
+			velocity.y = 200
+		3: # Spine dirette
+			z_index = 5
+			# Crea una direzione casuale se non c'è target
+			target_direction = Vector2(randf_range(-1, 1), randf_range(-1, 1)).normalized()
 
 	# 3. Configura e avvia il timer per la scomparsa
 	if despawn_timer:
@@ -64,31 +81,18 @@ func _ready() -> void:
 		if is_instance_valid(self): # Controlla se esiste ancora prima di chiamare queue_free
 			queue_free()
 	
-	# 4. Logica specifica per la variazione (opzionale)
-	# Questo viene chiamato dopo che il Golem ha impostato 'variation'
-	# print("Spina creata con variazione: ", variation)
-	# match variation:
-	# 	1:
-	# 		animated_sprite.modulate = Color.WHITE
-	# 		damage_amount = 15
-	# 	2:
-	# 		animated_sprite.modulate = Color.DARK_SLATE_GRAY
-	# 		damage_amount = 20
-	# 		# Magari scala più grande?
-	# 		scale = Vector2(1.2, 1.2)
-	# 	3:
-	# 		animated_sprite.modulate = Color.BLACK
-	# 		damage_amount = 25
-	# 		# Magari un'animazione diversa?
-	# 		if animated_sprite: animated_sprite.play("special_spawn")
 
-
-# Se vuoi che le spine facciano qualcosa ogni frame (es. seguire lentamente il player)
-# func _physics_process(delta: float) -> void:
-#   if not is_on_floor(): # Esempio: se è un CharacterBody2D e vuoi la gravità
-#       velocity.y += ProjectSettings.get_setting("physics/2d/default_gravity") * delta
-#   move_and_slide()
-
+func _physics_process(delta: float) -> void:
+	# Comportamenti diversi per ogni tipo
+	match variation:
+		2: # Spine dall'alto
+			velocity.y += gravity * delta
+		3: # Spine dirette
+			velocity = target_direction * throw_speed
+	move_and_slide()
+	# Distruggi le spine se colpiscono qualcosa
+	if get_slide_collision_count() > 0:
+		queue_free()
 
 # Funzione chiamata quando il DespawnTimer scade
 func _on_despawn_timer_timeout() -> void:
@@ -142,35 +146,3 @@ func _on_hitbox_area_body_entered(body: Node2D) -> void:
 # 			# print(player_body.name, " (da area) non ha take_damage.")
 # 	# else:
 # 		# print("Area ", area.name, " non è un player_hurtbox.")
-
-
-# Questa funzione sarà chiamata dal Golem dopo l'instanziazione
-# per impostare la variazione specifica
-func set_variation(type: int) -> void:
-	variation = type
-	# Applica qui la logica che dipende dalla variazione,
-	# dato che _ready() potrebbe essere già stato chiamato quando il Golem imposta 'variation'.
-	# Questa è una ridondanza sicura o un modo per aggiornare se _ready() non lo gestisce
-	# abbastanza presto.
-	# print("Spina - set_variation chiamata con: ", type)
-	match variation:
-		1:
-			if animated_sprite: animated_sprite.modulate = Color.WHITE
-			damage_amount = 15 # Danno base per variazione 1
-		2:
-			if animated_sprite: animated_sprite.modulate = Color.LIGHT_CORAL # Colore diverso
-			damage_amount = 20 # Danno per variazione 2
-			# Potrebbe avere un lifetime diverso o altre proprietà
-			# lifetime = 1.5
-			# if despawn_timer: despawn_timer.wait_time = lifetime # Aggiorna il timer se necessario
-		3:
-			if animated_sprite: animated_sprite.modulate = Color.DARK_RED # Altro colore
-			damage_amount = 25 # Danno per variazione 3
-			if animated_sprite and animated_sprite.has_animation("powerful_spawn"):
-				animated_sprite.play("powerful_spawn")
-			# Potrebbe avere una scala diversa
-			# scale = Vector2(1.1, 1.1)
-
-	# Se hai modificato lifetime qui, e il timer è già partito in _ready(),
-	# potresti doverlo riavviare o aggiornare il suo wait_time qui se necessario.
-	# Ma è più semplice se le variazioni non cambiano il lifetime dopo _ready().

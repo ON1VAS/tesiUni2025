@@ -1,4 +1,4 @@
-[gd_scene load_steps=73 format=3 uid="uid://dk3ogbro6havf"]
+[gd_scene load_steps=66 format=3 uid="uid://dk3ogbro6havf"]
 
 [ext_resource type="Texture2D" uid="uid://cog3of3ueh5kk" path="res://testures/Enemy_Galore_I/Golem/Armored/Golem_Armor_AttackA.png" id="1_8tnna"]
 [ext_resource type="Script" uid="uid://bvnigpm3qyp1" path="res://script/golem_pietra.gd" id="1_ajln3"]
@@ -412,151 +412,8 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="Animation" id="Animation_1so7u"]
-resource_name = "attack1"
-length = 0.333337
-tracks/0/type = "method"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0.133333),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [1],
-"method": &"_spawn_spikes"
-}]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("AnimatedSprite2D:attack1")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(),
-"transitions": PackedFloat32Array(),
-"update": 1,
-"values": []
-}
-
-[sub_resource type="Animation" id="Animation_hs4sa"]
-resource_name = "attack2"
-tracks/0/type = "method"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0.166667),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [2],
-"method": &"_spawn_spikes"
-}]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("AnimatedSprite2D:animation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(),
-"transitions": PackedFloat32Array(),
-"update": 1,
-"values": []
-}
-
-[sub_resource type="Animation" id="Animation_5mp8v"]
-resource_name = "attack3"
-tracks/0/type = "method"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0.166667),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [3],
-"method": &"_spawn_spikes"
-}]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("AnimatedSprite2D:animation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(),
-"transitions": PackedFloat32Array(),
-"update": 1,
-"values": []
-}
-
-[sub_resource type="Animation" id="Animation_hyeqo"]
-resource_name = "death"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("AnimatedSprite2D:animation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(),
-"transitions": PackedFloat32Array(),
-"update": 1,
-"values": []
-}
-
-[sub_resource type="Animation" id="Animation_3s6ge"]
-resource_name = "hurt"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("AnimatedSprite2D:animation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(),
-"transitions": PackedFloat32Array(),
-"update": 1,
-"values": []
-}
-
-[sub_resource type="Animation" id="Animation_7nprk"]
-resource_name = "idle"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("AnimatedSprite2D:idle")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(),
-"transitions": PackedFloat32Array(),
-"update": 1,
-"values": []
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_rxuqt"]
-_data = {
-&"attack1": SubResource("Animation_1so7u"),
-&"attack2": SubResource("Animation_hs4sa"),
-&"attack3": SubResource("Animation_5mp8v"),
-&"death": SubResource("Animation_hyeqo"),
-&"hurt": SubResource("Animation_3s6ge"),
-&"idle": SubResource("Animation_7nprk")
-}
-
 [sub_resource type="CircleShape2D" id="CircleShape2D_t4vtw"]
-radius = 160.112
+radius = 106.075
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5set7"]
 size = Vector2(35, 30)
@@ -570,16 +427,11 @@ script = ExtResource("1_ajln3")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_7vm2m")
-animation = &"idle"
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_rxuqt")
-}
+animation = &"run"
 
 [node name="PlayerDetectionArea" type="Area2D" parent="."]
 collision_layer = 2
-collision_mask = 32
+collision_mask = 33
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetectionArea"]
 shape = SubResource("CircleShape2D_t4vtw")
@@ -606,3 +458,7 @@ rotation = -1.5708
 target_position = Vector2(-5.79198e-05, 16)
 
 [node name="SpikeSpawnPoint" type="Marker2D" parent="."]
+position = Vector2(0, -23)
+
+[connection signal="body_entered" from="PlayerDetectionArea" to="." method="_on_player_detection_area_body_entered"]
+[connection signal="body_exited" from="PlayerDetectionArea" to="." method="_on_player_detection_area_body_exited"]

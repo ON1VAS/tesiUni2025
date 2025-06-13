@@ -125,7 +125,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_k856h")
 }],
-"loop": true,
+"loop": false,
 "name": &"move",
 "speed": 10.0
 }, {
@@ -139,7 +139,7 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hwon6"]
-radius = 160.112
+radius = 98.0459
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mtwqk"]
 size = Vector2(36, 37)
@@ -153,7 +153,7 @@ script = ExtResource("1_1ism8")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_2gki6")
-animation = &"move"
+animation = &"sting_attack"
 
 [node name="PlayerDetectionArea" type="Area2D" parent="."]
 collision_layer = 2
