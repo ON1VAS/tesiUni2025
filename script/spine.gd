@@ -3,7 +3,7 @@ extends CharacterBody2D
 
 # --- Variabili Esportabili ---
 @export var lifetime: float = 2.0
-@export var animation_name: String = ""  # Rimossa animazione predefinita
+@export var animation_name: String = "attack"  # Rimossa animazione predefinita
 @export var gravity: float = 980.0
 @export var damage_amount: int = 15
 @export var variation: int = 1 
@@ -92,6 +92,7 @@ func _physics_process(delta: float) -> void:
 		2:  # Spine che cadono dal cielo
 			velocity.y += gravity * delta
 			move_and_slide()
+			animated_sprite.play("attaccoaereo")
 			
 			# Ferma quando raggiunge il terreno
 			if is_on_floor():
