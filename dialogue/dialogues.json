@@ -19,8 +19,11 @@
 	"startDefense": [
 		"Premi [E] per disattivare lo scudo e iniziare la difesa"
 	],
-	
+	"continueDefense": [
+		"Premi [E] per iniziare la prossima ondata\nPremi [H] per alzare le difese e tornare in casa"
+	],
 	"waveEnded": [
 		"Wave completata!"
 	]
+	
 }

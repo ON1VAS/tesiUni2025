@@ -103,7 +103,8 @@ func take_damage(amount: int):
 		anim.play("death")
 		set_physics_process(false)
 		await anim.animation_finished
-		if death_sig_emitted == 1:
+		if death_sig_emitted == 0:
+			print("ape: so morto")
 			dead.emit()
 			death_sig_emitted += 1
 		queue_free()

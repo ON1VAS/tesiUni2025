@@ -2,7 +2,7 @@ extends Node2D
 #configurazione dello spawner
 @export var enemies: Array[PackedScene] = []
 @export var spawn_points: Array[Marker2D] = []
-@export var max_enemies: int = 1
+@export var max_enemies: int = 2
 @export var spawn_interval: float = 3.0
 
 var current_enemies: int = 0
@@ -33,7 +33,12 @@ func spawn_enemy(): #spawna i nemici
 	current_enemies += 1
 	print("nemico spawnato: ", enemy.name," ", spawn_point.name)
 
-func _on_game_game_started() -> void: #timer
+func _on_game_game_started(valore: int) -> void: #timer
+	print("difficolta: ", valore)
+	max_enemies = valore
+	print("max enemies: ", max_enemies)
+	current_enemies = 0
+	defeated_enemies = 0
 	$Timer.start()
 
 func _on_enemy_dead(): #così il gioco sa quando la wave è finita

@@ -7,7 +7,9 @@ extends Node2D
 var shader_material = ShaderMaterial.new()
 var can_start = true
 var dialogues = {}
-signal game_started
+signal game_started(valore: int) #l'int è la difficoltà
+var incremento_difficolta = 2
+var first_wave = true
 
 func _ready():
 	var shader = preload("res://scene/player.gdshader")
@@ -47,15 +49,21 @@ func _on_area_2_dscudo_body_entered(body: Node2D) -> void:
 		can_start = true
 		print("entrato ", can_start)
 		dialogue_box.visible = true
-		dialogue_box.show_dialogue(dialogues["startDefense"])
+		if (first_wave):
+			dialogue_box.show_dialogue(dialogues["startDefense"])
+		else:
+			dialogue_box.show_dialogue(dialogues["continueDefense"])
 		player_an_sp.material = shader_material
 
 func _input(event: InputEvent) -> void:
 	if can_start and event.is_action_pressed("ui_accept"): #fa scomparire la barriera e inizia la "difesa"
-		$Area2Dscudo/scudo/AnimationPlayer.play("dissolvenza")
+		if (first_wave):
+			$Area2Dscudo/scudo/AnimationPlayer.play("dissolvenza")
+			first_wave = false
+			print("prima ondata è iniziata")
 		_on_area_2_dscudo_body_exited(player)
 		$Area2Dscudo.monitoring = false
-		game_started.emit()
+		emit_signal("game_started", incremento_difficolta)
 
 
 func _on_enemy_spawner_wave_ended() -> void:
@@ -70,3 +78,6 @@ func _on_enemy_spawner_wave_ended() -> void:
 	await timer.timeout
 	dialogue_box.visible = false
 	timer.queue_free()  # cleanup the timer
+	incremento_difficolta+=1
+	print("difficolta: ", incremento_difficolta)
+	$Area2Dscudo.monitoring = true
