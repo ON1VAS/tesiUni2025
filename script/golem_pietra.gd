@@ -6,6 +6,10 @@ extends CharacterBody2D
 @export var hp: int = 150
 @export var detection_range_agro: float = 250.0
 @export var attack_cooldown_time: float = 2.5
+var attack_spawn_frame: int = 3  # Frame in cui spawnare le spine
+var attack_spawn_called: bool = false  # Per evitare chiamate multiple
+
+
 
 # --- Riferimenti ai Nodi ---
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D # Per flip_h
@@ -14,8 +18,10 @@ extends CharacterBody2D
 @onready var spike_spawn_point: Marker2D = $SpikeSpawnPoint
 @onready var ray_cast_floor: RayCast2D = $RayCastFloor
 @onready var ray_cast_front: RayCast2D = $RayCastFront
+@onready var slimechan = get_tree().get_first_node_in_group("giocatore")
 @export var float_amplitude: float = 5.0
 @export var float_speed: float = 2.0
+
 var float_offset: float = 0.0
 var base_y_position: float = 0.0
 
@@ -68,8 +74,8 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	# Gravità (solo se non sei in stato DEAD, altrimenti potrebbe cadere all'infinito)
-	if player_ref:
-		print("Player pos: ", player_ref.global_position, " | Golem pos: ", global_position)
+	#if player_ref:
+	#	print("Player pos: ", player_ref.global_position, " | Golem pos: ", global_position)
 	
 	float_offset += float_speed * delta
 	global_position.y = base_y_position + sin(float_offset) * float_amplitude
@@ -80,6 +86,8 @@ func _physics_process(delta: float) -> void:
 			else:
 				change_state(State.IDLE)
 	
+	if current_state == State.ATTACKING:
+		_handle_attack_spawn()
 	if not can_attack:
 		time_since_last_attack += delta
 		if time_since_last_attack >= attack_cooldown_time:
@@ -109,6 +117,10 @@ func _physics_process(delta: float) -> void:
 func change_state(new_state: State) -> void:
 	if current_state == new_state and new_state != State.ATTACKING:
 		return
+	
+	# Resetta il flag di spawn quando inizi un nuovo attacco
+	if new_state == State.ATTACKING:
+		attack_spawn_called = false
 	
 	current_state = new_state
 	# print("GolemPietra state: ", State.keys()[new_state]) # Debug
@@ -182,42 +194,64 @@ func _state_attacking() -> void:
 
 # --- Funzione di Attacco (chiamata tramite AnimationPlayer method call tracks) ---
 func _spawn_spikes(attack_variation: int = 1) -> void:
-	
+	print("Tentativo di spawn spine, variazione: ", attack_variation)
+
 	if not SPINE_SCENE:
-		print_rich("[color=red]Errore: Scena delle spine non caricata! Controlla il path.[/color]")
+		print_rich("[color=red]Errore: Scena delle spine non caricata![/color]")
 		return
-	if not spike_spawn_point:
-		print_rich("[color=red]Errore: SpikeSpawnPoint non trovato! Le spine non possono essere spawnate.[/color]")
-		return
-	if not is_instance_valid(get_tree().current_scene):
-		print_rich("[color=red]Errore: La scena corrente non è valida. Impossibile aggiungere le spine.[/color]")
-		return
-	
-	var spikes_instance = SPINE_SCENE.instantiate()
-	
-	 # Passa esplicitamente la variazione d'attacco
-	spikes_instance.set_variation(attack_variation)
-	
-	# Usa la posizione globale del golem come base
-	var spawn_position = global_position
-	
-	# Personalizza la posizione in base al tipo di attacco
+
+	var num_spikes = 1
+	var positions = []
+	var rotations = []
+	var ground_level = -120  # Sostituisci con il livello del terreno
+
 	match attack_variation:
-		1: # Spine dal terreno
-			spawn_position.y += 20  # Appena sopra il golem
-		2: # Spine sopra la testa
-			spawn_position.y -= 50  # Sopra il golem
-		3: # Spine dirette verso il player
+		1: # Spine dal terreno - fila di 4 spine
+			num_spikes = 4
+			var start_x = global_position.x - 75  # Inizia 75px a sinistra
+			for i in range(num_spikes):
+				positions.append(Vector2(start_x + i * 50, ground_level))
+				rotations.append(0)  # Nessuna rotazione
+
+		2: # Spine che cadono dal cielo - 4 spine in fila
+			num_spikes = 4
+			var start_x = global_position.x - 75
+			for i in range(num_spikes):
+				positions.append(Vector2(start_x + i * 50, global_position.y - 100))
+				rotations.append(180)  # Ruota di 180° per puntare verso il basso
+
+		3: # Spine dirette al giocatore - 1 spina diretta
+			num_spikes = 1
 			if player_ref:
-				# Direzione verso il player
 				var direction = (player_ref.global_position - global_position).normalized()
-				spawn_position += direction * 30  # Davanti al golem
+				positions.append(global_position + direction * 50)
+				rotations.append(rad_to_deg(direction.angle()) + 90)
+			else:
+				positions.append(global_position)
+				rotations.append(0)
 	
-	spikes_instance.global_position = spawn_position
-	spikes_instance.rotation_degrees = randi_range(0, 360)  # Rotazione casuale
+	for i in range(num_spikes):
+		var spikes_instance = SPINE_SCENE.instantiate()
+		if not spikes_instance:
+			print_rich("[color=red]Errore: Istanza spine non creata![/color]")
+			continue
 	
-	get_tree().current_scene.add_child(spikes_instance)
-	print("Spine spawnate! Tipo: ", attack_variation)
+		spikes_instance.global_position = positions[i]
+		spikes_instance.rotation_degrees = rotations[i]
+	
+		if spikes_instance.has_method("set_variation"):
+			spikes_instance.set_variation(attack_variation)
+		else:
+			print_rich("[color=red]Errore: Le spine non hanno il metodo set_variation![/color]")
+			if "variation" in spikes_instance:
+				spikes_instance.variation = attack_variation
+
+		get_tree().current_scene.add_child(spikes_instance)
+		print("Spina ", i, " spawnata a: ", positions[i])
+	
+		get_tree().current_scene.add_child(spikes_instance)
+		print("Spine spawnate! Tipo: ", attack_variation)
+	
 
 
 
@@ -299,3 +333,17 @@ func _update_sprite_facing_direction() -> void:
 		elif player_ref.global_position.x > global_position.x:
 			animated_sprite.flip_h = false
 	# Altrimenti (es. morto, o nessuna velocità e nessun player_ref), non cambiare flip_h
+
+func _handle_attack_spawn() -> void:
+	if attack_spawn_called:
+		return
+	var current_anim = animated_sprite.animation
+	var total_frames = animated_sprite.sprite_frames.get_frame_count(current_anim)
+	
+	# Calcola il frame di spawn in base alla lunghezza dell'animazione
+	var spawn_frame = min(attack_spawn_frame, total_frames - 1)
+	  
+	if animated_sprite.frame >= spawn_frame:
+		_spawn_spikes(current_attack_type)
+		attack_spawn_called = true
+		print("Spine spawnate durante l'attacco: ", current_attack_type)
