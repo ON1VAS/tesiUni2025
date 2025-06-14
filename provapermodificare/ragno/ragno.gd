@@ -30,6 +30,11 @@ var attack_cooldown = 4  # Tempo di recupero tra gli attacchi
 var player_in_area = false
 var can_attack = true # Flag per gestire la possibilità di attacco
 
+#servono pe capire quando il nemico è morto e far progredire i progressi della wave
+signal dead
+var death_sig_emitted = 0
+var is_dead = false
+
 func _ready():
 	anim.play("move")
 	self.set_collision_layer_value(6, true)  # Abilita layer 6 (enemy_hurt)
@@ -134,7 +139,11 @@ func take_damage(amount: int):
 		self.collision_layer = false
 		anim.play("morte")
 		set_physics_process(false)
-		await (get_tree().create_timer(1.5).timeout)
+		await anim.animation_finished
+		if death_sig_emitted == 0:
+			print("ragno: so morto")
+			dead.emit()
+			death_sig_emitted += 1
 		self.queue_free()
 
 

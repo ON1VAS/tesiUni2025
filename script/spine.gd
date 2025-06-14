@@ -5,7 +5,7 @@ extends CharacterBody2D
 @export var lifetime: float = 2.0
 @export var animation_name: String = "attack"  # Rimossa animazione predefinita
 @export var gravity: float = 980.0
-@export var damage_amount: int = 15
+@export var damage_amount: int = 5
 @export var variation: int = 1 
 @export var throw_speed: float = 200.0  # Velocità ridotta
 var target_direction: Vector2 = Vector2.ZERO
@@ -28,7 +28,7 @@ func set_variation(type: int) -> void:
 		1:  # Spine dal terreno
 			if animated_sprite: 
 				animated_sprite.modulate = Color.WHITE
-			damage_amount = 15
+			damage_amount = 5
 			# Disabilita la fisica
 			set_physics_process(false)
 		2:  # Spine che cadono dal cielo
@@ -39,7 +39,7 @@ func set_variation(type: int) -> void:
 		3:  # Spine lanciate al giocatore
 			if animated_sprite: 
 				animated_sprite.modulate = Color(0.5, 0.5, 1)
-			damage_amount = 25
+			damage_amount = 10
 			# Calcola direzione verso il giocatore
 			if player and is_instance_valid(player):
 				target_direction = (player.global_position - global_position).normalized()

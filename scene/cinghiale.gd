@@ -19,6 +19,10 @@ var attack_cooldown: float = 1.5
 var last_attack_time: float = 0.0
 var charge_duration: float = 1.2
 
+#servono pe capire quando il nemico è morto e far progredire i progressi della wave
+signal dead
+var death_sig_emitted = 0
+var is_dead = false
 
 # ===== NODI =====
 @onready var player: Node2D = get_tree().get_first_node_in_group("giocatore") as Node2D
@@ -43,14 +47,14 @@ func _ready():
 	sword_hitbox.disabled = true
 	floor_max_angle = max_floor_angle
 	$Incornata.set_collision_layer_value(2, true)  # Abilita layer 2 (player_weapon)
-	$Incornata.set_collision_mask_value(1, true) #abilita la maschera per colpire i nemici
+	$Incornata.set_collision_mask_value(3, true) #abilita la maschera per colpire i nemici
 	$Incornata.body_entered.connect(_on_incornata_body_entered)
-	hurtbox.set_collision_layer_value(6, true)
-	hurtbox.set_collision_mask_value(2, true)
+	hurtbox.set_collision_layer_value(2, true)
+	hurtbox.set_collision_mask_value(3, true)
 	
 	# Imposta forma collisione
 	var shape = RectangleShape2D.new()
-	shape.size = Vector2(30.0, 20.0)  # Adatta alle tue dimensioni
+	shape.size = Vector2(30.0, 20.0) 
 	collision_shape.shape = shape
 	
 	# Configura raycast
@@ -175,11 +179,15 @@ func _die():
 	anim.play("death")
 	set_physics_process(false)
 	await anim.animation_finished
+	if death_sig_emitted == 0:
+			print("ape: so morto")
+			dead.emit()
+			death_sig_emitted += 1
 	queue_free()
 
 # ===== SEGNALI =====
 func _on_hurtbox_area_entered(area: Area2D):
-	if area.is_in_group("player_weapon"):
+	if area.is_in_group("player_weapon") and !is_dead:
 		take_damage(damage)
 
 func _on_incornata_body_entered(body: Node2D):

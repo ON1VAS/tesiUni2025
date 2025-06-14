@@ -3367,7 +3367,10 @@ tile_set = SubResource("TileSet_0lu6w")
 [node name="protagonista" parent="." instance=ExtResource("1_5kiuu")]
 position = Vector2(1969, 104)
 
+[node name="Camera2D2" type="Camera2D" parent="protagonista"]
+
 [node name="Camera2D" type="Camera2D" parent="protagonista"]
+visible = false
 position = Vector2(0, -38)
 zoom = Vector2(2.5, 2.5)
 limit_left = 5
@@ -3408,13 +3411,13 @@ position = Vector2(1919.5, 186)
 shape = SubResource("RectangleShape2D_ym5sv")
 
 [node name="murosx" type="CollisionShape2D" parent="hitboxes"]
-position = Vector2(-14, -8)
+position = Vector2(-168, -6)
 rotation = 1.5708
 shape = SubResource("RectangleShape2D_17rxn")
 one_way_collision = true
 
 [node name="murodx" type="CollisionShape2D" parent="hitboxes"]
-position = Vector2(3918, 3)
+position = Vector2(4051, 9)
 rotation = 4.71239
 shape = SubResource("RectangleShape2D_yq8tf")
 one_way_collision = true
@@ -3424,10 +3427,10 @@ script = ExtResource("16_0lu6w")
 spawn_points = [NodePath("spawnerDx"), NodePath("spawnerSx")]
 
 [node name="spawnerSx" type="Marker2D" parent="EnemySpawner"]
-position = Vector2(-522, 72)
+position = Vector2(-76, 82)
 
 [node name="spawnerDx" type="Marker2D" parent="EnemySpawner"]
-position = Vector2(4179, 74)
+position = Vector2(3977, 71)
 
 [node name="Timer" type="Timer" parent="EnemySpawner"]
 
