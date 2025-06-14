@@ -19,6 +19,7 @@ var attack_cooldown: float = 1.5
 var last_attack_time: float = 0.0
 var charge_duration: float = 1.2
 
+
 # ===== NODI =====
 @onready var player: Node2D = get_tree().get_first_node_in_group("giocatore") as Node2D
 @onready var anim: AnimatedSprite2D = $AnimatedSprite2D
@@ -28,6 +29,7 @@ var charge_duration: float = 1.2
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
 @onready var ray_front: RayCast2D = $RayCastFront
 @onready var ray_floor: RayCast2D = $RayCastFloor
+@onready var incornata: Area2D = $Incornata
 
 # ===== PROPRIETÀ ATTACCHI =====
 var attack_properties = {
@@ -43,6 +45,8 @@ func _ready():
 	$Incornata.set_collision_layer_value(2, true)  # Abilita layer 2 (player_weapon)
 	$Incornata.set_collision_mask_value(1, true) #abilita la maschera per colpire i nemici
 	$Incornata.body_entered.connect(_on_incornata_body_entered)
+	hurtbox.set_collision_layer_value(6, true)
+	hurtbox.set_collision_mask_value(2, true)
 	
 	# Imposta forma collisione
 	var shape = RectangleShape2D.new()
@@ -60,6 +64,11 @@ func _physics_process(delta: float) -> void:
 	else:
 		velocity.y = min(velocity.y, 5.0)
 	
+	var facing_dir = -sign(anim.scale.x) if anim.scale.x != 0 else 1  # Direzione corrente
+	ray_front.target_position = Vector2(40.0 * facing_dir, 0.0)
+	ray_floor.target_position = Vector2(40.0 * facing_dir, 30.0)
+	incornata.position.x = 30.0 * facing_dir  # Aggiorna posizione incornata
+	
 	# Aggiorna raycast
 	ray_front.force_raycast_update()
 	ray_floor.force_raycast_update()
@@ -75,6 +84,7 @@ func _physics_process(delta: float) -> void:
 	# Applica movimento
 	move_and_slide()
 	
+	
 	# Controllo caduta piattaforme
 	if is_on_floor() and not ray_floor.is_colliding() and not is_charging:
 		velocity.x = 0.0
@@ -88,9 +98,9 @@ func _handle_normal_state(delta: float):
 		
 		# Flip sprite
 		if direction.x > 0:
-			anim.scale.x = -(sign(direction.x) * abs(anim.scale.x))
+			anim.scale.x = -abs(anim.scale.x)
 		elif direction.x < 0:
-			anim.scale.x = sign(direction.x) * abs(anim.scale.x)
+			anim.scale.x = abs(anim.scale.x)
 	else:
 		velocity.x = lerp(velocity.x, 0.0, friction * delta * 60.0)
 	

@@ -193,13 +193,15 @@ sprite_frames = SubResource("SpriteFrames_rpsw2")
 animation = &"move"
 
 [node name="PlayerDetectionArea" type="Area2D" parent="."]
-collision_layer = 2
+collision_layer = 3
 collision_mask = 32
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetectionArea"]
 shape = SubResource("CircleShape2D_phis0")
 
 [node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 3
+collision_mask = 33
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
 position = Vector2(4, -2.5)
