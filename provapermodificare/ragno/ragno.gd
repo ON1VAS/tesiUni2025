@@ -13,6 +13,7 @@ var direction = Vector2.ZERO
 
 # Attack (png della palla di fuoco)
 var ragnatela = preload("res://provapermodificare/ragno/ragnatela.tscn")
+var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 # AttackNodes
 @onready var ragnatelaTimer = get_node("%ragnatelaTimer") # % è accessibile con get_node
@@ -37,8 +38,8 @@ var is_dead = false
 
 func _ready():
 	anim.play("move")
-	self.set_collision_layer_value(6, true)  # Abilita layer 6 (enemy_hurt)
-	self.set_collision_mask_value(2, true)  # Deve rilevare layer 2 (player_weapon)
+	self.set_collision_layer_value(3, true)  # Abilita layer 6 (enemy_hurt)
+	self.set_collision_mask_value(1, true)  # Deve rilevare layer 2 (player_weapon)
 	hurtbox.set_collision_layer_value(6, true)
 	hurtbox.set_collision_mask_value(2, true)
 	hurtbox.area_entered.connect(_on_area_2d_area_entered)
@@ -49,17 +50,23 @@ func attack():
 		if ragnatelaTimer.is_stopped():
 			ragnatelaTimer.start()
 
-func _physics_process(_delta): 
+func _physics_process(delta): 
+	if not is_on_floor():
+		velocity.y += gravity * delta
+	else:
+		velocity.y = min(velocity.y, 5.0)
+	
 	var distance_to_player = global_position.distance_to(player.global_position)
 	if distance_to_player > min_distance: # Il nemico si muove solo fino ad una certa distanza dallo slime
 		direction = (player.global_position - global_position).normalized()
-		velocity = direction * movement_speed
-		move_and_slide()
+		velocity.x = lerp(velocity.x, direction.x * movement_speed, delta * 60.0)
+		anim.play("move")
 	elif hp > 0:
 		direction = Vector2.ZERO  # Ferma il nemico
 		anim.play("idle")
 	
 	flip_sprite(player.global_position - global_position)
+	move_and_slide()
 
 func flip_sprite(vector):
 	if vector.x > 0:
