@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=4 uid="uid://bfb3n5ulrxtxq"]
+[gd_scene load_steps=45 format=4 uid="uid://bfb3n5ulrxtxq"]
 
 [ext_resource type="PackedScene" uid="uid://cm1ru7bxfj1s0" path="res://scene/player.tscn" id="1_5kiuu"]
 [ext_resource type="Script" uid="uid://p03x4ile571r" path="res://script/game.gd" id="1_81276"]
@@ -3318,6 +3318,14 @@ size = Vector2(384, 33)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yq8tf"]
 size = Vector2(334.041, 32.789)
 
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_0lu6w"]
+a = Vector2(-60, 128)
+b = Vector2(11, -108)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_i6gbm"]
+a = Vector2(-4, -64)
+b = Vector2(83, 178)
+
 [node name="game" type="Node2D"]
 script = ExtResource("1_81276")
 
@@ -3418,6 +3426,14 @@ position = Vector2(4051, 9)
 rotation = 4.71239
 shape = SubResource("RectangleShape2D_yq8tf")
 one_way_collision = true
+
+[node name="scudo_slime_sx" type="CollisionShape2D" parent="hitboxes"]
+position = Vector2(1872, 23)
+shape = SubResource("SegmentShape2D_0lu6w")
+
+[node name="scudo_slime_dx" type="CollisionShape2D" parent="hitboxes"]
+position = Vector2(2056, -22)
+shape = SubResource("SegmentShape2D_i6gbm")
 
 [node name="EnemySpawner" type="Node2D" parent="." node_paths=PackedStringArray("spawn_points")]
 script = ExtResource("16_0lu6w")

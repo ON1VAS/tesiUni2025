@@ -3,9 +3,12 @@ extends Node2D
 @onready var player = $protagonista
 @onready var player_an_sp = $protagonista/AnimatedSprite2D
 @onready var scudo = $Area2Dscudo
+@onready var scudo_slime_dx = $hitboxes/scudo_slime_dx
+@onready var scudo_slime_sx = $hitboxes/scudo_slime_sx
 @onready var dialogue_box = $DialogueBox #per le interazioni e i dialoghi
 var shader_material = ShaderMaterial.new()
 var can_start = true
+var shield = true
 var dialogues = {}
 signal game_started(valore: int) #l'int è la difficoltà
 var incremento_difficolta = 2 #aumenta di 1 per ogni wave completata
@@ -63,7 +66,18 @@ func _input(event: InputEvent) -> void:
 			print("prima ondata è iniziata")
 		_on_area_2_dscudo_body_exited(player)
 		$Area2Dscudo.monitoring = false
+		scudo_slime_dx.disabled = true
+		scudo_slime_sx.disabled = true
+		scudo = false
 		emit_signal("game_started", incremento_difficolta)
+	elif can_start and event.is_action_pressed("return_home"):
+		can_start = false
+		if !scudo:
+			$Area2Dscudo/scudo/AnimationPlayer.play("dissolvenza_inv")
+			scudo_slime_dx.disabled = false
+			scudo_slime_sx.disabled = false
+			await $Area2Dscudo/scudo/AnimationPlayer.animation_finished
+		scene_change()
 
 
 func _on_enemy_spawner_wave_ended() -> void:
@@ -71,7 +85,7 @@ func _on_enemy_spawner_wave_ended() -> void:
 	dialogue_box.visible = true
 	dialogue_box.show_dialogue(dialogues["waveEnded"])
 	var timer = Timer.new()
-	timer.wait_time = 5.0
+	timer.wait_time = 3.0
 	timer.one_shot = true
 	add_child(timer)  # add the timer to the scene tree to work correctly
 	timer.start()
@@ -81,3 +95,9 @@ func _on_enemy_spawner_wave_ended() -> void:
 	incremento_difficolta+=1
 	print("difficolta: ", incremento_difficolta)
 	$Area2Dscudo.monitoring = true
+
+
+
+func scene_change():
+	#cambio scena
+	get_tree().change_scene_to_file("res://scene/hub_map.tscn")

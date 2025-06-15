@@ -6317,7 +6317,7 @@ rotation = 3.14159
 scale = Vector2(0.7, -0.7)
 
 [node name="protagonista" parent="." instance=ExtResource("1_nmp41")]
-position = Vector2(124, 443)
+position = Vector2(124, 448)
 
 [node name="Camera2D2" type="Camera2D" parent="protagonista"]
 zoom = Vector2(2.3, 2.3)

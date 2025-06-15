@@ -46,7 +46,7 @@ var death_sig_emitted = 0
 
 
 func _ready() -> void:
-	float_offset = randf_range(-50, TAU)
+	float_offset = randf_range(-50, -100)
 	
 	player_ref = get_tree().get_first_node_in_group("giocatore")
 	

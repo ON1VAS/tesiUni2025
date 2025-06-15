@@ -94,11 +94,11 @@ func take_damage(amount: int):
 		return
 		
 	hp -= amount
-	anim.play("hurt")
-	print("Ape colpita! Vita rimanente: ", hp)
+	
 	if hp > 0:
 		anim.play("hurt")
 	if hp <= 0:
+		is_dead = true
 		set_collision_layer_value(1, false)
 		anim.play("death")
 		set_physics_process(false)

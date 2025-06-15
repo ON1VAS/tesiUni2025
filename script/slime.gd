@@ -187,6 +187,7 @@ func take_damage(amount: int):
 	if hp > 0:
 		anim.play("hurt")
 	if hp <= 0:
+		is_dead = true
 		set_collision_layer_value(1, false)
 		anim.play("death")
 		set_physics_process(false)
@@ -197,12 +198,6 @@ func take_damage(amount: int):
 			death_sig_emitted += 1
 		queue_free()
 
-func die():
-	set_collision_layer_value(1, false)
-	anim.play("death")
-	set_physics_process(false)
-	await anim.animation_finished
-	queue_free()
 
 # ===== SIGNALS =====
 func _on_hurtbox_area_entered(area: Area2D):

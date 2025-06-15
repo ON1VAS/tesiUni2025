@@ -221,7 +221,7 @@ texture_filter = 1
 position = Vector2(0, -26)
 scale = Vector2(2.70508, 2.2283)
 sprite_frames = SubResource("SpriteFrames_1ejxj")
-animation = &"idle"
+animation = &"morte"
 
 [node name="PlayerDetectionArea" type="Area2D" parent="."]
 

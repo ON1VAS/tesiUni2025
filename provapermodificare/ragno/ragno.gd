@@ -125,12 +125,6 @@ func _on_timer_danno_preso_timeout():
 		ragnatelaTimer.wait_time = ragnatela_attackspeed
 		if ragnatelaTimer.is_stopped():
 			ragnatelaTimer.start()
-	elif hp <= 0:
-		self.collision_layer = false
-		anim.play("morte")
-		setExpGround()
-		await (get_tree().create_timer(1.5).timeout)
-		self.queue_free()
 	else:
 		anim.play("move")
 		
@@ -138,23 +132,29 @@ func _on_timer_danno_preso_timeout():
 
 
 func take_damage(amount: int):
+	if is_dead:
+		return
 	hp -= amount
-	anim.play("damage")
-	print("Ragno colpito! Vita rimanente: ", hp)
 	
+	if hp > 0:
+		anim.play("hurt")
 	if hp <= 0:
-		self.collision_layer = false
-		anim.play("morte")
+		can_attack = false
+		is_dead = true
+		set_collision_layer_value(1, false)
 		set_physics_process(false)
+		anim.play("morte")
 		await anim.animation_finished
 		if death_sig_emitted == 0:
 			print("ragno: so morto")
 			dead.emit()
 			death_sig_emitted += 1
-		self.queue_free()
+		queue_free()
 
 
 func _on_area_2d_area_entered(area: Area2D) -> void:
+	if is_dead:
+		return
 	# Se l'area è la SwordHitbox del giocatore
 	if area.is_in_group("player_weapon"):
 		anim.play("damage")
