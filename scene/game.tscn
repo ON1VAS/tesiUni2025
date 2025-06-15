@@ -3367,10 +3367,7 @@ tile_set = SubResource("TileSet_0lu6w")
 [node name="protagonista" parent="." instance=ExtResource("1_5kiuu")]
 position = Vector2(1969, 104)
 
-[node name="Camera2D2" type="Camera2D" parent="protagonista"]
-
 [node name="Camera2D" type="Camera2D" parent="protagonista"]
-visible = false
 position = Vector2(0, -38)
 zoom = Vector2(2.5, 2.5)
 limit_left = 5

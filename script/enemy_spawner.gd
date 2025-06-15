@@ -15,8 +15,8 @@ func _ready():
 	#enemies.append(preload("res://scene/golem.tscn"))
 	#enemies.append(preload("res://scene/chinghiale.tscn"))
 	#enemies.append(preload("res://provapermodificare/ragno/ragno.tscn"))
-	#enemies.append(preload("res://scene/slime.tscn"))
-	enemies.append(preload("res://scene/golem_pietra.tscn"))
+	enemies.append(preload("res://scene/slime.tscn"))
+	#enemies.append(preload("res://scene/golem_pietra.tscn"))
 
 func _on_timer_timeout() -> void: #loop che spawna i nemici
 	if current_enemies >= max_enemies:

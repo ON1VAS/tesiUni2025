@@ -32,6 +32,11 @@ var jump_height: float = 150.0
 @onready var ray_front: RayCast2D = $RayCastFront
 @onready var ray_floor: RayCast2D = $RayCastFloor
 
+#servono pe capire quando il nemico è morto e far progredire i progressi della wave
+signal dead
+var death_sig_emitted = 0
+var is_dead = false
+
 func _ready():
 	# Initial configuration
 	anim.play("idle")
@@ -175,14 +180,22 @@ func _end_jump_with_impact():
 	anim.play("idle")
 
 func take_damage(amount: int):
+	if is_dead:
+		return
 	hp -= amount
-	anim.play("hurt")
 	
+	if hp > 0:
+		anim.play("hurt")
 	if hp <= 0:
-		die()
-	else:
+		set_collision_layer_value(1, false)
+		anim.play("death")
+		set_physics_process(false)
 		await anim.animation_finished
-		anim.play("idle")
+		if death_sig_emitted == 0:
+			print("slime: so morto")
+			dead.emit()
+			death_sig_emitted += 1
+		queue_free()
 
 func die():
 	set_collision_layer_value(1, false)

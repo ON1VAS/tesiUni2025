@@ -8,7 +8,7 @@ var shader_material = ShaderMaterial.new()
 var can_start = true
 var dialogues = {}
 signal game_started(valore: int) #l'int è la difficoltà
-var incremento_difficolta = 2
+var incremento_difficolta = 2 #aumenta di 1 per ogni wave completata
 var first_wave = true
 
 func _ready():
