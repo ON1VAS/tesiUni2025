@@ -1,10 +1,11 @@
-[gd_scene load_steps=33 format=3 uid="uid://dcskbt4mltl8y"]
+[gd_scene load_steps=36 format=3 uid="uid://dcskbt4mltl8y"]
 
 [ext_resource type="Texture2D" uid="uid://cfpky73d1uvc6" path="res://testures/Enemy_Galore_I/Slime/Slime_Spiked_Idle.png" id="1_08lxr"]
 [ext_resource type="Script" uid="uid://gs863t5c6ws5" path="res://script/slime.gd" id="1_p3a6y"]
 [ext_resource type="Texture2D" uid="uid://dt22c22qd80xm" path="res://testures/Enemy_Galore_I/Slime/Slime_Spiked_Jump.png" id="2_p3a6y"]
 [ext_resource type="Texture2D" uid="uid://ce5oxn35dbs64" path="res://testures/Enemy_Galore_I/Slime/Slime_Spiked_Death.png" id="2_q8ldp"]
 [ext_resource type="Texture2D" uid="uid://dvbi01v4krqjr" path="res://testures/Enemy_Galore_I/Slime/Slime_Spiked_Hit.png" id="3_yn13l"]
+[ext_resource type="Texture2D" uid="uid://cmi1py54d56qu" path="res://testures/Enemy_Galore_I/Slime/Slime_Spiked_Run.png" id="6_yn13l"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ilr4w"]
 atlas = ExtResource("2_q8ldp")
@@ -94,6 +95,14 @@ region = Rect2(128, 64, 64, 64)
 atlas = ExtResource("2_p3a6y")
 region = Rect2(192, 64, 64, 64)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_nn8j5"]
+atlas = ExtResource("6_yn13l")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_73cpl"]
+atlas = ExtResource("6_yn13l")
+region = Rect2(192, 0, 64, 64)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_ilr4w"]
 animations = [{
 "frames": [{
@@ -181,6 +190,28 @@ animations = [{
 "loop": false,
 "name": &"jump",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a0ytv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oa5pk")
+}],
+"loop": false,
+"name": &"jump_anticipation",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nn8j5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_73cpl")
+}],
+"loop": false,
+"name": &"slam_impact",
+"speed": 5.0
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_0qdl3"]
@@ -201,7 +232,7 @@ script = ExtResource("1_p3a6y")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_ilr4w")
-animation = &"idle"
+animation = &"slam_impact"
 
 [node name="PlayerDetectionArea" type="Area2D" parent="."]
 collision_layer = 2

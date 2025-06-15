@@ -137,7 +137,7 @@ func perform_jump_attack(direction: Vector2):
 	await get_tree().create_timer(0.5).timeout
 	
 	if is_jumping:  # If not interrupted
-		anim.play("jump_attack")
+		anim.play("jump")
 		
 		# Calculate jump trajectory to go over player
 		var target_x = player.global_position.x + (player.velocity.x * 0.3)  # Lead the target slightly
@@ -204,4 +204,4 @@ func _on_slam_hitbox_body_entered(body: Node2D):
 
 func _on_animated_sprite_2d_animation_finished():
 	if anim.animation == "jump_anticipation" and is_jumping:
-		anim.play("jump_attack")
+		anim.play("jump")
