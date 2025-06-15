@@ -221,7 +221,7 @@ radius = 160.112
 size = Vector2(27, 23.5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kn8a4"]
-size = Vector2(21, 14)
+size = Vector2(28, 18)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ew7u5"]
 size = Vector2(11.5, 8)
@@ -252,7 +252,7 @@ collision_layer = 3
 collision_mask = 33
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SlamHitbox"]
-position = Vector2(0.5, 9)
+position = Vector2(0, 9)
 shape = SubResource("RectangleShape2D_kn8a4")
 
 [node name="HitboxTimer" type="Timer" parent="."]
