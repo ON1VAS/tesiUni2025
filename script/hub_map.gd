@@ -14,7 +14,6 @@ var can_start_game = false
 var shader_material = ShaderMaterial.new()
 
 
-
 func _ready():
 	var shader = preload("res://scene/player.gdshader")
 	shader_material.shader = shader
@@ -27,6 +26,7 @@ func _ready():
 	startGame.connect("body_entered", _on_start_game_area_entered)
 	startGame.connect("body_exited", _on_start_game_area_exited)
 	load_dialogues()
+	
 	# Ascolta il segnale dalla dialogue box se viene aggiunto (opzionale)
 	# if dialogue_box.has_signal("dialogue_ended"):
 	#     dialogue_box.connect("dialogue_ended", self, "_on_dialogue_ended")

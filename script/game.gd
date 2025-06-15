@@ -12,7 +12,7 @@ var shield = true
 var dialogues = {}
 signal game_started(valore: int) #l'int è la difficoltà
 var incremento_difficolta = 2 #aumenta di 1 per ogni wave completata
-var first_wave = true
+var first_wave = true #serve per il check per capire se sia o meno la prima wave
 
 func _ready():
 	var shader = preload("res://scene/player.gdshader")
@@ -95,8 +95,6 @@ func _on_enemy_spawner_wave_ended() -> void:
 	incremento_difficolta+=1
 	print("difficolta: ", incremento_difficolta)
 	$Area2Dscudo.monitoring = true
-
-
 
 func scene_change():
 	#cambio scena

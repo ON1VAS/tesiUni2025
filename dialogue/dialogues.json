@@ -11,7 +11,7 @@
 		"i morti sono le uniche cose che qui non mancano..."
 	],
 	"Exit": [
-		"Premi [E] per uscire e difendere la base"
+		"Premi [E] per uscire e difendere il rifugio"
 	],
 	"Talk": [
 		"Parla [E]"
@@ -23,7 +23,7 @@
 		"Premi [E] per iniziare la prossima ondata\nPremi [H] per alzare le difese e tornare in casa"
 	],
 	"waveEnded": [
-		"Wave completata!"
+		"Wave completata!\nTorna al rifugio per decidere cosa fare"
 	]
 	
 }
