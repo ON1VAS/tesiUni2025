@@ -4,7 +4,7 @@ var movement_speed = 40
 @onready var player = get_tree().get_first_node_in_group("giocatore") 
 @onready var anim = $AnimatedSprite2D
 @onready var hp = 20
-@onready var min_distance = 300
+@onready var min_distance = 100
 @onready var hurtbox = $Hurtbox
 
 var palladifuoco = preload("res://scene/fireball.tscn")
@@ -86,6 +86,7 @@ func take_damage(amount: int):
 	if hp > 0:
 		anim.play("damage")
 	if hp <= 0:
+		can_attack = false
 		set_collision_layer_value(1, false)
 		anim.play("death")
 		set_physics_process(false)
