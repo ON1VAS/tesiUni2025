@@ -62,7 +62,12 @@ func _physics_process(delta):
 	move_and_slide()
 
 func _process(delta):
-	if can_attack and player:
+	if not can_attack or is_dead or player == null:
+		return
+	
+	var distance_to_player = global_position.distance_to(player.global_position)
+	
+	if distance_to_player <= min_distance + 100:
 		shoot_fireball()
 		can_attack = false
 		await get_tree().create_timer(attack_cooldown).timeout
