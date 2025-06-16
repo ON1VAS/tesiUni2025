@@ -12,7 +12,10 @@ func _ready():
 	rotation = direction.angle()  # Ruota lo sprite nella direzione del movimento
 	anim.play("default")
 	area_entered.connect(_on_area_entered)
-	start_lifetime_timer()
+	var notifier = VisibleOnScreenNotifier2D.new()
+	notifier.rect = Rect2(Vector2(-16, -16), Vector2(32, 32))  # Dimensione adattiva
+	add_child(notifier)
+	notifier.connect("screen_exited", Callable(self, "destroy"))
 
 func _physics_process(delta):
 	position += direction * speed * delta
