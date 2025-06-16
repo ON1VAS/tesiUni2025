@@ -10,6 +10,7 @@ var movement_speed = 40
 var palladifuoco = preload("res://scene/fireball.tscn")
 var direction = Vector2.ZERO  # Aggiunta direzione per il movimento
 
+
 # Palla di fuoco
 var ragnatela_ammo = 0
 var ragnatela_baseammo = 1
@@ -20,6 +21,8 @@ var attack_cooldown = 2  # Tempo di recupero tra gli attacchi
 # Player detection
 var player_in_area = false
 var can_attack = true # Flag per gestire la possibilità di attacco
+var is_attacking = false
+
 
 #servono pe capire quando il nemico è morto e far progredire i progressi della wave
 signal dead
@@ -39,7 +42,9 @@ func _physics_process(delta):
 	if hp <= 0:
 		return
 	
-	
+	if is_attacking:
+		move_and_slide()
+		return
 	# Calcola distanza dal giocatore
 	if player:
 		var distance_to_player = global_position.distance_to(player.global_position)
@@ -67,21 +72,29 @@ func _process(delta):
 	
 	var distance_to_player = global_position.distance_to(player.global_position)
 	
-	if distance_to_player <= min_distance + 100:
+	if distance_to_player <= min_distance + 150:
 		shoot_fireball()
 		can_attack = false
 		await get_tree().create_timer(attack_cooldown).timeout
 		can_attack = true
 
 func shoot_fireball():
-	var fireball = palladifuoco.instantiate()
+	is_attacking = true
 	anim.play("attack")
+	await anim.animation_finished
+	is_attacking = false
+	
+	if is_dead:
+		return
+	
+	var fireball = palladifuoco.instantiate()
 	fireball.global_position = $FireballSpawnPoint.global_position
 	var direction = (player.global_position - global_position).normalized()
 	fireball.direction = direction
 	fireball.speed = ragnatela_attackspeed
 	fireball.damage = 20
 	get_parent().add_child(fireball)
+
 
 func take_damage(amount: int):
 	if is_dead:
@@ -91,6 +104,7 @@ func take_damage(amount: int):
 	if hp > 0:
 		anim.play("damage")
 	if hp <= 0:
+		is_dead = true
 		can_attack = false
 		set_collision_layer_value(1, false)
 		anim.play("death")
@@ -103,7 +117,6 @@ func take_damage(amount: int):
 
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	if area.is_in_group("player_weapon"):
-		anim.play("damage")
 		take_damage(10)
 
 func _on_player_detection_area_body_entered(body: Node2D) -> void:
@@ -115,7 +128,9 @@ func _on_player_detection_area_body_exited(body: Node2D) -> void:
 		can_attack = false
 
 func flip_sprite(vector):
-	if vector.x > 0:
+	if vector.x < 0:
 		anim.flip_h = true
-	elif vector.x < 0:
+		$FireballSpawnPoint.position.x = -abs($FireballSpawnPoint.position.x)
+	elif vector.x > 0:
 		anim.flip_h = false
+		$FireballSpawnPoint.position.x = abs($FireballSpawnPoint.position.x)
