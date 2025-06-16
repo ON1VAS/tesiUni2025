@@ -1,4 +1,4 @@
-[gd_scene load_steps=77 format=3 uid="uid://cm1ru7bxfj1s0"]
+[gd_scene load_steps=90 format=3 uid="uid://cm1ru7bxfj1s0"]
 
 [ext_resource type="Script" uid="uid://bs5jcynrust28" path="res://script/player.gd" id="1_fvtld"]
 [ext_resource type="Texture2D" uid="uid://boyyqx4je6gf" path="res://testures/free_knight/Colour1/NoOutline/120x80_PNGSheets/_Idle.png" id="1_xo3ru"]
@@ -13,6 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://dcpyrbda68rpq" path="res://testures/free_knight/Colour1/NoOutline/120x80_PNGSheets/_Attack2NoMovement.png" id="5_ihjo1"]
 [ext_resource type="Texture2D" uid="uid://dwlhvkjlul70c" path="res://testures/free_knight/Colour1/NoOutline/120x80_PNGSheets/_Death.png" id="6_dk1vr"]
 [ext_resource type="Texture2D" uid="uid://bvub4cikyq5o0" path="res://testures/free_knight/Colour1/NoOutline/120x80_PNGSheets/_Hit.png" id="8_34jf3"]
+[ext_resource type="Texture2D" uid="uid://bjb7ha54rmfp" path="res://testures/free_knight/Colour1/NoOutline/120x80_PNGSheets/_Roll.png" id="13_u7b46"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_u7b46"]
 shader = ExtResource("2_34jf3")
@@ -214,6 +215,54 @@ region = Rect2(0, 0, 120, 80)
 [sub_resource type="AtlasTexture" id="AtlasTexture_8ie14"]
 atlas = ExtResource("5_hp4bs")
 region = Rect2(120, 0, 120, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q7u3n"]
+atlas = ExtResource("13_u7b46")
+region = Rect2(0, 0, 120, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ymct0"]
+atlas = ExtResource("13_u7b46")
+region = Rect2(120, 0, 120, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4hm66"]
+atlas = ExtResource("13_u7b46")
+region = Rect2(240, 0, 120, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rf2qa"]
+atlas = ExtResource("13_u7b46")
+region = Rect2(360, 0, 120, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ko5ao"]
+atlas = ExtResource("13_u7b46")
+region = Rect2(480, 0, 120, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w8280"]
+atlas = ExtResource("13_u7b46")
+region = Rect2(600, 0, 120, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0fmm8"]
+atlas = ExtResource("13_u7b46")
+region = Rect2(720, 0, 120, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5nkdk"]
+atlas = ExtResource("13_u7b46")
+region = Rect2(840, 0, 120, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0a317"]
+atlas = ExtResource("13_u7b46")
+region = Rect2(960, 0, 120, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ofccr"]
+atlas = ExtResource("13_u7b46")
+region = Rect2(1080, 0, 120, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ytl04"]
+atlas = ExtResource("13_u7b46")
+region = Rect2(1200, 0, 120, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ec2ns"]
+atlas = ExtResource("13_u7b46")
+region = Rect2(1320, 0, 120, 80)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dk1vr"]
 atlas = ExtResource("3_fvtld")
@@ -456,6 +505,47 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_q7u3n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ymct0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4hm66")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rf2qa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ko5ao")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w8280")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0fmm8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5nkdk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0a317")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ofccr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ytl04")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ec2ns")
+}],
+"loop": false,
+"name": &"roll",
+"speed": 18.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_dk1vr")
 }, {
 "duration": 1.0,
@@ -497,13 +587,17 @@ size = Vector2(20, 38)
 size = Vector2(32, 40)
 
 [node name="protagonista" type="CharacterBody2D" groups=["giocatore"]]
+texture_filter = 1
+collision_layer = 129
 script = ExtResource("1_fvtld")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
 material = SubResource("ShaderMaterial_u7b46")
 sprite_frames = SubResource("SpriteFrames_dk1vr")
-animation = &"run"
+animation = &"roll"
+frame = 11
+frame_progress = 1.0
 offset = Vector2(4, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

@@ -6,10 +6,13 @@ extends CharacterBody2D
 const GRAVITY = 400.0
 const JUMP_FORCE = -200
 const MAX_HEALTH = 100.00
+const ROLL_FORCE = 400
 var currentMaxHealth = MAX_HEALTH
 var health = MAX_HEALTH
 @export var speed = 200
 var facing_direction = 1  # 1 = destra, -1 = sinistra
+var is_rolling = false
+var is_invincible = false
 
 # Configurazione hitbox per ogni animazione perchè se cambio gli sprite urlo, accomodiamo per i prossimi attacchi anche
 var attack_properties = {
@@ -41,6 +44,15 @@ func _physics_process(delta):
 	# Movimento e gravità
 	velocity.y += delta * GRAVITY
 	
+	if is_rolling:
+		is_invincible = true
+	else:
+		is_invincible = false
+		
+	if is_rolling:
+		move_and_slide()
+		return
+	
 	# Input movimento
 	if Input.is_action_pressed("ui_left"):
 		velocity.x = -speed
@@ -58,6 +70,13 @@ func _physics_process(delta):
 	# Salto
 	if Input.is_action_just_pressed("ui_up") and is_on_floor():
 		velocity.y = JUMP_FORCE
+	
+	if Input.is_action_just_pressed("roll") and is_on_floor():
+		is_rolling = true
+		$AnimatedSprite2D.play("roll")
+		velocity.x = ROLL_FORCE * facing_direction
+		await $AnimatedSprite2D.animation_finished
+		velocity.x = 0
 	
 	# Attacchi (solo se non sta già eseguendo un'animazione di attacco)
 	if $AnimatedSprite2D.animation not in attack_properties.keys():
@@ -79,6 +98,7 @@ func _physics_process(delta):
 	if facing_direction<0:
 		$SwordHitbox.position.x = 65 * facing_direction  # 65 va esattamete dall'altra parte
 		$CollisionShape2D.position.x = facing_direction + 10
+		
 	else:
 		$SwordHitbox.position.x = 10 * facing_direction  # co 10 sta giusto davanti al cavaliere
 		$CollisionShape2D.position.x = facing_direction
@@ -89,6 +109,8 @@ func SetHealthBar(): #imposto barretta vita
 	var health_perc = 0.5 + ((health / currentMaxHealth)/2 ) #il giocatore cambia dimensione in base a quanta vita ha
 
 func Damage (dam): #la vita diminuisce di un certo dam
+	if is_invincible:
+		return
 	health-= dam #fa diminuire la vita in base a quanto danno prendi
 	SetHealthBar() #aggiorna la healthbar in "tempo reale"
 	if health <= 0: #pe capire se funziona, qua po se deve fa la roba dell acrepaggine
@@ -107,6 +129,11 @@ func _on_animated_sprite_2d_animation_finished() -> void:
 	if $AnimatedSprite2D.animation in attack_properties.keys():
 		sword_hitbox.disabled = true #Non mi serve più tenerla attiva
 		$AnimatedSprite2D.play("idle")
+	elif $AnimatedSprite2D.animation == "roll":
+		is_rolling = false
+		$AnimatedSprite2D.play("idle")
+		
+		
 
 
 func _on_hitbox_timer_timeout() -> void:
