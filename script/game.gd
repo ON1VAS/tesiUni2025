@@ -81,7 +81,7 @@ func _input(event: InputEvent) -> void:
 
 
 func _on_enemy_spawner_wave_ended() -> void:
-	
+	GlobalStats.riduci_energia(10)
 	dialogue_box.visible = true
 	dialogue_box.show_dialogue(dialogues["waveEnded"])
 	var timer = Timer.new()

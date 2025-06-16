@@ -118,7 +118,6 @@ func _force_jump():
 	# Prepara un salto forzato per sbloccarsi verso il giocatore
 	var direction = (player.global_position - global_position).normalized()
 	perform_jump_attack(direction)
-	print("Salto forzato per sbloccarsi!")
 
 func _handle_normal_state(delta: float):
 	var direction = (player.global_position - global_position).normalized()
@@ -163,7 +162,6 @@ func _handle_jump_state(delta: float):
 				
 				# Salva la posizione iniziale per il calcolo dell'altezza
 				initial_jump_position = global_position
-				print("Salto iniziato verso X:", target_x)
 		
 		JumpState.ASCENDING:
 			# Applica una decelerazione orizzontale più leggera
@@ -176,7 +174,6 @@ func _handle_jump_state(delta: float):
 				if not hitbox_active:
 					slam_hitbox.disabled = false
 					hitbox_active = true
-					print("HITBOX ATTIVATA (caduta)")
 		
 		JumpState.FALLING:
 			# Applica una decelerazione orizzontale più leggera
@@ -215,7 +212,6 @@ func perform_jump_attack(direction: Vector2):
 	
 	# Animazione di anticipazione
 	anim.play("jump_anticipation")
-	print("Inizio attacco salto - Tipo: ", "Forzato" if is_stuck else "Normale")
 
 func _end_jump():
 	# Reset completo dello stato di salto
@@ -266,7 +262,6 @@ func _on_slam_hitbox_body_entered(body: Node2D):
 	if body.is_in_group("giocatore") and (jump_state == JumpState.FALLING or is_stuck) and not damage_dealt:
 		body.Damage(damage)
 		damage_dealt = true
-		print("Danno inflitto al giocatore durante ", "salto forzato" if is_stuck else "salto normale")
 		# Piccolo rimbalzo quando colpisce il giocatore
 		velocity.y = -jump_force * 0.3
 

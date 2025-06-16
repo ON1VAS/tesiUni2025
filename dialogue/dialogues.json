@@ -24,6 +24,11 @@
 	],
 	"waveEnded": [
 		"Wave completata!\nTorna al rifugio per decidere cosa fare"
+	],
+	"energia_insufficente": [
+		"Energia insufficente\nRiposa un po' prima di uscire"
 	]
+	
+	
 	
 }

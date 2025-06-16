@@ -52,7 +52,7 @@ func load_dialogues():
 	var file = FileAccess.open("res://dialogue/dialogues.json", FileAccess.READ)
 	if file:
 		var json_text = file.get_as_text()
-		print("Contenuto del file JSON: ", json_text)  # Debug: visualizza il contenuto
+		#print("Contenuto del file JSON: ", json_text)  # Debug: visualizza il contenuto
 		
 		var parsed = JSON.parse_string(json_text)
 		
@@ -70,7 +70,10 @@ func _input(event):
 	if player_in_range and can_start_dialogue and event.is_action_pressed("ui_accept"):
 		_start_dialogue()
 	if can_start_game and event.is_action_pressed("ui_accept"):
-		scene_change()
+		if GlobalStats.energia > 0:
+			scene_change()
+		else:
+			dialogue_box.show_dialogue(dialogues["energia_insufficente"])
 		
 		
 
