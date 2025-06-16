@@ -224,7 +224,6 @@ shape = SubResource("RectangleShape2D_6ji4v")
 [node name="RayCastFloor" type="RayCast2D" parent="."]
 
 [node name="RayCastFront" type="RayCast2D" parent="."]
-rotation = -1.5708
 
 [node name="CooldownTimer" type="Timer" parent="."]
 wait_time = 0.5

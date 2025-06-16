@@ -51,6 +51,9 @@ func _ready():
 	$Incornata.body_entered.connect(_on_incornata_body_entered)
 	hurtbox.set_collision_layer_value(2, true)
 	hurtbox.set_collision_mask_value(3, true)
+	hurtbox.set_collision_layer_value(6, true) # Layer "enemy_hurtbox"
+	hurtbox.set_collision_mask_value(2, true) # Maschera "player_weapon"
+	hurtbox.area_entered.connect(_on_hurtbox_area_entered)
 	
 	# Imposta forma collisione
 	var shape = RectangleShape2D.new()
@@ -58,7 +61,7 @@ func _ready():
 	collision_shape.shape = shape
 	
 	# Configura raycast
-	ray_front.target_position = Vector2(40.0 * scale.x, 0.0)
+	ray_front.target_position = Vector2(40.0 * attack_direction.x, 0.0)
 	ray_floor.target_position = Vector2(40.0 * scale.x, 30.0)
 
 func _physics_process(delta: float) -> void:
@@ -69,10 +72,11 @@ func _physics_process(delta: float) -> void:
 		velocity.y = min(velocity.y, 5.0)
 	
 	var facing_dir = -sign(anim.scale.x) if anim.scale.x != 0 else 1  # Direzione corrente
-	ray_front.target_position = Vector2(40.0 * facing_dir, 0.0)
+	ray_front.target_position = Vector2(40.0 * attack_direction.x, 0.0)
 	ray_floor.target_position = Vector2(40.0 * facing_dir, 30.0)
-	incornata.position.x = 30.0 * facing_dir  # Aggiorna posizione incornata
-	
+	if facing_dir > 0:
+		incornata.position.x = 30*facing_dir  # Aggiorna posizione incornata
+	else: 	incornata.position.x = 5*facing_dir  # Aggiorna posizione incornata
 	# Aggiorna raycast
 	ray_front.force_raycast_update()
 	ray_floor.force_raycast_update()
@@ -96,6 +100,7 @@ func _physics_process(delta: float) -> void:
 func _handle_normal_state(delta: float):
 	var direction = (player.global_position - global_position).normalized()
 	
+	
 	# Movimento base
 	if global_position.distance_to(player.global_position) > min_distance:
 		velocity.x = lerp(velocity.x, direction.x * movement_speed, acceleration * delta * 60.0)
@@ -118,8 +123,18 @@ func _handle_charge_state(delta: float):
 	# Movimento durante la carica
 	velocity.x = attack_direction.x * movement_speed * charge_speed_multiplier
 	
+	print("→ Charge dir:", attack_direction.x, 
+	  " ray_front:", ray_front.get_collider(), 
+	  " is_on_wall:", is_on_wall())
 	# Controllo collisioni
-	if ray_front.is_colliding() or is_on_wall():
+	if ray_front.is_colliding() :
+		var collider = ray_front.get_collider()
+		if collider != null and not collider.is_in_group("giocatore"):
+			_end_charge_with_impact()
+		elif collider != null and collider.is_in_group("giocatore"):
+		# Non fare nulla, il player sarà gestito da Incornata
+			pass
+	elif is_on_wall():
 		_end_charge_with_impact()
 	elif not is_on_floor():
 		_end_charge()
@@ -188,7 +203,7 @@ func _die():
 # ===== SEGNALI =====
 func _on_hurtbox_area_entered(area: Area2D):
 	if area.is_in_group("player_weapon") and !is_dead:
-		take_damage(damage)
+		take_damage(10)
 
 func _on_incornata_body_entered(body: Node2D):
 	if body.is_in_group("giocatore"):
