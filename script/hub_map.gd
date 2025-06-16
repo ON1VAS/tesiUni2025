@@ -111,5 +111,8 @@ func _on_start_game_area_exited(body):
 	print("uscita ", can_start_game)
 
 func scene_change():
-	#cambio scena
+	#animazione transizione
+	TransitionScreen.transition()
+	await TransitionScreen.on_transition_finished
+	#cambio della scena
 	get_tree().change_scene_to_file("res://scene/game.tscn")

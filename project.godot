@@ -17,6 +17,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 GlobalStats="*res://global_stats.gd"
+TransitionScreen="*res://scene/transition_screen.tscn"
 
 [display]
 

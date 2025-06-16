@@ -97,5 +97,8 @@ func _on_enemy_spawner_wave_ended() -> void:
 	$Area2Dscudo.monitoring = true
 
 func scene_change():
+	#animazione transizione
+	TransitionScreen.transition()
+	await TransitionScreen.on_transition_finished
 	#cambio scena
 	get_tree().change_scene_to_file("res://scene/hub_map.tscn")
