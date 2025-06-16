@@ -1,7 +1,8 @@
-[gd_scene load_steps=47 format=3 uid="uid://bthh718uavc0f"]
+[gd_scene load_steps=55 format=3 uid="uid://bthh718uavc0f"]
 
 [ext_resource type="Script" uid="uid://clc6vjqucdxqc" path="res://script/golem.gd" id="1_u4yfr"]
 [ext_resource type="Texture2D" uid="uid://bptabgrtorilh" path="res://testures/enemy/Golem_sheet.png" id="2_bqbus"]
+[ext_resource type="Texture2D" uid="uid://vy5mi62twij4" path="res://testures/enemy/Golem_sheet2.png" id="3_bqbus"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xodqa"]
 atlas = ExtResource("2_bqbus")
@@ -38,6 +39,34 @@ region = Rect2(700, 200, 100, 100)
 [sub_resource type="AtlasTexture" id="AtlasTexture_covnp"]
 atlas = ExtResource("2_bqbus")
 region = Rect2(800, 200, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_soug6"]
+atlas = ExtResource("3_bqbus")
+region = Rect2(0, 620, 100, 62)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yqa5d"]
+atlas = ExtResource("3_bqbus")
+region = Rect2(100, 620, 100, 62)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mh4gg"]
+atlas = ExtResource("3_bqbus")
+region = Rect2(200, 620, 100, 62)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dngjm"]
+atlas = ExtResource("3_bqbus")
+region = Rect2(300, 620, 100, 62)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vvl0b"]
+atlas = ExtResource("3_bqbus")
+region = Rect2(400, 620, 100, 62)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rtoj8"]
+atlas = ExtResource("3_bqbus")
+region = Rect2(500, 620, 100, 62)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_38b85"]
+atlas = ExtResource("3_bqbus")
+region = Rect2(600, 620, 100, 62)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_q0r8y"]
 atlas = ExtResource("2_bqbus")
@@ -203,6 +232,32 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_soug6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yqa5d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mh4gg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dngjm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vvl0b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rtoj8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_38b85")
+}],
+"loop": false,
+"name": &"damage",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_q0r8y")
 }, {
 "duration": 1.0,
@@ -325,7 +380,7 @@ script = ExtResource("1_u4yfr")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_soug6")
-animation = &"move"
+animation = &"damage"
 
 [node name="PlayerDetectionArea" type="Area2D" parent="."]
 collision_layer = 2

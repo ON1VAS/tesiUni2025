@@ -39,6 +39,7 @@ func _process(delta):
 
 func shoot_fireball():
 	var fireball = palladifuoco.instantiate()
+	anim.play("attack")
 	fireball.global_position = $FireballSpawnPoint.global_position
 	var direction = (player.global_position - global_position).normalized()
 	fireball.direction = direction
@@ -48,10 +49,11 @@ func shoot_fireball():
 
 func take_damage(amount: int):
 	hp -= amount
-	anim.play("attack")
+	anim.play("damage")
 	print("Golem colpito! Vita rimanente: ", hp)
 	
 	if hp <= 0:
+		can_attack = false
 		self.collision_layer = false
 		anim.play("death")
 		set_physics_process(false)
