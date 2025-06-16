@@ -21,6 +21,11 @@ var attack_cooldown = 2  # Tempo di recupero tra gli attacchi
 var player_in_area = false
 var can_attack = true # Flag per gestire la possibilità di attacco
 
+#servono pe capire quando il nemico è morto e far progredire i progressi della wave
+signal dead
+var death_sig_emitted = 0
+var is_dead = false
+
 func _ready():
 	anim.play("move")
 	self.set_collision_layer_value(6, true)  # Abilita layer 6 (enemy_hurt)
@@ -74,17 +79,21 @@ func shoot_fireball():
 	get_parent().add_child(fireball)
 
 func take_damage(amount: int):
+	if is_dead:
+		return
 	hp -= amount
-	anim.play("damage")
-	print("Golem colpito! Vita rimanente: ", hp)
 	
+	if hp > 0:
+		anim.play("damage")
 	if hp <= 0:
-		can_attack = false
-		self.collision_layer = false
+		set_collision_layer_value(1, false)
 		anim.play("death")
 		set_physics_process(false)
-		await (get_tree().create_timer(1.5).timeout)
-		self.queue_free()
+		await anim.animation_finished
+		if death_sig_emitted == 0:
+			dead.emit()
+			death_sig_emitted += 1
+		queue_free()
 
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	if area.is_in_group("player_weapon"):
