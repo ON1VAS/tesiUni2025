@@ -87,7 +87,7 @@ func _on_enemy_spawner_wave_ended() -> void:
 	var timer = Timer.new()
 	timer.wait_time = 3.0
 	timer.one_shot = true
-	add_child(timer)  # add the timer to the scene tree to work correctly
+	add_child(timer) 
 	timer.start()
 	await timer.timeout
 	dialogue_box.visible = false
@@ -102,3 +102,17 @@ func scene_change():
 	await TransitionScreen.on_transition_finished
 	#cambio scena
 	get_tree().change_scene_to_file("res://scene/hub_map.tscn")
+
+
+func _on_protagonista_player_defeated() -> void:
+	dialogue_box.visible = true
+	dialogue_box.show_dialogue(dialogues["defeated"])
+	var timer = Timer.new()
+	timer.wait_time = 2.0
+	timer.one_shot = true
+	add_child(timer) 
+	timer.start()
+	await timer.timeout
+	dialogue_box.visible = false
+	timer.queue_free()  # cleanup the timer
+	scene_change()

@@ -27,6 +27,7 @@ func _ready():
 	startGame.connect("body_exited", _on_start_game_area_exited)
 	load_dialogues()
 	
+	
 	# Ascolta il segnale dalla dialogue box se viene aggiunto (opzionale)
 	# if dialogue_box.has_signal("dialogue_ended"):
 	#     dialogue_box.connect("dialogue_ended", self, "_on_dialogue_ended")
@@ -116,3 +117,4 @@ func scene_change():
 	await TransitionScreen.on_transition_finished
 	#cambio della scena
 	get_tree().change_scene_to_file("res://scene/game.tscn")
+	

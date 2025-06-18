@@ -14,6 +14,8 @@ var facing_direction = 1  # 1 = destra, -1 = sinistra
 var is_rolling = false
 var is_invincible = false
 
+signal player_defeated
+
 # Configurazione hitbox per ogni animazione perchè se cambio gli sprite urlo, accomodiamo per i prossimi attacchi anche
 var attack_properties = {
 	"attack": {"delay": 0.1, "duration": 0.15, "keyframes": [1,2]},
@@ -121,9 +123,10 @@ func die():
 	health = 0  # Assicurati che la salute non vada sotto zero
 	#$death_sound.play()
 	$AnimatedSprite2D.play("death")
+	is_invincible = true
 	set_physics_process(false)  # Disabilita il movimento del personaggio
 	set_process(false)  # Disabilita altri processi
-
+	player_defeated.emit()
 
 func _on_animated_sprite_2d_animation_finished() -> void:
 	if $AnimatedSprite2D.animation in attack_properties.keys():
