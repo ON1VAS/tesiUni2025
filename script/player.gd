@@ -3,6 +3,7 @@ extends CharacterBody2D
 @onready var sword_hitbox = $SwordHitbox/CollisionShape2D
 @onready var hitbox_timer = $HitboxTimer
 
+
 const GRAVITY = 400.0
 const JUMP_FORCE = -200
 const MAX_HEALTH = 100.00
@@ -13,6 +14,8 @@ var health = MAX_HEALTH
 var facing_direction = 1  # 1 = destra, -1 = sinistra
 var is_rolling = false
 var is_invincible = false
+var can_jump = true
+var can_roll = true
 
 signal player_defeated
 
@@ -25,6 +28,7 @@ var attack_properties = {
 }
 
 func _ready():
+	print(self.name)
 	$AnimatedSprite2D.play("idle")
 	$HealthBar.value = health
 	sword_hitbox.disabled = true #disattivato di default
@@ -43,6 +47,7 @@ func start_attack(anim_name: String):
 	#emit_signal("hit_landed", damage) #non viene ancora usato, ma si potrebbe implementare
 
 func _physics_process(delta):
+	DebuffManager.apply_to_player(self)
 	if GlobalStats.is_sleeping: #il giocatore non può fare nulla se sta dormendo
 		return
 	# Movimento e gravità
@@ -72,10 +77,12 @@ func _physics_process(delta):
 		
 	
 	# Salto
-	if Input.is_action_just_pressed("ui_up") and is_on_floor():
+	if Input.is_action_just_pressed("ui_up") and is_on_floor() and can_jump:
 		velocity.y = JUMP_FORCE
+	else:
+		velocity.y = JUMP_FORCE * 0
 	
-	if Input.is_action_just_pressed("roll") and is_on_floor():
+	if Input.is_action_just_pressed("roll") and is_on_floor() and can_roll:
 		is_rolling = true
 		$AnimatedSprite2D.play("roll")
 		velocity.x = ROLL_FORCE * facing_direction
