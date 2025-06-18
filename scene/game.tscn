@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=4 uid="uid://bfb3n5ulrxtxq"]
+[gd_scene load_steps=46 format=4 uid="uid://bfb3n5ulrxtxq"]
 
 [ext_resource type="PackedScene" uid="uid://cm1ru7bxfj1s0" path="res://scene/player.tscn" id="1_5kiuu"]
 [ext_resource type="Script" uid="uid://p03x4ile571r" path="res://script/game.gd" id="1_81276"]
@@ -14,6 +14,7 @@
 [ext_resource type="Texture2D" uid="uid://djln807ond230" path="res://testures/Legacy-Fantasy - High Forest 2.3/Assets/Buildings.png" id="6_sng2h"]
 [ext_resource type="Texture2D" uid="uid://bnthn6w8n1nw3" path="res://testures/gh-platform/House Tiles.png" id="7_5g16k"]
 [ext_resource type="Texture2D" uid="uid://drt2v5us55lpd" path="res://testures/Legacy-Fantasy - High Forest 2.3/Assets/Interior-01.png" id="7_sng2h"]
+[ext_resource type="Script" uid="uid://dt5mb0up4yvq" path="res://color_rect.gd" id="11_i6gbm"]
 [ext_resource type="Texture2D" uid="uid://djp12utixdqct" path="res://testures/Enemy_Galore_I/Slime/Slime_Spiked_Ability.png" id="13_5g16k"]
 [ext_resource type="Script" uid="uid://dm6owndp4a6s6" path="res://script/enemy_spawner.gd" id="16_0lu6w"]
 
@@ -3448,6 +3449,19 @@ position = Vector2(-76, 82)
 position = Vector2(3977, 71)
 
 [node name="Timer" type="Timer" parent="EnemySpawner"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1280.0
+offset_bottom = -720.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+script = ExtResource("11_i6gbm")
 
 [connection signal="game_started" from="." to="EnemySpawner" method="_on_game_game_started"]
 [connection signal="player_defeated" from="protagonista" to="." method="_on_protagonista_player_defeated"]

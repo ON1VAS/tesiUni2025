@@ -8,6 +8,8 @@ const ENERGY_THRESHOLDS = {
 	"blocco3": 30,
 	"blocco4": 20,
 }
+# Variabile per tenere traccia dello stato del debuff
+var debuff_active = false
 
 func apply_to_player(player):
 	var energia = GlobalStats.energia
@@ -33,3 +35,6 @@ func enemy_damage_multiplier():
 	if energia < ENERGY_THRESHOLDS["blocco4"]:
 		return 1.5
 	return 1.0
+
+func is_vignette_active() -> bool:
+	return GlobalStats.energia <= ENERGY_THRESHOLDS["blocco3"]
