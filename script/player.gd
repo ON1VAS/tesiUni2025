@@ -43,6 +43,8 @@ func start_attack(anim_name: String):
 	#emit_signal("hit_landed", damage) #non viene ancora usato, ma si potrebbe implementare
 
 func _physics_process(delta):
+	if GlobalStats.is_sleeping: #il giocatore non può fare nulla se sta dormendo
+		return
 	# Movimento e gravità
 	velocity.y += delta * GRAVITY
 	

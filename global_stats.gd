@@ -112,7 +112,10 @@ func controlla_reset(current_time: int):
 		var ore_mancanti = (86400 - elapsed) / 3600.0
 		print("⏳ Manca ancora %.2f ore per il prossimo reset." % ore_mancanti)
 
+
+
 func simula_recupero_energia(ore: int, minuti: int):
+	is_sleeping = true
 	var secondi_totali = (ore * 3600) + (minuti * 60)
 	var energia_per_secondo = 100.0 / 86400.0
 	var bonus = 1.0

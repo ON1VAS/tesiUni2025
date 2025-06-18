@@ -6323,7 +6323,7 @@ scale = Vector2(0.7, -0.7)
 [node name="protagonista" parent="." instance=ExtResource("1_nmp41")]
 position = Vector2(304, 449)
 
-[node name="Camera2D2" type="Camera2D" parent="protagonista"]
+[node name="Camera2D" type="Camera2D" parent="protagonista"]
 zoom = Vector2(2.3, 2.3)
 limit_left = -50
 limit_right = 1140
@@ -6399,8 +6399,17 @@ debug_color = Color(0.688775, 0.497531, 0.0883892, 0.42)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
+[node name="BackgroundOverlay" type="ColorRect" parent="CanvasLayer"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0352941, 0.0352941, 0.0352941, 0.494118)
+
 [node name="TimerSelector" parent="CanvasLayer" instance=ExtResource("2_6ig04")]
-metadata/_edit_use_anchors_ = true
 
 [connection signal="body_entered" from="areaRiposo" to="." method="_on_area_riposo_body_entered"]
 [connection signal="body_exited" from="areaRiposo" to="." method="_on_area_riposo_body_exited"]
+[connection signal="annulla_orario" from="CanvasLayer/TimerSelector" to="." method="_on_timer_selector_annulla_orario"]

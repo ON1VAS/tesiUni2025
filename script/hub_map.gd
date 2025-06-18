@@ -7,6 +7,7 @@ extends Node2D
 @onready var startGame = $Area2DstartGame
 @onready var player_an_sp = $protagonista/AnimatedSprite2D
 @onready var timer_selector = $CanvasLayer/TimerSelector
+@onready var background_overlay = $CanvasLayer/BackgroundOverlay
 var player_in_range = false
 var can_start_dialogue = true  # Nuovo flag per controllare la possibilità di iniziare dialogo
 var dialogues = {}
@@ -29,6 +30,7 @@ func _ready():
 	startGame.connect("body_exited", _on_start_game_area_exited)
 	load_dialogues()
 	timer_selector.visible = false
+	background_overlay.visible = false
 
 func _on_npc_body_entered(body, npc):
 	if body.name == "protagonista":
@@ -77,10 +79,11 @@ func _input(event):
 	if can_rest and event.is_action_pressed("ui_accept"):
 		timer_selector.z_index = 1000
 		timer_selector.visible = true
+		background_overlay.visible = true
 		timer_selector.scale = Vector2(2,2)
-		timer_selector.position = Vector2(get_viewport().size.x, get_viewport().size.y) / 2 - (timer_selector.get_size() / 2)
-		
-
+		var viewport_size = get_viewport().get_visible_rect().size  # dimensione effettiva della finestra visibile
+		var offset = Vector2( -80, -30 )
+		timer_selector.position = (viewport_size / 2 - (timer_selector.get_size() * timer_selector.scale) / 2) + offset
 		
 
 func _start_dialogue():
@@ -137,3 +140,11 @@ func _on_area_riposo_body_exited(body):
 		dialogue_box.visible = false
 		can_rest = false
 		timer_selector.visible = false
+		background_overlay.visible = false
+
+
+func _on_timer_selector_annulla_orario():
+	timer_selector.visible = false
+	background_overlay.visible = false
+	dialogue_box.visible = true
+	dialogue_box.show_dialogue(dialogues["rest"])
