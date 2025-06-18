@@ -3,10 +3,11 @@ extends Node
 # Parametri configurabili
 const ENERGY_THRESHOLDS = {
 	"buffplus": 100,
-	"blocco1": 70,
+	"blocco1": 80,
 	"blocco2": 40,
 	"blocco3": 30,
 	"blocco4": 20,
+	"blocco5": 10,
 }
 # Variabile per tenere traccia dello stato del debuff
 var debuff_active = false
@@ -39,6 +40,11 @@ func apply_to_player(player):
 		player.speed = 50
 	else:
 		player.can_jump = true
+	
+	if energia > 0 and energia < ENERGY_THRESHOLDS["blocco5"]: #perdita di 1 hp ogni 10 secondi
+		if player.health > 1:
+			await get_tree().create_timer(10).timeoutTimer
+			player.health -= 1
 
 func enemy_damage_multiplier():
 	var energia = GlobalStats.energia
@@ -46,6 +52,6 @@ func enemy_damage_multiplier():
 		return 1.5
 	return 1.0
 
-func is_vignette_active() -> bool:
+func is_vignette_active() -> bool: #vignetta per oscurare parte del campo visivo
 	return GlobalStats.energia <= ENERGY_THRESHOLDS["blocco3"]
 	
