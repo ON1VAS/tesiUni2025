@@ -81,7 +81,7 @@ func _input(event: InputEvent) -> void:
 
 
 func _on_enemy_spawner_wave_ended() -> void:
-	GlobalStats.riduci_energia(10)
+	GlobalStats.riduci_energia(5)
 	dialogue_box.visible = true
 	dialogue_box.show_dialogue(dialogues["waveEnded"])
 	var timer = Timer.new()
@@ -107,6 +107,7 @@ func scene_change():
 func _on_protagonista_player_defeated() -> void:
 	dialogue_box.visible = true
 	dialogue_box.show_dialogue(dialogues["defeated"])
+	GlobalStats.riduci_energia(25)
 	var timer = Timer.new()
 	timer.wait_time = 2.0
 	timer.one_shot = true
