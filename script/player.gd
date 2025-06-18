@@ -11,6 +11,7 @@ const ROLL_FORCE = 400
 var currentMaxHealth = MAX_HEALTH
 var health = MAX_HEALTH
 @export var speed = 200
+@export var damage = 10
 var facing_direction = 1  # 1 = destra, -1 = sinistra
 var is_rolling = false
 var is_invincible = false
@@ -43,7 +44,7 @@ func start_attack(anim_name: String):
 	hitbox_timer.start(props.delay) #si inizia ad attivarlo per la prima volta
 	
 	#non viene ancora usato, ma si potrebbe implementare
-	#var damage = 10 #imposta il danno del player
+	#imposta il danno del player
 	#emit_signal("hit_landed", damage) #non viene ancora usato, ma si potrebbe implementare
 
 func _physics_process(delta):
@@ -79,8 +80,6 @@ func _physics_process(delta):
 	# Salto
 	if Input.is_action_just_pressed("ui_up") and is_on_floor() and can_jump:
 		velocity.y = JUMP_FORCE
-	else:
-		velocity.y = JUMP_FORCE * 0
 	
 	if Input.is_action_just_pressed("roll") and is_on_floor() and can_roll:
 		is_rolling = true

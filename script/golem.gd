@@ -92,7 +92,7 @@ func shoot_fireball():
 	var direction = (player.global_position - global_position).normalized()
 	fireball.direction = direction
 	fireball.speed = ragnatela_attackspeed
-	fireball.damage = 20
+	fireball.damage = 20 * DebuffManager.enemy_damage_multiplier()
 	get_parent().add_child(fireball)
 
 
@@ -117,7 +117,7 @@ func take_damage(amount: int):
 
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	if area.is_in_group("player_weapon"):
-		take_damage(10)
+		take_damage(player.damage)
 
 func _on_player_detection_area_body_entered(body: Node2D) -> void:
 	if body.is_in_group("giocatore"):

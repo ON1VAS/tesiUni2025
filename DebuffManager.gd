@@ -2,7 +2,7 @@ extends Node
 
 # Parametri configurabili
 const ENERGY_THRESHOLDS = {
-	"test": 100,
+	"buffplus": 100,
 	"blocco1": 70,
 	"blocco2": 40,
 	"blocco3": 30,
@@ -12,18 +12,22 @@ const ENERGY_THRESHOLDS = {
 var debuff_active = false
 
 func apply_to_player(player):
-	var energia = GlobalStats.energia
-	
 	# Reset valori
+	var energia = GlobalStats.energia
 	player.speed = 200
 	player.can_roll = true
 	player.can_jump = true
+	if energia < ENERGY_THRESHOLDS["buffplus"]:
+		player.damage = 25
+	
 	
 	# Debuff 1: rallenta
 	if energia < ENERGY_THRESHOLDS["blocco1"]:
 		player.speed = 150
+		player.damage = 10
 	
 	if energia < ENERGY_THRESHOLDS["blocco2"]:
+		player.speed = 100
 		player.can_roll = false
 	
 	# Debuff 3: disabilita salto

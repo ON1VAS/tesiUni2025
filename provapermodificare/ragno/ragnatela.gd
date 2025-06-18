@@ -7,7 +7,7 @@ extends Area2D
 var level = 1
 var hp = 1
 var speed = 1000
-var damage = 10
+var damage = 10 * DebuffManager.enemy_damage_multiplier()
 var knock_amount = 100
 var attack_size = 1.0
 var bullet_life_time = 2

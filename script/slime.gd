@@ -256,7 +256,7 @@ func take_damage(amount: int):
 # ===== SIGNALS =====
 func _on_hurtbox_area_entered(area: Area2D):
 	if area.is_in_group("player_weapon"):
-		take_damage(damage)
+		take_damage(player.damage)
 
 func _on_slam_hitbox_body_entered(body: Node2D):
 	if body.is_in_group("giocatore") and (jump_state == JumpState.FALLING or is_stuck) and not damage_dealt:

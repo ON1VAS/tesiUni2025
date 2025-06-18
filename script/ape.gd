@@ -135,7 +135,7 @@ func _on_hitbox_timer_timeout() -> void:
 func _on_hurtbox_area_entered(area: Area2D) -> void:
 	if area.is_in_group("player_weapon") and !is_dead:
 		anim.play("attack")
-		take_damage(10)
+		take_damage(player.damage)
 
 
 func _on_pungiglione_body_entered(body: Node2D) -> void:

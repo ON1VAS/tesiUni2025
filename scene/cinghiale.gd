@@ -203,7 +203,7 @@ func _die():
 # ===== SEGNALI =====
 func _on_hurtbox_area_entered(area: Area2D):
 	if area.is_in_group("player_weapon") and !is_dead:
-		take_damage(10)
+		take_damage(player.damage)
 
 func _on_incornata_body_entered(body: Node2D):
 	if body.is_in_group("giocatore"):

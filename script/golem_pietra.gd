@@ -16,6 +16,7 @@ var attack_spawn_called: bool = false
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var player_attack_area: Area2D = $PlayerDetectionArea
 @onready var hurtbox: Area2D = $Hurtbox
+@onready var player = get_tree().get_first_node_in_group("giocatore") 
 @onready var spike_spawn_point: Marker2D = $SpikeSpawnPoint
 @onready var ray_cast_floor: RayCast2D = $RayCastFloor
 @onready var ray_cast_front: RayCast2D = $RayCastFront
@@ -257,7 +258,7 @@ func _on_hurtbox_area_entered(area: Area2D) -> void:
 		var damage_amount = 10 
 		if "damage" in area:
 			damage_amount = area.damage
-		take_damage(damage_amount)
+		take_damage(player.damage)
 		
 # --- Funzioni Ausiliarie ---
 
