@@ -10,7 +10,7 @@ var acceleration: float = 0.25
 
 # ===== ENEMY VARIABLES =====
 var hp: int = 15
-var damage: int = 10
+var damage: int = 10 * DebuffManager.enemy_damage_multiplier()
 var min_distance: float = 100.0
 var is_attacking: bool = false
 var is_jumping: bool = false

@@ -21,7 +21,7 @@ func _physics_process(delta):
 	position += direction * speed * delta
 
 func player_hit():
-	slimechan.Damage(damage)
+	slimechan.Damage(damage * DebuffManager.enemy_damage_multiplier())
 
 func start_lifetime_timer():
 	await get_tree().create_timer(lifetime).timeout

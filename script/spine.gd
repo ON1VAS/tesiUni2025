@@ -28,18 +28,18 @@ func set_variation(type: int) -> void:
 		1:  # Spine dal terreno
 			if animated_sprite: 
 				animated_sprite.modulate = Color.WHITE
-			damage_amount = 5
+			damage_amount = 5 * DebuffManager.enemy_damage_multiplier()
 			# Disabilita la fisica
 			set_physics_process(false)
 		2:  # Spine che cadono dal cielo
 			if animated_sprite: 
 				animated_sprite.modulate = Color(1, 0.5, 0.5)
-			damage_amount = 20
+			damage_amount = 20 * DebuffManager.enemy_damage_multiplier()
 			velocity = Vector2.ZERO  # Inizia da fermo
 		3:  # Spine lanciate al giocatore
 			if animated_sprite: 
 				animated_sprite.modulate = Color(0.5, 0.5, 1)
-			damage_amount = 10
+			damage_amount = 10 * DebuffManager.enemy_damage_multiplier()
 			# Calcola direzione verso il giocatore
 			if player and is_instance_valid(player):
 				target_direction = (player.global_position - global_position).normalized()
