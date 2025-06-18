@@ -11,6 +11,7 @@ config_version=5
 [application]
 
 config/name="tesiUni2025"
+run/main_scene="uid://bfb3n5ulrxtxq"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="res://icon.svg"
 
@@ -18,6 +19,7 @@ config/icon="res://icon.svg"
 
 GlobalStats="*res://global_stats.gd"
 TransitionScreen="*res://scene/transition_screen.tscn"
+DebuffManager="*res://DebuffManager.gd"
 
 [display]
 
