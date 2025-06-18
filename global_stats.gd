@@ -3,13 +3,14 @@ extends Node
 # Percorsi file salvataggio
 var save_file_path = "user://timestamp.save"   # per timestamp (tempo reale)
 const SAVE_PATH := "user://save_data.json"     # per energia
+var recovery_log_path := "user://recovery_log.txt" # per log di recupero energia
 
 var http_request: HTTPRequest
 
 #variabile per capire se il protagonista sta dormendo
 var is_sleeping = false
 # Energia
-var energia: int = 100
+var energia: float = 100
 
 # Timestamp per il reset giornaliero
 var timestamp: int
@@ -110,3 +111,34 @@ func controlla_reset(current_time: int):
 	else:
 		var ore_mancanti = (86400 - elapsed) / 3600.0
 		print("⏳ Manca ancora %.2f ore per il prossimo reset." % ore_mancanti)
+
+func simula_recupero_energia(ore: int, minuti: int):
+	var secondi_totali = (ore * 3600) + (minuti * 60)
+	var energia_per_secondo = 100.0 / 86400.0
+	var bonus = 1.0
+	#if is_sleeping:
+	#	bonus = 1.5  # bonus se si dorme || ci pensiamo in un secondo momento
+
+	var energia_recuperata = secondi_totali * energia_per_secondo * bonus
+	var energia_finale = round(energia_recuperata)
+
+	aumenta_energia(energia_finale)
+
+	# Ora corrente come stringa
+	var now = Time.get_datetime_string_from_system(true)  # es. "2025-06-18 15:30:00"
+
+	# Messaggio da scrivere nel log
+	var log_entry = "%s -> Ho riposato %d ore e %d minuti recuperando %d energia\n" % [now, ore, minuti, energia_finale]
+
+	# Scrittura su file in modalità append
+	var file: FileAccess
+	if FileAccess.file_exists(recovery_log_path):
+		file = FileAccess.open(recovery_log_path, FileAccess.READ_WRITE)
+		file.seek_end()
+	else:
+		file = FileAccess.open(recovery_log_path, FileAccess.WRITE)
+
+	file.store_string(log_entry)
+	file.close()
+
+	print("📘 Log aggiornato:", log_entry.strip_edges())
