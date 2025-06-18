@@ -17,9 +17,10 @@ func apply_to_player(player):
 	player.speed = 200
 	player.can_roll = true
 	player.can_jump = true
+	player.attack_input_delay = 0.0
 	if energia < ENERGY_THRESHOLDS["buffplus"]:
-		player.damage = 25
-	
+		player.damage = 25 
+		
 	
 	# Debuff 1: rallenta
 	if energia < ENERGY_THRESHOLDS["blocco1"]:
@@ -28,7 +29,9 @@ func apply_to_player(player):
 	
 	if energia < ENERGY_THRESHOLDS["blocco2"]:
 		player.speed = 100
+		player.attack_input_delay = 0.5 #mezzo secondo di delay negli attacchi
 		player.can_roll = false
+		
 	
 	# Debuff 3: disabilita salto
 	if energia < ENERGY_THRESHOLDS["blocco3"]:

@@ -18,6 +18,8 @@ var is_invincible = false
 var can_jump = true
 var can_roll = true
 
+var attack_input_delay = 0.0 #per debuff
+
 signal player_defeated
 
 # Configurazione hitbox per ogni animazione perchè se cambio gli sprite urlo, accomodiamo per i prossimi attacchi anche
@@ -91,8 +93,10 @@ func _physics_process(delta):
 	# Attacchi (solo se non sta già eseguendo un'animazione di attacco)
 	if $AnimatedSprite2D.animation not in attack_properties.keys():
 		if Input.is_action_just_pressed("attackfast"):
+			await get_tree().create_timer(attack_input_delay).timeout
 			start_attack("attack" if velocity.x == 0 else "attackfermo")
 		elif Input.is_action_just_pressed("attackpesant"):
+			await get_tree().create_timer(attack_input_delay).timeout
 			start_attack("attack2" if velocity.x == 0 else "attackfermo2")
 	# Animazioni normali (solo se non sta attaccando)
 		elif not is_on_floor():
