@@ -13,7 +13,6 @@ var recupero_timer: Timer
 var is_sleeping = false
 # Energia
 var energia: float = 100
-
 # Timestamp per il reset giornaliero
 var timestamp: int
 

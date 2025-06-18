@@ -8,6 +8,7 @@ extends Node2D
 @onready var player_an_sp = $protagonista/AnimatedSprite2D
 @onready var timer_selector = $CanvasLayer/TimerSelector
 @onready var background_overlay = $CanvasLayer/BackgroundOverlay
+@onready var tempo_rimanente = $CanvasLayer/tempo_rimanente
 var player_in_range = false
 var can_start_dialogue = true  # Nuovo flag per controllare la possibilità di iniziare dialogo
 var dialogues = {}
@@ -31,6 +32,21 @@ func _ready():
 	load_dialogues()
 	timer_selector.visible = false
 	background_overlay.visible = false
+	if GlobalStats.is_sleeping:
+		background_overlay.visible = true
+		tempo_rimanente.scale = Vector2(2.5,2.5)
+		tempo_rimanente.visible = true
+	
+
+func _process(delta: float):
+	if GlobalStats.is_sleeping:
+		tempo_rimanente.calcola_tempo()
+	elif GlobalStats.secondi_totali == 0:
+		if can_rest and timer_selector.visible:
+			background_overlay.visible = true
+		else:
+			background_overlay.visible = false
+		tempo_rimanente.visible = false
 
 func _on_npc_body_entered(body, npc):
 	if body.name == "protagonista":
@@ -81,6 +97,7 @@ func _input(event):
 		timer_selector.visible = true
 		background_overlay.visible = true
 		timer_selector.scale = Vector2(2,2)
+		tempo_rimanente.scale = Vector2(2.5,2.5)
 		var viewport_size = get_viewport().get_visible_rect().size  # dimensione effettiva della finestra visibile
 		var offset = Vector2( -80, -30 )
 		timer_selector.position = (viewport_size / 2 - (timer_selector.get_size() * timer_selector.scale) / 2) + offset
@@ -134,6 +151,7 @@ func _on_area_riposo_body_entered(body):
 		dialogue_box.show_dialogue(dialogues["rest"])
 		dialogue_box.visible = true
 		can_rest = true
+		
 
 
 func _on_area_riposo_body_exited(body):
@@ -149,3 +167,10 @@ func _on_timer_selector_annulla_orario():
 	background_overlay.visible = false
 	dialogue_box.visible = true
 	dialogue_box.show_dialogue(dialogues["rest"])
+
+
+func _on_timer_selector_conferma_iniziato() -> void:
+	timer_selector.visible = false
+	background_overlay.visible = true
+	tempo_rimanente.visible = true
+	

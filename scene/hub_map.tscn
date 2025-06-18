@@ -1,4 +1,4 @@
-[gd_scene load_steps=63 format=4 uid="uid://dxdeq1u760j5c"]
+[gd_scene load_steps=64 format=4 uid="uid://dxdeq1u760j5c"]
 
 [ext_resource type="Script" uid="uid://c7fyigx7s0x64" path="res://script/hub_map.gd" id="1_33jsw"]
 [ext_resource type="PackedScene" uid="uid://cm1ru7bxfj1s0" path="res://scene/player.tscn" id="1_nmp41"]
@@ -22,6 +22,7 @@
 [ext_resource type="Texture2D" uid="uid://bduvmnm78apim" path="res://testures/gh-platform/Decor.png" id="11_r3iyh"]
 [ext_resource type="PackedScene" uid="uid://bdkp8v3e5bii4" path="res://scene/npc_joanna.tscn" id="18_r3iyh"]
 [ext_resource type="PackedScene" uid="uid://bsfslsux5w0mh" path="res://scene/npc_eleonore.tscn" id="19_i0hfc"]
+[ext_resource type="PackedScene" uid="uid://c3px6ndac26ab" path="res://scene/tempo_rimanente.tscn" id="23_v33p7"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_t2rro"]
 texture = ExtResource("3_r3iyh")
@@ -6410,6 +6411,9 @@ color = Color(0.0352941, 0.0352941, 0.0352941, 0.494118)
 
 [node name="TimerSelector" parent="CanvasLayer" instance=ExtResource("2_6ig04")]
 
+[node name="tempo_rimanente" parent="CanvasLayer" instance=ExtResource("23_v33p7")]
+
 [connection signal="body_entered" from="areaRiposo" to="." method="_on_area_riposo_body_entered"]
 [connection signal="body_exited" from="areaRiposo" to="." method="_on_area_riposo_body_exited"]
 [connection signal="annulla_orario" from="CanvasLayer/TimerSelector" to="." method="_on_timer_selector_annulla_orario"]
+[connection signal="conferma_iniziato" from="CanvasLayer/TimerSelector" to="." method="_on_timer_selector_conferma_iniziato"]

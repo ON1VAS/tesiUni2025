@@ -14,7 +14,7 @@
 [ext_resource type="Texture2D" uid="uid://djln807ond230" path="res://testures/Legacy-Fantasy - High Forest 2.3/Assets/Buildings.png" id="6_sng2h"]
 [ext_resource type="Texture2D" uid="uid://bnthn6w8n1nw3" path="res://testures/gh-platform/House Tiles.png" id="7_5g16k"]
 [ext_resource type="Texture2D" uid="uid://drt2v5us55lpd" path="res://testures/Legacy-Fantasy - High Forest 2.3/Assets/Interior-01.png" id="7_sng2h"]
-[ext_resource type="Script" uid="uid://dt5mb0up4yvq" path="res://color_rect.gd" id="11_i6gbm"]
+[ext_resource type="Script" uid="uid://dbk2fefprw0al" path="res://color_rect.gd" id="11_i6gbm"]
 [ext_resource type="Texture2D" uid="uid://djp12utixdqct" path="res://testures/Enemy_Galore_I/Slime/Slime_Spiked_Ability.png" id="13_5g16k"]
 [ext_resource type="Script" uid="uid://dm6owndp4a6s6" path="res://script/enemy_spawner.gd" id="16_0lu6w"]
 
