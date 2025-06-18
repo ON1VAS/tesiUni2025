@@ -25,7 +25,7 @@ var attack_properties = {
 }
 
 func _ready():
-	print(self.name)
+	$AnimatedSprite2D.play("idle")
 	$HealthBar.value = health
 	sword_hitbox.disabled = true #disattivato di default
 	$SwordHitbox.set_collision_layer_value(2, true)  # Abilita layer 2 (player_weapon)

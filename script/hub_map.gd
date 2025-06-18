@@ -119,6 +119,7 @@ func _on_start_game_area_exited(body):
 	dialogue_box.visible = false
 	print("uscita ", can_start_game)
 
+
 func scene_change():
 	#animazione transizione
 	TransitionScreen.transition()

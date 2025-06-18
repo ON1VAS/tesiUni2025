@@ -4,9 +4,11 @@ extends Node
 var save_file_path = "user://timestamp.save"   # per timestamp (tempo reale)
 const SAVE_PATH := "user://save_data.json"     # per energia
 var recovery_log_path := "user://recovery_log.txt" # per log di recupero energia
-
+var secondi_totali: int = 0  # Variabile per memorizzare i secondi totali
+const SECONDI_TOTALI_PATH := "user://secondi_totali.json"  # Percorso per il file dei secondi totali
+var energia_per_secondo = 100.0 / 86400.0
 var http_request: HTTPRequest
-
+var recupero_timer: Timer
 #variabile per capire se il protagonista sta dormendo
 var is_sleeping = false
 # Energia
@@ -16,19 +18,26 @@ var energia: float = 100
 var timestamp: int
 
 func _ready():
+	
 	http_request = HTTPRequest.new()
 	add_child(http_request)
 	http_request.request_completed.connect(_on_http_request_request_completed)
-
+	
+	recupero_timer = Timer.new()
+	add_child(recupero_timer)
+	recupero_timer.timeout.connect(_on_recupero_timer_timeout)
 	carica_dati()
-
+	if secondi_totali > 0:
+		is_sleeping = true
 	await get_tree().process_frame  # assicura inizializzazione HTTPRequest
-
+	
 	var url = "http://worldtimeapi.org/api/ip"
 	var error = http_request.request(url)
 	if error != OK:
 		print("❌ Errore nella chiamata HTTPRequest.request():", error)
 		usa_fallback_locale()
+		
+	
 
 # Funzioni per energia - indipendenti dal timestamp
 func riduci_energia(valore: int):
@@ -56,6 +65,23 @@ func carica_dati():
 			print("File di salvataggio energia danneggiato")
 	else:
 		print("File di salvataggio energia non trovato")
+		
+# Carica secondi totali
+	if FileAccess.file_exists(SECONDI_TOTALI_PATH):
+		var file = FileAccess.open(SECONDI_TOTALI_PATH, FileAccess.READ)
+		var content = file.get_as_text()
+		file.close()
+		var data = JSON.parse_string(content)
+		if data and data.has("secondi_totali"):
+			secondi_totali = data["secondi_totali"]
+			print("Secondi totali caricati:", secondi_totali)
+			if secondi_totali > 0:
+				
+				recupero_timer.start()
+		else:
+			print("File di salvataggio secondi totali danneggiato")
+	else:
+		print("File di salvataggio secondi totali non trovato")
 
 # Salva energia su JSON
 func salva_dati():
@@ -64,6 +90,13 @@ func salva_dati():
 	file.store_string(JSON.stringify(save_data))
 	file.close()
 	print("Dati energia salvati")
+	
+	# Salva secondi totali
+	var secondi_data = {"secondi_totali": secondi_totali}
+	var secondi_file = FileAccess.open(SECONDI_TOTALI_PATH, FileAccess.WRITE)
+	secondi_file.store_string(JSON.stringify(secondi_data))
+	secondi_file.close()
+	print("Dati secondi totali salvati")
 
 # Callback richiesta HTTP completata
 func _on_http_request_request_completed(result, response_code, headers, body):
@@ -112,36 +145,37 @@ func controlla_reset(current_time: int):
 		var ore_mancanti = (86400 - elapsed) / 3600.0
 		print("⏳ Manca ancora %.2f ore per il prossimo reset." % ore_mancanti)
 
-
+func _on_recupero_timer_timeout():
+	if secondi_totali > 0:
+		secondi_totali -= 1
+		print(secondi_totali)
+		if secondi_totali == 0:
+			is_sleeping = false
+			recupero_timer.stop()
+	aumenta_energia(energia_per_secondo * 2)
+	
 
 func simula_recupero_energia(ore: int, minuti: int):
 	is_sleeping = true
-	var secondi_totali = (ore * 3600) + (minuti * 60)
-	var energia_per_secondo = 100.0 / 86400.0
+	recupero_timer.start()
+	secondi_totali = (ore * 3600) + (minuti * 60)
+	var secondi_totali2 = secondi_totali
 	var bonus = 1.0
-	#if is_sleeping:
-	#	bonus = 1.5  # bonus se si dorme || ci pensiamo in un secondo momento
-
-	var energia_recuperata = secondi_totali * energia_per_secondo * bonus
-	var energia_finale = round(energia_recuperata)
-
-	aumenta_energia(energia_finale)
-
 	# Ora corrente come stringa
 	var now = Time.get_datetime_string_from_system(true)  # es. "2025-06-18 15:30:00"
-
-	# Messaggio da scrivere nel log
-	var log_entry = "%s -> Ho riposato %d ore e %d minuti recuperando %d energia\n" % [now, ore, minuti, energia_finale]
-
+	if (secondi_totali == 0):
+		var energia_recuperata = secondi_totali * energia_per_secondo * bonus
+		var energia_finale = round(energia_recuperata)
+		# Messaggio da scrivere nel log
+		var log_entry = "%s -> Ho riposato %d ore e %d minuti recuperando %d energia\n" % [now, ore, minuti, energia_finale]
+		
 	# Scrittura su file in modalità append
-	var file: FileAccess
-	if FileAccess.file_exists(recovery_log_path):
-		file = FileAccess.open(recovery_log_path, FileAccess.READ_WRITE)
-		file.seek_end()
-	else:
-		file = FileAccess.open(recovery_log_path, FileAccess.WRITE)
-
-	file.store_string(log_entry)
-	file.close()
-
-	print("📘 Log aggiornato:", log_entry.strip_edges())
+		var file: FileAccess
+		if FileAccess.file_exists(recovery_log_path):
+			file = FileAccess.open(recovery_log_path, FileAccess.READ_WRITE)
+			file.seek_end()
+		else:
+			file = FileAccess.open(recovery_log_path, FileAccess.WRITE)
+		file.store_string(log_entry)
+		file.close()
+		print("📘 Log aggiornato:", log_entry.strip_edges())
