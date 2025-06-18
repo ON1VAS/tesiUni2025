@@ -6,6 +6,8 @@ const SAVE_PATH := "user://save_data.json"     # per energia
 
 var http_request: HTTPRequest
 
+#variabile per capire se il protagonista sta dormendo
+var is_sleeping = false
 # Energia
 var energia: int = 100
 

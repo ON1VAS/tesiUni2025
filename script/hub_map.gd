@@ -27,7 +27,6 @@ func _ready():
 	startGame.connect("body_exited", _on_start_game_area_exited)
 	load_dialogues()
 	
-	
 	# Ascolta il segnale dalla dialogue box se viene aggiunto (opzionale)
 	# if dialogue_box.has_signal("dialogue_ended"):
 	#     dialogue_box.connect("dialogue_ended", self, "_on_dialogue_ended")
@@ -71,7 +70,7 @@ func _input(event):
 	if player_in_range and can_start_dialogue and event.is_action_pressed("ui_accept"):
 		_start_dialogue()
 	if can_start_game and event.is_action_pressed("ui_accept"):
-		if GlobalStats.energia > 0:
+		if GlobalStats.energia >=50:
 			scene_change()
 		else:
 			dialogue_box.show_dialogue(dialogues["energia_insufficente"])
