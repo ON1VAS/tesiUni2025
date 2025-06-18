@@ -1,0 +1,97 @@
+[gd_scene load_steps=6 format=3 uid="uid://bi18x11emhua"]
+
+[ext_resource type="Script" uid="uid://btshb2cmmgqwt" path="res://scene/timer_selector.gd" id="1_qxxub"]
+[ext_resource type="Script" uid="uid://dgqekrn07c64g" path="res://scene/decine_ore.gd" id="1_vom58"]
+[ext_resource type="Script" uid="uid://cfw4k77hq33b8" path="res://scene/unita_ore.gd" id="2_t0e23"]
+[ext_resource type="Script" uid="uid://dpl5ovtups6ua" path="res://scene/decine_minuti.gd" id="3_t0e23"]
+[ext_resource type="Script" uid="uid://tpfxj7bkf0y3" path="res://scene/unita_minuti.gd" id="4_2rpnw"]
+
+[node name="TimerSelector" type="Control"]
+texture_filter = 1
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+script = ExtResource("1_qxxub")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+texture_filter = 1
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="decineOre" type="VBoxContainer" parent="HBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+script = ExtResource("1_vom58")
+
+[node name="oreUp" type="Button" parent="HBoxContainer/decineOre"]
+layout_mode = 2
+text = "+"
+
+[node name="Label1" type="Label" parent="HBoxContainer/decineOre"]
+layout_mode = 2
+
+[node name="oreDown" type="Button" parent="HBoxContainer/decineOre"]
+layout_mode = 2
+text = "-"
+
+[node name="unitaOre" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+script = ExtResource("2_t0e23")
+
+[node name="ore2Up" type="Button" parent="HBoxContainer/unitaOre"]
+layout_mode = 2
+text = "+"
+
+[node name="Label2" type="Label" parent="HBoxContainer/unitaOre"]
+layout_mode = 2
+
+[node name="ore2Down" type="Button" parent="HBoxContainer/unitaOre"]
+layout_mode = 2
+text = "-"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = ":"
+
+[node name="decineMinuti" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+script = ExtResource("3_t0e23")
+
+[node name="minuti1Up" type="Button" parent="HBoxContainer/decineMinuti"]
+layout_mode = 2
+text = "+"
+
+[node name="Label3" type="Label" parent="HBoxContainer/decineMinuti"]
+layout_mode = 2
+
+[node name="minuti1Down" type="Button" parent="HBoxContainer/decineMinuti"]
+layout_mode = 2
+text = "-"
+
+[node name="unitaMinuti" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+script = ExtResource("4_2rpnw")
+
+[node name="minuti2Up" type="Button" parent="HBoxContainer/unitaMinuti"]
+layout_mode = 2
+text = "+"
+
+[node name="Label4" type="Label" parent="HBoxContainer/unitaMinuti"]
+layout_mode = 2
+
+[node name="minuti2Down" type="Button" parent="HBoxContainer/unitaMinuti"]
+layout_mode = 2
+text = "-"
+
+[connection signal="cambia_decine_ore" from="HBoxContainer/unitaOre" to="HBoxContainer/decineOre" method="_on_unita_ore_cambia_decine_ore"]

@@ -6,12 +6,14 @@ extends Node2D
 @onready var player = $protagonista
 @onready var startGame = $Area2DstartGame
 @onready var player_an_sp = $protagonista/AnimatedSprite2D
+@onready var timer_selector = $CanvasLayer/TimerSelector
 var player_in_range = false
 var can_start_dialogue = true  # Nuovo flag per controllare la possibilità di iniziare dialogo
 var dialogues = {}
 var npc_name = ""
 var can_start_game = false
 var shader_material = ShaderMaterial.new()
+var can_rest = false
 
 
 func _ready():
@@ -26,10 +28,7 @@ func _ready():
 	startGame.connect("body_entered", _on_start_game_area_entered)
 	startGame.connect("body_exited", _on_start_game_area_exited)
 	load_dialogues()
-	
-	# Ascolta il segnale dalla dialogue box se viene aggiunto (opzionale)
-	# if dialogue_box.has_signal("dialogue_ended"):
-	#     dialogue_box.connect("dialogue_ended", self, "_on_dialogue_ended")
+	timer_selector.visible = false
 
 func _on_npc_body_entered(body, npc):
 	if body.name == "protagonista":
@@ -75,6 +74,13 @@ func _input(event):
 		else:
 			dialogue_box.show_dialogue(dialogues["energia_insufficente"])
 		
+	if can_rest and event.is_action_pressed("ui_accept"):
+		timer_selector.z_index = 1000
+		timer_selector.visible = true
+		timer_selector.scale = Vector2(2,2)
+		timer_selector.position = Vector2(get_viewport().size.x, get_viewport().size.y) / 2 - (timer_selector.get_size() / 2)
+		
+
 		
 
 func _start_dialogue():
@@ -117,3 +123,17 @@ func scene_change():
 	#cambio della scena
 	get_tree().change_scene_to_file("res://scene/game.tscn")
 	
+
+
+func _on_area_riposo_body_entered(body):
+	if body.name == "protagonista":
+		dialogue_box.show_dialogue(dialogues["rest"])
+		dialogue_box.visible = true
+		can_rest = true
+
+
+func _on_area_riposo_body_exited(body):
+	if body.name == "protagonista":
+		dialogue_box.visible = false
+		can_rest = false
+		timer_selector.visible = false
