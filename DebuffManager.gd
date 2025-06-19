@@ -12,6 +12,10 @@ const ENERGY_THRESHOLDS = {
 # Variabile per tenere traccia dello stato del debuff
 var debuff_active = false
 
+var command_inverted := false #debuff per inversione comandi
+var command_timer := 0.0
+var invert_interval := 2.0 # cambia ogni 5 secondi
+
 func apply_to_player(player):
 	# Reset valori
 	var energia = GlobalStats.energia
@@ -20,6 +24,7 @@ func apply_to_player(player):
 	player.can_jump = true
 	player.ignore_jump_input = false
 	player.attack_input_delay = 0.0
+	
 	if energia < ENERGY_THRESHOLDS["buffplus"]:
 		player.damage = 25 
 	
@@ -42,19 +47,44 @@ func apply_to_player(player):
 		player.ignore_jump_input = true
 	
 	if energia > 0 and energia < ENERGY_THRESHOLDS["blocco5"]: #perdita di 1 hp ogni 10 secondi
-		if player.health > 1:
-			await get_tree().create_timer(10.0).timeoutTimer
-			player.health -= 1
+		if get_tree().current_scene.name != "game":
+			return
+		command_timer += get_process_delta_time()
+		if command_timer >= invert_interval:
+			command_timer = 0
+			command_inverted = randi() % 2 == 0  # true o false casuale
+		if is_instance_valid(player) and player.health > 1 and not player.has_meta("losing_health"):
+			player.set_meta("losing_health", true)
+			var local_player_ref = player
+			var timer := get_tree().create_timer(10.0)
+			await timer.timeout
+			
+			if get_tree().current_scene.name != "game":
+				return
 
-func enemy_damage_multiplier():
+	# Ricontrolla dopo il timeout se il player è ancora valido
+			if is_instance_valid(local_player_ref):
+				print("🩸 Timer scaduto, player valido: procedo a togliere vita")
+				local_player_ref.health -= 1
+				print("🔥 Vita attuale del player dopo il danno:", local_player_ref.health)
+				local_player_ref.SetHealthBar()
+				if local_player_ref.health < 1:
+					local_player_ref.die()
+			if is_instance_valid(player):
+				player.set_meta("losing_health", false)
+				print("♻️ Flag 'losing_health' rimesso a false")
+
+
+func enemy_damage_multiplier(): #moltiplicatore del danno dei nemici
 	var energia = GlobalStats.energia
 	if energia < ENERGY_THRESHOLDS["blocco4"]:
 		return 1.5
 	return 1.0
+func is_sliding_active() -> bool: #scivolizia 
+	return GlobalStats.energia < ENERGY_THRESHOLDS["blocco4"]
 
 func is_vignette_active() -> bool: #vignetta per oscurare parte del campo visivo
 	return GlobalStats.energia <= ENERGY_THRESHOLDS["blocco3"]
-	
-func is_sliding_active() -> bool: 
-	return GlobalStats.energia < ENERGY_THRESHOLDS["buffplus"]
-	
+
+func is_command_inverted() -> bool:
+	return command_inverted

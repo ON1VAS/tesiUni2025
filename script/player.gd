@@ -18,9 +18,10 @@ var is_invincible = false
 var can_jump = true
 var can_roll = true
 var ignore_jump_input := false
-
+var damage_timer : SceneTreeTimer = null
 
 var attack_input_delay = 0.0 #per debuff sul delay attacchi
+var is_losing_health_over_time := false
 
 
 signal player_defeated
@@ -73,10 +74,18 @@ func _physics_process(delta):
 	var input_left = Input.is_action_pressed("ui_left") #per debuff sull'inerzia del movimento
 	var input_right = Input.is_action_pressed("ui_right")
 	var target_speed = 0
-	if input_left:
+	var left = input_left
+	var right = input_right
+
+	if DebuffManager.is_command_inverted():
+		var temp = left
+		left = right
+		right = temp
+
+	if left:
 		target_speed = -speed
 		facing_direction = -1
-	elif input_right:
+	elif right:
 		target_speed = speed
 		facing_direction = 1
 
@@ -161,6 +170,9 @@ func die():
 	set_physics_process(false)  # Disabilita il movimento del personaggio
 	set_process(false)  # Disabilita altri processi
 	player_defeated.emit()
+	if damage_timer:
+		damage_timer.stop()
+		damage_timer = null
 
 func _on_animated_sprite_2d_animation_finished() -> void:
 	if $AnimatedSprite2D.animation in attack_properties.keys():
