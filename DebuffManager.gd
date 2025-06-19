@@ -21,7 +21,8 @@ func apply_to_player(player):
 	player.attack_input_delay = 0.0
 	if energia < ENERGY_THRESHOLDS["buffplus"]:
 		player.damage = 25 
-		
+		player.can_jump = false
+		player.ignore_jump_input = true
 	
 	# Debuff 1: rallenta
 	if energia < ENERGY_THRESHOLDS["blocco1"]:
@@ -36,14 +37,14 @@ func apply_to_player(player):
 	
 	# Debuff 3: disabilita salto
 	if energia < ENERGY_THRESHOLDS["blocco3"]:
-		player.can_jump = false  # aggiungi una variabile nel player
+		  # aggiungi una variabile nel player
 		player.speed = 50
-	else:
-		player.can_jump = true
+		player.can_jump = false
+		player.ignore_jump_input = true
 	
 	if energia > 0 and energia < ENERGY_THRESHOLDS["blocco5"]: #perdita di 1 hp ogni 10 secondi
 		if player.health > 1:
-			await get_tree().create_timer(10).timeoutTimer
+			await get_tree().create_timer(10.0).timeoutTimer
 			player.health -= 1
 
 func enemy_damage_multiplier():
