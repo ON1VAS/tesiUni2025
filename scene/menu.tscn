@@ -1,0 +1,69 @@
+[gd_scene load_steps=4 format=3 uid="uid://df8q1ogk5l4od"]
+
+[ext_resource type="Script" uid="uid://ft8x2k6sl5wf" path="res://script/menu.gd" id="1_e5g8k"]
+[ext_resource type="Texture2D" uid="uid://u6ku7qe6odsc" path="res://testures/Legacy-Fantasy - High Forest 2.3/Background/Background.png" id="2_8hxod"]
+[ext_resource type="Texture2D" uid="uid://irnknxe7uji1" path="res://logo/knightsRest-removebg-preview.png" id="3_bo06a"]
+
+[node name="Menu" type="Control"]
+texture_filter = 1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_e5g8k")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -369.0
+offset_top = -172.0
+offset_right = -69.0
+offset_bottom = 47.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(2.5, 2.5)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Gioca" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+text = "Gioca"
+
+[node name="Esci" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Esci"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="CanvasLayer"]
+
+[node name="ParallaxLayer" type="Parallax2D" parent="CanvasLayer/ParallaxBackground"]
+repeat_size = Vector2(240, 0)
+autoscroll = Vector2(15, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/ParallaxBackground/ParallaxLayer"]
+texture_filter = 1
+position = Vector2(642.941, 370.5)
+scale = Vector2(2.90809, 2.90809)
+texture = ExtResource("2_8hxod")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 2
+offset_left = 298.0
+offset_top = 1.0
+offset_right = 1048.0
+offset_bottom = 334.0
+texture = ExtResource("3_bo06a")
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Gioca" to="." method="_on_gioca_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Esci" to="." method="_on_esci_pressed"]
