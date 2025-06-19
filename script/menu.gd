@@ -1,10 +1,10 @@
 extends Control
 
 @onready var vbox = $MarginContainer/VBoxContainer
-
+@onready var panel = $howtoplaypanel
 func _ready():
 	vbox.scale = Vector2(2,2)
-
+	panel.visible = false
 
 func _on_gioca_pressed() -> void:
 	TransitionScreen.transition()
@@ -15,3 +15,11 @@ func _on_gioca_pressed() -> void:
 
 func _on_esci_pressed() -> void:
 	get_tree().quit()
+
+
+func _on_howtoplay_pressed() -> void:
+	panel.visible = true
+
+
+func _on_chiudi_pressed() -> void:
+	panel.visible = false

@@ -39,6 +39,10 @@ layout_mode = 2
 size_flags_vertical = 4
 text = "Gioca"
 
+[node name="howtoplay" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Come si gioca?"
+
 [node name="Esci" type="Button" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Esci"
@@ -53,17 +57,71 @@ autoscroll = Vector2(15, 0)
 
 [node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/ParallaxBackground/ParallaxLayer"]
 texture_filter = 1
-position = Vector2(642.941, 370.5)
-scale = Vector2(2.90809, 2.90809)
+position = Vector2(916, 381)
+scale = Vector2(4.04792, 4.04792)
 texture = ExtResource("2_8hxod")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 2
-offset_left = 298.0
-offset_top = 1.0
-offset_right = 1048.0
-offset_bottom = 334.0
+offset_left = 347.0
+offset_top = 9.0
+offset_right = 1097.0
+offset_bottom = 342.0
 texture = ExtResource("3_bo06a")
 
+[node name="howtoplaypanel" type="Panel" parent="."]
+custom_minimum_size = Vector2(400, 200)
+layout_mode = 0
+offset_left = 40.0
+offset_top = 321.0
+offset_right = 440.0
+offset_bottom = 549.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="howtoplaypanel"]
+layout_mode = 0
+offset_right = 400.0
+offset_bottom = 264.0
+
+[node name="howto" type="Label" parent="howtoplaypanel/VBoxContainer"]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+text = "Come giocare:
+- usa WASD per muoverti e K, L per attaccare
+- usa SHIFT per effettuare una schivata
+- il gioco diventerà man mano più difficile in base a quanto ci si gioca in una sessione continua
+-il cavaliere si stancherà, ricordati di farlo riposare per ripotrarlo alle piene forze (e approfittane anche te per studiare o fare ciò che vuoi!)
+"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="chiudi" type="Button" parent="howtoplaypanel/VBoxContainer"]
+layout_mode = 2
+text = "chiudi"
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -201.0
+offset_top = -40.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="Label" type="Label" parent="Panel"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -11.5
+offset_right = 190.0
+offset_bottom = 11.5
+grow_vertical = 2
+text = " Made by Snor & ON1VAS"
+
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Gioca" to="." method="_on_gioca_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/howtoplay" to="." method="_on_howtoplay_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Esci" to="." method="_on_esci_pressed"]
+[connection signal="pressed" from="howtoplaypanel/VBoxContainer/chiudi" to="." method="_on_chiudi_pressed"]
