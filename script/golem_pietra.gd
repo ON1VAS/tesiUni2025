@@ -56,6 +56,12 @@ func _ready() -> void:
 		change_state(State.IDLE)
 	else:
 		change_state(State.RUN)
+	
+	ray_cast_floor.force_raycast_update()  # Assicurati che il raycast sia aggiornato
+	if ray_cast_floor.is_colliding():
+		var floor_position = ray_cast_floor.get_collision_point()
+		global_position.y = floor_position.y - 50  # Sposta il Golem 50 unità sopra il pavimento
+
 
 	# --- COLLISION SETUP (MODIFIED) ---
 	# Imposta su quale layer si trova il Golem
@@ -91,8 +97,8 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
-	if not is_on_floor():
-		velocity.y += gravity_strength * delta
+	#if not is_on_floor():
+	#	velocity.y += gravity_strength * delta
 
 	float_offset += float_speed * delta
 	animated_sprite.position.y = sin(float_offset) * float_amplitude

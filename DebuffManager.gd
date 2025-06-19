@@ -26,7 +26,7 @@ func apply_to_player(player):
 	player.attack_input_delay = 0.0
 	
 	if energia < ENERGY_THRESHOLDS["buffplus"]:
-		player.damage = 25 
+		player.damage = 25
 	
 	# Debuff 1: rallenta
 	if energia < ENERGY_THRESHOLDS["blocco1"]:
