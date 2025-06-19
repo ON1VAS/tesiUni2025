@@ -51,7 +51,8 @@ func start_attack(anim_name: String):
 
 func _physics_process(delta):
 	DebuffManager.apply_to_player(self)
-	if GlobalStats.is_sleeping: #il giocatore non può fare nulla se sta dormendo
+	if GlobalStats.is_sleeping or GlobalStats.in_menu: #il giocatore non può fare nulla se sta dormendo
+		$AnimatedSprite2D.play("idle")
 		return
 	# Movimento e gravità
 	velocity.y += delta * GRAVITY

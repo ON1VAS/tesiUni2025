@@ -1,11 +1,11 @@
 extends Control
 
-@onready var conferma_button = $pulsanti/conferma
-@onready var annulla_button = $pulsanti/annulla
-@onready var decineOre = $HBoxContainer/decineOre/Label1
-@onready var unitaOre = $HBoxContainer/unitaOre/Label2
-@onready var decineMinuti = $HBoxContainer/decineMinuti/Label3
-@onready var unitaMinuti = $HBoxContainer/unitaMinuti/Label4
+@onready var conferma_button = $VBoxContainer/pulsanti/conferma
+@onready var annulla_button = $VBoxContainer/pulsanti/annulla
+@onready var decineOre = $VBoxContainer/HBoxContainer/decineOre/Label1
+@onready var unitaOre = $VBoxContainer/HBoxContainer/unitaOre/Label2
+@onready var decineMinuti = $VBoxContainer/HBoxContainer/decineMinuti/Label3
+@onready var unitaMinuti = $VBoxContainer/HBoxContainer/unitaMinuti/Label4
 
 signal annulla_orario
 signal conferma_iniziato
@@ -20,6 +20,7 @@ func _on_confirm_pressed():
 	var minuti_interi = int(decineMinuti.text) * 10 + int(unitaMinuti.text)
 	GlobalStats.simula_recupero_energia(ore_intere, minuti_interi)
 	conferma_iniziato.emit()
+	TransitionScreen.transition()
 	
 
 func _on_cancel_pressed():

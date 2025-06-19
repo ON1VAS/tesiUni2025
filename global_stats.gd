@@ -11,6 +11,7 @@ var http_request: HTTPRequest
 var recupero_timer: Timer
 #variabile per capire se il protagonista sta dormendo
 var is_sleeping = false
+var in_menu = false
 # Energia
 var energia: float = 100
 # Timestamp per il reset giornaliero
@@ -150,6 +151,7 @@ func _on_recupero_timer_timeout():
 		print(secondi_totali)
 		if secondi_totali == 0:
 			is_sleeping = false
+			in_menu = false
 			recupero_timer.stop()
 	aumenta_energia(energia_per_secondo * 2)
 	

@@ -23,13 +23,13 @@ func calcola_tempo():
 		secondi.text = str(secondi_rimanenti).pad_zeros(2)
 	# Altrimenti mostra solo minuti e secondi
 	elif minuti_rimanenti > 0:
-		ore.text = ""
+		ore.text = "00"
 		minuti.text = str(minuti_rimanenti)
 		secondi.text = str(secondi_rimanenti).pad_zeros(2)
 	# Altrimenti mostra solo secondi
 	else:
-		ore.text = ""
-		minuti.text = ""
+		ore.text = "00"
+		minuti.text = "00"
 		secondi.text = str(secondi_rimanenti)
 	
 	tempoSecondi.text = str(secondi_totali)

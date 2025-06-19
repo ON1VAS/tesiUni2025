@@ -10,30 +10,53 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
+offset_left = -26.0
+offset_top = -23.0
+offset_right = 14.0
+offset_bottom = 17.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 4
 script = ExtResource("1_14ykx")
 
 [node name="ColorRect" type="ColorRect" parent="."]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.5
+anchor_top = -0.375
+anchor_right = -0.5
+anchor_bottom = 0.05
+offset_left = -11.0
+offset_top = -4.0
+offset_right = 95.0
+offset_bottom = 53.0
 color = Color(0.129412, 0.129412, 0.129412, 0.615686)
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+offset_left = -20.0
+offset_top = -19.0
+offset_right = 65.0
+offset_bottom = 4.0
+text = "hh  mm  ss"
+horizontal_alignment = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_left = -19.0
+offset_top = 1.0
+offset_right = 64.0
+offset_bottom = 51.0
+alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
+alignment = 1
 
 [node name="ore" type="Label" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
+text = "00"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -45,6 +68,7 @@ vertical_alignment = 1
 
 [node name="minuti" type="Label" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
+text = "00"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -56,10 +80,12 @@ vertical_alignment = 1
 
 [node name="secondi" type="Label" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
+text = "00"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="tempoSecondi" type="Label" parent="VBoxContainer"]
 layout_mode = 2
+text = "00"
 horizontal_alignment = 1
 vertical_alignment = 1

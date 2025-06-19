@@ -17,7 +17,6 @@ var can_start_game = false
 var shader_material = ShaderMaterial.new()
 var can_rest = false
 
-
 func _ready():
 	var shader = preload("res://scene/player.gdshader")
 	shader_material.shader = shader
@@ -96,10 +95,11 @@ func _input(event):
 		timer_selector.z_index = 1000
 		timer_selector.visible = true
 		background_overlay.visible = true
-		timer_selector.scale = Vector2(2,2)
+		GlobalStats.in_menu = true
+		timer_selector.scale = Vector2(1.5,1.5)
 		tempo_rimanente.scale = Vector2(2.5,2.5)
 		var viewport_size = get_viewport().get_visible_rect().size  # dimensione effettiva della finestra visibile
-		var offset = Vector2( -80, -30 )
+		var offset = Vector2( -290, -140 )
 		timer_selector.position = (viewport_size / 2 - (timer_selector.get_size() * timer_selector.scale) / 2) + offset
 		
 
@@ -166,7 +166,9 @@ func _on_timer_selector_annulla_orario():
 	timer_selector.visible = false
 	background_overlay.visible = false
 	dialogue_box.visible = true
+	GlobalStats.in_menu = false
 	dialogue_box.show_dialogue(dialogues["rest"])
+	
 
 
 func _on_timer_selector_conferma_iniziato() -> void:

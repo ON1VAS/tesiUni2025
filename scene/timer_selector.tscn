@@ -20,100 +20,118 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 script = ExtResource("1_qxxub")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
-texture_filter = 1
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_right = 370.0
+offset_bottom = 288.0
+alignment = 1
 
-[node name="decineOre" type="VBoxContainer" parent="HBoxContainer"]
+[node name="Label2" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Scegli quanto tempo far riposare l'avventuriero,
+Nel mentre ti potrai dedicare a ciò che vuoi!"
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = " ora      min"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+alignment = 1
+
+[node name="decineOre" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
 texture_filter = 1
 layout_mode = 2
 script = ExtResource("1_vom58")
 
-[node name="oreUp" type="Button" parent="HBoxContainer/decineOre"]
+[node name="oreUp" type="Button" parent="VBoxContainer/HBoxContainer/decineOre"]
 layout_mode = 2
 text = "+"
 
-[node name="Label1" type="Label" parent="HBoxContainer/decineOre"]
+[node name="Label1" type="Label" parent="VBoxContainer/HBoxContainer/decineOre"]
 layout_mode = 2
+horizontal_alignment = 1
 
-[node name="oreDown" type="Button" parent="HBoxContainer/decineOre"]
+[node name="oreDown" type="Button" parent="VBoxContainer/HBoxContainer/decineOre"]
 layout_mode = 2
 text = "-"
 
-[node name="unitaOre" type="VBoxContainer" parent="HBoxContainer"]
+[node name="unitaOre" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
 script = ExtResource("2_t0e23")
 
-[node name="ore2Up" type="Button" parent="HBoxContainer/unitaOre"]
+[node name="ore2Up" type="Button" parent="VBoxContainer/HBoxContainer/unitaOre"]
 layout_mode = 2
 text = "+"
 
-[node name="Label2" type="Label" parent="HBoxContainer/unitaOre"]
+[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer/unitaOre"]
 layout_mode = 2
+horizontal_alignment = 1
 
-[node name="ore2Down" type="Button" parent="HBoxContainer/unitaOre"]
+[node name="ore2Down" type="Button" parent="VBoxContainer/HBoxContainer/unitaOre"]
 layout_mode = 2
 text = "-"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="HBoxContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/HBoxContainer"]
 layout_mode = 2
 text = ":"
 
-[node name="decineMinuti" type="VBoxContainer" parent="HBoxContainer"]
+[node name="decineMinuti" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
 script = ExtResource("3_t0e23")
 
-[node name="minuti1Up" type="Button" parent="HBoxContainer/decineMinuti"]
+[node name="minuti1Up" type="Button" parent="VBoxContainer/HBoxContainer/decineMinuti"]
 layout_mode = 2
 text = "+"
 
-[node name="Label3" type="Label" parent="HBoxContainer/decineMinuti"]
+[node name="Label3" type="Label" parent="VBoxContainer/HBoxContainer/decineMinuti"]
 layout_mode = 2
+horizontal_alignment = 1
 
-[node name="minuti1Down" type="Button" parent="HBoxContainer/decineMinuti"]
+[node name="minuti1Down" type="Button" parent="VBoxContainer/HBoxContainer/decineMinuti"]
 layout_mode = 2
 text = "-"
 
-[node name="unitaMinuti" type="VBoxContainer" parent="HBoxContainer"]
+[node name="unitaMinuti" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
 script = ExtResource("4_2rpnw")
 
-[node name="minuti2Up" type="Button" parent="HBoxContainer/unitaMinuti"]
+[node name="minuti2Up" type="Button" parent="VBoxContainer/HBoxContainer/unitaMinuti"]
 layout_mode = 2
 text = "+"
 
-[node name="Label4" type="Label" parent="HBoxContainer/unitaMinuti"]
+[node name="Label4" type="Label" parent="VBoxContainer/HBoxContainer/unitaMinuti"]
 layout_mode = 2
+horizontal_alignment = 1
 
-[node name="minuti2Down" type="Button" parent="HBoxContainer/unitaMinuti"]
+[node name="minuti2Down" type="Button" parent="VBoxContainer/HBoxContainer/unitaMinuti"]
 layout_mode = 2
 text = "-"
 
-[node name="pulsanti" type="HBoxContainer" parent="."]
-layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -28.0
-offset_top = 102.0
-offset_right = 131.0
-offset_bottom = 133.0
-grow_horizontal = 2
-grow_vertical = 0
-theme_override_constants/separation = 10
+[node name="TextEdit" type="TextEdit" parent="VBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_vertical = 3
+placeholder_text = "               a cosa dedicherai il tuo tempo?
+								 scrivilo qui!"
+wrap_mode = 1
 
-[node name="annulla" type="Button" parent="pulsanti"]
+[node name="pulsanti" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="annulla" type="Button" parent="VBoxContainer/pulsanti"]
 layout_mode = 2
 text = "annulla"
 
-[node name="conferma" type="Button" parent="pulsanti"]
+[node name="conferma" type="Button" parent="VBoxContainer/pulsanti"]
 layout_mode = 2
-text = "conferma"
+text = "  inizia! "
 
-[connection signal="cambia_decine_ore" from="HBoxContainer/unitaOre" to="HBoxContainer/decineOre" method="_on_unita_ore_cambia_decine_ore"]
+[connection signal="cambia_decine_ore" from="VBoxContainer/HBoxContainer/unitaOre" to="VBoxContainer/HBoxContainer/decineOre" method="_on_unita_ore_cambia_decine_ore"]
