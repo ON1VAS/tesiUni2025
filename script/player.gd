@@ -20,7 +20,8 @@ var can_roll = true
 var ignore_jump_input := false
 
 
-var attack_input_delay = 0.0 #per debuff
+var attack_input_delay = 0.0 #per debuff sul delay attacchi
+
 
 signal player_defeated
 
@@ -69,14 +70,23 @@ func _physics_process(delta):
 		return
 	
 	# Input movimento
-	if Input.is_action_pressed("ui_left"):
-		velocity.x = -speed
+	var input_left = Input.is_action_pressed("ui_left") #per debuff sull'inerzia del movimento
+	var input_right = Input.is_action_pressed("ui_right")
+	var target_speed = 0
+	if input_left:
+		target_speed = -speed
 		facing_direction = -1
-	elif Input.is_action_pressed("ui_right"):
-		velocity.x = speed
+	elif input_right:
+		target_speed = speed
 		facing_direction = 1
+
+	if DebuffManager.is_sliding_active():
+		# Inerzia: meno controllo
+		velocity.x = lerp(velocity.x, float(target_speed), delta * 2)  # oppure 2 per più scivolamento
 	else:
-		velocity.x = 0
+		# Movimento normale, reattivo
+		velocity.x = target_speed
+
 	
 	if Input.is_action_pressed("ui_down"):
 		position.y = position.y + 2
