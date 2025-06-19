@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://df8q1ogk5l4od"]
+[gd_scene load_steps=7 format=3 uid="uid://df8q1ogk5l4od"]
 
 [ext_resource type="Script" uid="uid://ft8x2k6sl5wf" path="res://script/menu.gd" id="1_e5g8k"]
 [ext_resource type="Texture2D" uid="uid://u6ku7qe6odsc" path="res://testures/Legacy-Fantasy - High Forest 2.3/Background/Background.png" id="2_8hxod"]
 [ext_resource type="Texture2D" uid="uid://irnknxe7uji1" path="res://logo/knightsRest-removebg-preview.png" id="3_bo06a"]
 [ext_resource type="Script" uid="uid://kj18erji1igc" path="res://script/audio.gd" id="4_15se8"]
+[ext_resource type="AudioStream" uid="uid://bhcgq50opjhwt" path="res://music/menumusic.mp3" id="4_xs5te"]
 
 [sub_resource type="SystemFont" id="SystemFont_xs5te"]
 
@@ -133,6 +134,9 @@ grow_vertical = 2
 text = " Made by Snor & ON1VAS"
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+position = Vector2(624, 369)
+stream = ExtResource("4_xs5te")
+autoplay = true
 bus = &"Musica"
 
 [node name="UI" type="CanvasLayer" parent="."]
