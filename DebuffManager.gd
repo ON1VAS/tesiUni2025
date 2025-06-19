@@ -18,11 +18,10 @@ func apply_to_player(player):
 	player.speed = 200
 	player.can_roll = true
 	player.can_jump = true
+	player.ignore_jump_input = false
 	player.attack_input_delay = 0.0
 	if energia < ENERGY_THRESHOLDS["buffplus"]:
 		player.damage = 25 
-		player.can_jump = false
-		player.ignore_jump_input = true
 	
 	# Debuff 1: rallenta
 	if energia < ENERGY_THRESHOLDS["blocco1"]:
@@ -32,12 +31,12 @@ func apply_to_player(player):
 	if energia < ENERGY_THRESHOLDS["blocco2"]:
 		player.speed = 100
 		player.attack_input_delay = 0.5 #mezzo secondo di delay negli attacchi
-		player.can_roll = false
+		player.can_roll = false #rimosso il roll
 		
 	
 	# Debuff 3: disabilita salto
 	if energia < ENERGY_THRESHOLDS["blocco3"]:
-		  # aggiungi una variabile nel player
+		  # velocità diminuita, tolto salto
 		player.speed = 50
 		player.can_jump = false
 		player.ignore_jump_input = true
@@ -55,4 +54,7 @@ func enemy_damage_multiplier():
 
 func is_vignette_active() -> bool: #vignetta per oscurare parte del campo visivo
 	return GlobalStats.energia <= ENERGY_THRESHOLDS["blocco3"]
+	
+func is_sliding_active() -> bool: 
+	return GlobalStats.energia < ENERGY_THRESHOLDS["buffplus"]
 	
