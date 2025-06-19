@@ -4,14 +4,19 @@ extends Node
 var save_file_path = "user://timestamp.save"   # per timestamp (tempo reale)
 const SAVE_PATH := "user://save_data.json"     # per energia
 var recovery_log_path := "user://recovery_log.txt" # per log di recupero energia
-var secondi_totali: int = 0  # Variabile per memorizzare i secondi totali
+var secondi_totali: int = 0  # Variabile per memorizzare i secondi totali, adnrà poi scalata
+var secondi_totali2: int = 0 # Variabile per memorizzare i secondi totali
 const SECONDI_TOTALI_PATH := "user://secondi_totali.json"  # Percorso per il file dei secondi totali
 var energia_per_secondo = 100.0 / 86400.0
 var http_request: HTTPRequest
 var recupero_timer: Timer
+var oreRiposo: int
+var minutiRiposo: int
+var motivoRiposo: String
 #variabile per capire se il protagonista sta dormendo
 var is_sleeping = false
 var in_menu = false
+var can_log = false
 # Energia
 var energia: float = 100
 # Timestamp per il reset giornaliero
@@ -37,6 +42,8 @@ func _ready():
 		print("❌ Errore nella chiamata HTTPRequest.request():", error)
 		usa_fallback_locale()
 		
+	#svuota_log_recupero()
+	#mostra_log_recupero()
 	
 
 # Funzioni per energia - indipendenti dal timestamp
@@ -45,7 +52,7 @@ func riduci_energia(valore: int):
 	print("Energia attuale:", energia)
 	salva_dati()
 
-func aumenta_energia(valore: int):
+func aumenta_energia(valore: float):
 	energia = min(energia + valore, 100)
 	print("Energia attuale:", energia)
 	salva_dati()
@@ -147,36 +154,64 @@ func controlla_reset(current_time: int):
 
 func _on_recupero_timer_timeout():
 	if secondi_totali > 0:
+		can_log = false
 		secondi_totali -= 1
 		print(secondi_totali)
 		if secondi_totali == 0:
 			is_sleeping = false
 			in_menu = false
 			recupero_timer.stop()
-	aumenta_energia(energia_per_secondo * 2)
+			can_log = true
+			_log(oreRiposo, minutiRiposo, motivoRiposo)
+	aumenta_energia(energia_per_secondo * 15)
 	
 
-func simula_recupero_energia(ore: int, minuti: int):
+func simula_recupero_energia(ore: int, minuti: int, motivo: String):
 	is_sleeping = true
+	oreRiposo = ore
+	minutiRiposo = minuti
+	motivoRiposo = motivo
 	recupero_timer.start()
 	secondi_totali = (ore * 3600) + (minuti * 60)
-	var secondi_totali2 = secondi_totali
-	var bonus = 1.0
-	# Ora corrente come stringa
-	var now = Time.get_datetime_string_from_system(true)  # es. "2025-06-18 15:30:00"
-	if (secondi_totali == 0):
-		var energia_recuperata = secondi_totali * energia_per_secondo * bonus
-		var energia_finale = round(energia_recuperata)
-		# Messaggio da scrivere nel log
-		var log_entry = "%s -> Ho riposato %d ore e %d minuti recuperando %d energia\n" % [now, ore, minuti, energia_finale]
+	secondi_totali2 = secondi_totali
+	
+
+func _log(ore: int, minuti: int, motivo: String):
+	if can_log:
+		# Ora corrente come stringa
+		var now = Time.get_datetime_string_from_system(true)  # es. "2025-06-18 15:30:00"
+		if (secondi_totali == 0):
+			var bonus = 15.0
+			var energia_recuperata = secondi_totali2 * energia_per_secondo * bonus
+			var energia_finale = round(energia_recuperata)
+			# Messaggio da scrivere nel log
+			var log_entry = "%s -> Ho riposato %d ore e %d minuti recuperando %d energia\nMotivo: %s\n" % [now, ore, minuti, energia_finale, motivo]
 		
-	# Scrittura su file in modalità append
-		var file: FileAccess
-		if FileAccess.file_exists(recovery_log_path):
-			file = FileAccess.open(recovery_log_path, FileAccess.READ_WRITE)
-			file.seek_end()
-		else:
-			file = FileAccess.open(recovery_log_path, FileAccess.WRITE)
-		file.store_string(log_entry)
+		# Scrittura su file in modalità append
+			var file: FileAccess
+			if FileAccess.file_exists(recovery_log_path):
+				file = FileAccess.open(recovery_log_path, FileAccess.READ_WRITE)
+				file.seek_end()
+			else:
+				file = FileAccess.open(recovery_log_path, FileAccess.WRITE)
+			file.store_string(log_entry)
+			file.close()
+			print("📘 Log aggiornato:", log_entry.strip_edges())
+
+func mostra_log_recupero(): #fa vedere cosa c'è nel log
+	if FileAccess.file_exists(recovery_log_path):
+		var file = FileAccess.open(recovery_log_path, FileAccess.READ)
+		var contenuto = file.get_as_text()
 		file.close()
-		print("📘 Log aggiornato:", log_entry.strip_edges())
+		print("📖 Contenuto del log di recupero energia:\n", contenuto)
+	else:
+		print("📂 Nessun log di recupero trovato.")
+
+func svuota_log_recupero():
+	if FileAccess.file_exists(recovery_log_path):
+		var file = FileAccess.open(recovery_log_path, FileAccess.WRITE)
+		file.store_string("")  # Scrive una stringa vuota
+		file.close()
+		print("🗑️ Log svuotato correttamente.")
+	else:
+		print("⚠️ Nessun file di log da svuotare.")

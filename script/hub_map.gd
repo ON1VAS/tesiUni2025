@@ -9,6 +9,7 @@ extends Node2D
 @onready var timer_selector = $CanvasLayer/TimerSelector
 @onready var background_overlay = $CanvasLayer/BackgroundOverlay
 @onready var tempo_rimanente = $CanvasLayer/tempo_rimanente
+@onready var log_viewer = $CanvasLayer/LogViewer
 var player_in_range = false
 var can_start_dialogue = true  # Nuovo flag per controllare la possibilità di iniziare dialogo
 var dialogues = {}
@@ -16,7 +17,7 @@ var npc_name = ""
 var can_start_game = false
 var shader_material = ShaderMaterial.new()
 var can_rest = false
-
+var can_read_log = false
 func _ready():
 	var shader = preload("res://scene/player.gdshader")
 	shader_material.shader = shader
@@ -98,9 +99,19 @@ func _input(event):
 		GlobalStats.in_menu = true
 		timer_selector.scale = Vector2(1.5,1.5)
 		tempo_rimanente.scale = Vector2(2.5,2.5)
+		$CanvasLayer/TimerSelector/VBoxContainer/TextEdit.clear()
 		var viewport_size = get_viewport().get_visible_rect().size  # dimensione effettiva della finestra visibile
 		var offset = Vector2( -290, -140 )
 		timer_selector.position = (viewport_size / 2 - (timer_selector.get_size() * timer_selector.scale) / 2) + offset
+	
+	if can_read_log and event.is_action_pressed("ui_accept"):
+		background_overlay.visible = true
+		GlobalStats.in_menu = true
+		log_viewer.visible = true
+		log_viewer.mostra_tutti_i_log()
+		var viewport_size = get_viewport().get_visible_rect().size
+		var offset = Vector2( -290, -140 )
+		log_viewer.position = (viewport_size / 2 - (timer_selector.get_size() * timer_selector.scale) / 2) + offset
 		
 
 func _start_dialogue():
@@ -176,3 +187,25 @@ func _on_timer_selector_conferma_iniziato() -> void:
 	background_overlay.visible = true
 	tempo_rimanente.visible = true
 	
+
+
+func _on_area_log_body_entered(body):
+	if body.name == "protagonista":
+		dialogue_box.show_dialogue(dialogues["log"])
+		dialogue_box.visible = true
+		can_read_log = true
+
+
+func _on_area_log_body_exited(body):
+	if body.name == "protagonista":
+		dialogue_box.visible = false
+		can_read_log = false
+		background_overlay.visible = false
+
+
+func _on_log_viewer_annulla_log() -> void:
+	dialogue_box.visible = false
+	can_read_log = false
+	log_viewer.visible = false
+	GlobalStats.in_menu = false
+	background_overlay.visible = false
