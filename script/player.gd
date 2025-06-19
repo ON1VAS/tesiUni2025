@@ -6,7 +6,7 @@ extends CharacterBody2D
 
 const GRAVITY = 400.0
 const JUMP_FORCE = -200
-const MAX_HEALTH = 100.00
+const MAX_HEALTH = 150.00
 const ROLL_FORCE = 400
 var currentMaxHealth = MAX_HEALTH
 var health = MAX_HEALTH
@@ -17,6 +17,8 @@ var is_rolling = false
 var is_invincible = false
 var can_jump = true
 var can_roll = true
+var ignore_jump_input := false
+
 
 var attack_input_delay = 0.0 #per debuff
 
@@ -81,8 +83,17 @@ func _physics_process(delta):
 		
 	
 	# Salto
-	if Input.is_action_just_pressed("ui_up") and is_on_floor() and can_jump:
-		velocity.y = JUMP_FORCE
+	if can_jump and not ignore_jump_input:
+		if Input.is_action_just_pressed("ui_up") and is_on_floor():
+			velocity.y = JUMP_FORCE
+			print("Can jump:", can_jump, "| Ignore input:", ignore_jump_input)
+	else:
+	# Forza il blocco verticale
+		if Input.is_action_just_pressed("ui_up"):
+			print("SALTO BLOCCATO")  # Debug
+			velocity.y = 0  # Se vuoi proprio bloccare anche tentativi
+
+
 	
 	if Input.is_action_just_pressed("roll") and is_on_floor() and can_roll:
 		is_rolling = true
