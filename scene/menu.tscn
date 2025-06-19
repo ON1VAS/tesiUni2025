@@ -15,24 +15,24 @@ grow_vertical = 2
 script = ExtResource("1_e5g8k")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
+custom_minimum_size = Vector2(50, 0)
+layout_direction = 1
 layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -180.0
-offset_top = -392.0
-offset_right = -58.9999
-offset_bottom = -291.0
-grow_horizontal = 2
-grow_vertical = 0
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 50.0
+offset_top = -50.5
+offset_right = 171.0
+offset_bottom = 50.5
+grow_vertical = 2
 scale = Vector2(2.5, 2.5)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
+size_flags_horizontal = 0
+size_flags_vertical = 0
 
 [node name="Gioca" type="Button" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -75,10 +75,10 @@ texture = ExtResource("3_bo06a")
 [node name="howtoplaypanel" type="Panel" parent="."]
 custom_minimum_size = Vector2(400, 200)
 layout_mode = 0
-offset_left = 40.0
-offset_top = 321.0
-offset_right = 440.0
-offset_bottom = 580.0
+offset_left = 488.0
+offset_top = 306.0
+offset_right = 888.0
+offset_bottom = 565.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="howtoplaypanel"]
 layout_mode = 0
