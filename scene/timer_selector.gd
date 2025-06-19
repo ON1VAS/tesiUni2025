@@ -20,6 +20,8 @@ func _on_confirm_pressed():
 	var ore_intere = int(decineOre.text) * 10 + int(unitaOre.text)
 	var minuti_interi = int(decineMinuti.text) * 10 + int(unitaMinuti.text)
 	var motivo = str(motivolabel.text)
+	if ore_intere + minuti_interi == 0:
+		return
 	GlobalStats.simula_recupero_energia(ore_intere, minuti_interi, motivo)
 	conferma_iniziato.emit()
 	TransitionScreen.transition()

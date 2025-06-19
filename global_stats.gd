@@ -167,6 +167,8 @@ func _on_recupero_timer_timeout():
 	
 
 func simula_recupero_energia(ore: int, minuti: int, motivo: String):
+	if ore + minuti == 0:
+		return
 	is_sleeping = true
 	oreRiposo = ore
 	minutiRiposo = minuti
