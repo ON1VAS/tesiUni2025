@@ -38,8 +38,10 @@ func _ready():
 func _physics_process(delta: float) -> void:
 	if player.global_position.x < self.global_position.x:
 		anim.flip_h = false
+		sword_hitbox.position.x = -10.5  # Aggiorna posizione incornata
 	else:
 		anim.flip_h = true
+		sword_hitbox.position.x = 10.5
 	
 	
 	
