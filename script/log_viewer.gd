@@ -2,7 +2,7 @@ extends Control
 
 @onready var log_text: RichTextLabel = $VBoxContainer/LogText
 @onready var back_button: Button = $VBoxContainer/Button
-
+@onready var scroll = $VBoxContainer/LogText/HScrollBar
 var recovery_log_path = "user://recovery_log.txt"
 signal annulla_log
 
@@ -23,6 +23,7 @@ func mostra_tutti_i_log():
 		var log_entries = contenuto.strip_edges().split("\n")
 		for entry in log_entries:
 			log_text.append_text(entry + "\n")
+		log_text.scroll_to_line((log_text.get_line_count() - 1))
 
 	else:
 		log_text.append_text("📂 Nessun log trovato.")
