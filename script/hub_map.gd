@@ -10,6 +10,8 @@ extends Node2D
 @onready var background_overlay = $CanvasLayer/BackgroundOverlay
 @onready var tempo_rimanente = $CanvasLayer/tempo_rimanente
 @onready var log_viewer = $CanvasLayer/LogViewer
+@onready var energyBar = $CanvasLayer/VBoxContainer/energiaBar
+
 var player_in_range = false
 var can_start_dialogue = true  # Nuovo flag per controllare la possibilità di iniziare dialogo
 var dialogues = {}
@@ -18,6 +20,9 @@ var can_start_game = false
 var shader_material = ShaderMaterial.new()
 var can_rest = false
 var can_read_log = false
+var can_tornare_menu = false
+
+
 func _ready():
 	var shader = preload("res://scene/player.gdshader")
 	shader_material.shader = shader
@@ -37,6 +42,11 @@ func _ready():
 		tempo_rimanente.scale = Vector2(2.5,2.5)
 		tempo_rimanente.visible = true
 	
+	player.hide_health_bar()
+	
+	energyBar.value = GlobalStats.energia
+	$CanvasLayer/VBoxContainer/energiaBar/Label.text = "%d / %d" % [GlobalStats.energia, 100]
+
 
 func _process(delta: float):
 	if GlobalStats.is_sleeping:
@@ -47,6 +57,10 @@ func _process(delta: float):
 		else:
 			background_overlay.visible = false
 		tempo_rimanente.visible = false
+	
+	energyBar.value = GlobalStats.energia
+	$CanvasLayer/VBoxContainer/energiaBar/Label.text = "%d / %d" % [GlobalStats.energia, 100]
+
 
 func _on_npc_body_entered(body, npc):
 	if body.name == "protagonista":
@@ -57,12 +71,14 @@ func _on_npc_body_entered(body, npc):
 		dialogue_box.show_dialogue(dialogues["Talk"])
 		print(npc_name)
 
+
 func _on_npc_body_exited(body,npc):
 	if body.name == "protagonista":
 		player_in_range = false
 		can_start_dialogue = true  # anche se esce, resetto questa flag per sicurezza
 		dialogue_box.visible = false
 		npc_name = npc
+
 
 #res://dialogue/dialogues.json
 func load_dialogues():
@@ -83,6 +99,7 @@ func load_dialogues():
 		print("Errore: impossibile aprire il file JSON. Percorso: res://dialogue/dialogues.json")
 	
 
+
 func _input(event):
 	if player_in_range and can_start_dialogue and event.is_action_pressed("ui_accept"):
 		_start_dialogue()
@@ -92,7 +109,7 @@ func _input(event):
 		else:
 			dialogue_box.show_dialogue(dialogues["energia_insufficente"])
 		
-	if can_rest and event.is_action_pressed("ui_accept"):
+	if can_rest and event.is_action_pressed("ui_accept") and not $CanvasLayer/TimerSelector/VBoxContainer/TextEdit.has_focus() and !GlobalStats.is_sleeping:
 		timer_selector.z_index = 1000
 		timer_selector.visible = true
 		background_overlay.visible = true
@@ -112,7 +129,11 @@ func _input(event):
 		var viewport_size = get_viewport().get_visible_rect().size
 		var offset = Vector2( -290, -140 )
 		log_viewer.position = (viewport_size / 2 - (timer_selector.get_size() * timer_selector.scale) / 2) + offset
-		
+	
+	if can_tornare_menu and event.is_action_pressed("ui_accept"):
+		TransitionScreen.transition()
+		await TransitionScreen.on_transition_finished
+		get_tree().change_scene_to_file("res://scene/menu.tscn")
 
 func _start_dialogue():
 	if npc_name=="npc_Eleonore": #npc_Eleonore si girano se giocatore si trova dietro di lei
@@ -141,6 +162,7 @@ func _on_start_game_area_entered(body):
 		dialogue_box.visible = true
 		can_start_game = true
 		print("entrata ", can_start_game)
+
 
 func _on_start_game_area_exited(body):
 	can_start_game = false
@@ -209,3 +231,16 @@ func _on_log_viewer_annulla_log() -> void:
 	log_viewer.visible = false
 	GlobalStats.in_menu = false
 	background_overlay.visible = false
+
+
+func _on_area_torna_menu_body_entered(body):
+	if body.name == "protagonista":
+		dialogue_box.show_dialogue(dialogues["torna_menu"])
+		dialogue_box.visible = true
+		can_tornare_menu = true
+
+
+func _on_area_torna_menu_body_exited(body):
+	if body.name == "protagonista":
+		dialogue_box.visible = false
+		can_tornare_menu = false

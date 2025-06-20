@@ -1,4 +1,4 @@
-[gd_scene load_steps=67 format=4 uid="uid://dxdeq1u760j5c"]
+[gd_scene load_steps=69 format=4 uid="uid://dxdeq1u760j5c"]
 
 [ext_resource type="Script" uid="uid://c7fyigx7s0x64" path="res://script/hub_map.gd" id="1_33jsw"]
 [ext_resource type="PackedScene" uid="uid://cm1ru7bxfj1s0" path="res://scene/player.tscn" id="1_nmp41"]
@@ -24,7 +24,7 @@
 [ext_resource type="PackedScene" uid="uid://bsfslsux5w0mh" path="res://scene/npc_eleonore.tscn" id="19_i0hfc"]
 [ext_resource type="AudioStream" uid="uid://7eg4rcbibp17" path="res://music/hubMapmusic.mp3" id="22_t2rro"]
 [ext_resource type="PackedScene" uid="uid://c3px6ndac26ab" path="res://scene/tempo_rimanente.tscn" id="23_v33p7"]
-[ext_resource type="PackedScene" path="res://scene/log_viewer.tscn" id="24_4hjmu"]
+[ext_resource type="PackedScene" uid="uid://b037wyg1la5ql" path="res://scene/log_viewer.tscn" id="24_4hjmu"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_t2rro"]
 texture = ExtResource("3_r3iyh")
@@ -6236,8 +6236,14 @@ size = Vector2(49, 78)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_v33p7"]
 size = Vector2(147, 71.5)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t2rro"]
+bg_color = Color(0.662745, 0.203922, 0.819608, 1)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4hjmu"]
 size = Vector2(96, 65)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_t2rro"]
+size = Vector2(102, 138)
 
 [node name="hubMap" type="Node2D"]
 script = ExtResource("1_33jsw")
@@ -6425,12 +6431,48 @@ color = Color(0.0352941, 0.0352941, 0.0352941, 0.494118)
 
 [node name="LogViewer" parent="CanvasLayer" instance=ExtResource("24_4hjmu")]
 
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -110.0
+offset_right = 111.0
+offset_bottom = 47.0
+grow_horizontal = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+text = "Energia"
+horizontal_alignment = 1
+
+[node name="energiaBar" type="ProgressBar" parent="CanvasLayer/VBoxContainer"]
+texture_filter = 1
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+theme_override_styles/fill = SubResource("StyleBoxFlat_t2rro")
+show_percentage = false
+
+[node name="Label" type="Label" parent="CanvasLayer/VBoxContainer/energiaBar"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+horizontal_alignment = 1
+
 [node name="AreaLog" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AreaLog"]
 position = Vector2(406, 468.5)
 shape = SubResource("RectangleShape2D_4hjmu")
 debug_color = Color(0.388235, 0.101961, 0.517647, 0.419608)
+
+[node name="AreaTornaMenu" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AreaTornaMenu"]
+position = Vector2(-6, 429)
+shape = SubResource("RectangleShape2D_t2rro")
+debug_color = Color(0.639739, 0.356704, 0.965752, 0.42)
 
 [connection signal="body_entered" from="areaRiposo" to="." method="_on_area_riposo_body_entered"]
 [connection signal="body_exited" from="areaRiposo" to="." method="_on_area_riposo_body_exited"]
@@ -6439,3 +6481,5 @@ debug_color = Color(0.388235, 0.101961, 0.517647, 0.419608)
 [connection signal="annulla_log" from="CanvasLayer/LogViewer" to="." method="_on_log_viewer_annulla_log"]
 [connection signal="body_entered" from="AreaLog" to="." method="_on_area_log_body_entered"]
 [connection signal="body_exited" from="AreaLog" to="." method="_on_area_log_body_exited"]
+[connection signal="body_entered" from="AreaTornaMenu" to="." method="_on_area_torna_menu_body_entered"]
+[connection signal="body_exited" from="AreaTornaMenu" to="." method="_on_area_torna_menu_body_exited"]

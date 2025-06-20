@@ -6,6 +6,7 @@ extends Node2D
 @onready var scudo_slime_dx = $hitboxes/scudo_slime_dx
 @onready var scudo_slime_sx = $hitboxes/scudo_slime_sx
 @onready var dialogue_box = $DialogueBox #per le interazioni e i dialoghi
+@onready var energyBar = $CanvasLayer/VBoxContainer/energiaBar
 var shader_material = ShaderMaterial.new()
 var can_start = true
 var shield = true
@@ -13,13 +14,17 @@ var dialogues = {}
 signal game_started(valore: int) #l'int è la difficoltà
 var incremento_difficolta = 2 #aumenta di 1 per ogni wave completata
 var first_wave = true #serve per il check per capire se sia o meno la prima wave
+ 
 
 func _ready():
 	var shader = preload("res://scene/player.gdshader")
 	shader_material.shader = shader
 	load_dialogues()
 	player_an_sp.material = null #di default è spenta
+	player.show_health_bar()
 	
+	energyBar.value = GlobalStats.energia
+	$CanvasLayer/VBoxContainer/energiaBar/Label.text = "%d / %d" % [GlobalStats.energia, 100]
 	
 func load_dialogues():
 	var file = FileAccess.open("res://dialogue/dialogues.json", FileAccess.READ)
@@ -95,6 +100,8 @@ func _on_enemy_spawner_wave_ended() -> void:
 	incremento_difficolta+=1
 	print("difficolta: ", incremento_difficolta)
 	$Area2Dscudo.monitoring = true
+	energyBar.value = GlobalStats.energia
+	$CanvasLayer/VBoxContainer/energiaBar/Label.text = "%d / %d" % [GlobalStats.energia, 100]
 
 func scene_change():
 	#animazione transizione

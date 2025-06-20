@@ -1,12 +1,12 @@
 {
 	"npc_Joanna": [
-		"Ciao viaggiatore, sembri molto forte",
-		"ti prego, esci e portaci dei viveri. 
+		"Ciao cavaliere, sembri molto forte",
+		"ti prego, esci e sconfiggi quei mostri. 
 			Sei la nostra unica speranza",
-		"ma sta attento, lì fuori è pieno di pericoli...",
+		"ma sta attento, è pieno di pericoli...",
 	],
 	"npc_Eleonore": [
-		"Hey viaggiatore, stai uscendo?",
+		"Hey cavaliere, stai uscendo?",
 		"Buona fortuna e non stare troppo lì fuori",
 		"i morti sono le uniche cose che qui non mancano..."
 	],
@@ -36,6 +36,9 @@
 	],
 	"log": [
 		"Premi [E] per controllare il registro dei riposi"
+	],
+	"torna_menu": [
+		"Premi [E] per tornare al menu"
 	]
 	
 	

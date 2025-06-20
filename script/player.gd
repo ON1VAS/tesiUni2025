@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 @onready var sword_hitbox = $SwordHitbox/CollisionShape2D
 @onready var hitbox_timer = $HitboxTimer
-
+@onready var healthbar = $HealthBar
 
 const GRAVITY = 400.0
 const JUMP_FORCE = -200
@@ -202,3 +202,9 @@ func _on_hitbox_timer_timeout() -> void:
 			# Se ci sono più keyframe, programma la prossima attivazione
 			var next_activation = props.delay * 1.5  # Regola questo valore
 			hitbox_timer.start(next_activation)
+
+func hide_health_bar():
+	healthbar.visible = false
+
+func show_health_bar():
+	healthbar.visible = true

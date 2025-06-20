@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://ft8x2k6sl5wf" path="res://script/menu.gd" id="1_e5g8k"]
 [ext_resource type="Texture2D" uid="uid://u6ku7qe6odsc" path="res://testures/Legacy-Fantasy - High Forest 2.3/Background/Background.png" id="2_8hxod"]
 [ext_resource type="Texture2D" uid="uid://irnknxe7uji1" path="res://logo/knightsRest-removebg-preview.png" id="3_bo06a"]
-[ext_resource type="Script" uid="uid://kj18erji1igc" path="res://script/audio.gd" id="4_15se8"]
+[ext_resource type="Script" uid="uid://drg7ebobc5vnp" path="res://script/audio.gd" id="4_15se8"]
 [ext_resource type="AudioStream" uid="uid://bhcgq50opjhwt" path="res://music/menumusic.mp3" id="4_xs5te"]
 
 [sub_resource type="SystemFont" id="SystemFont_xs5te"]
@@ -145,10 +145,10 @@ bus = &"Musica"
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = 40.0
-offset_top = -49.0
-offset_right = 159.0
-offset_bottom = -18.0
+offset_left = 694.0
+offset_top = -88.0
+offset_right = 813.0
+offset_bottom = -57.0
 grow_vertical = 0
 size_flags_horizontal = 0
 size_flags_vertical = 8

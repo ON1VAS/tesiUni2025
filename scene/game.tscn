@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=4 uid="uid://bfb3n5ulrxtxq"]
+[gd_scene load_steps=47 format=4 uid="uid://bfb3n5ulrxtxq"]
 
 [ext_resource type="PackedScene" uid="uid://cm1ru7bxfj1s0" path="res://scene/player.tscn" id="1_5kiuu"]
 [ext_resource type="Script" uid="uid://p03x4ile571r" path="res://script/game.gd" id="1_81276"]
@@ -3327,6 +3327,9 @@ b = Vector2(11, -108)
 a = Vector2(-4, -64)
 b = Vector2(83, 178)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i6gbm"]
+bg_color = Color(0.662745, 0.203922, 0.819608, 1)
+
 [node name="game" type="Node2D"]
 script = ExtResource("1_81276")
 
@@ -3462,6 +3465,35 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 script = ExtResource("11_i6gbm")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -110.5
+offset_right = 110.5
+offset_bottom = 47.0
+grow_horizontal = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+text = "Energia"
+horizontal_alignment = 1
+
+[node name="energiaBar" type="ProgressBar" parent="CanvasLayer/VBoxContainer"]
+texture_filter = 1
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+theme_override_styles/fill = SubResource("StyleBoxFlat_i6gbm")
+show_percentage = false
+
+[node name="Label" type="Label" parent="CanvasLayer/VBoxContainer/energiaBar"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+horizontal_alignment = 1
 
 [connection signal="game_started" from="." to="EnemySpawner" method="_on_game_game_started"]
 [connection signal="player_defeated" from="protagonista" to="." method="_on_protagonista_player_defeated"]
