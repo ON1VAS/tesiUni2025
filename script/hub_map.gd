@@ -70,6 +70,7 @@ func _on_npc_body_entered(body, npc):
 		dialogue_box.visible = true
 		dialogue_box.show_dialogue(dialogues["Talk"])
 		print(npc_name)
+		player_an_sp.material = shader_material
 
 
 func _on_npc_body_exited(body,npc):
@@ -78,6 +79,7 @@ func _on_npc_body_exited(body,npc):
 		can_start_dialogue = true  # anche se esce, resetto questa flag per sicurezza
 		dialogue_box.visible = false
 		npc_name = npc
+		player_an_sp.material = null
 
 
 #res://dialogue/dialogues.json
@@ -162,12 +164,14 @@ func _on_start_game_area_entered(body):
 		dialogue_box.visible = true
 		can_start_game = true
 		print("entrata ", can_start_game)
+		player_an_sp.material = shader_material
 
 
 func _on_start_game_area_exited(body):
 	can_start_game = false
 	dialogue_box.visible = false
 	print("uscita ", can_start_game)
+	player_an_sp.material = null
 
 
 func scene_change():
@@ -184,6 +188,7 @@ func _on_area_riposo_body_entered(body):
 		dialogue_box.show_dialogue(dialogues["rest"])
 		dialogue_box.visible = true
 		can_rest = true
+		player_an_sp.material = shader_material
 		
 
 
@@ -193,6 +198,7 @@ func _on_area_riposo_body_exited(body):
 		can_rest = false
 		timer_selector.visible = false
 		background_overlay.visible = false
+		player_an_sp.material = null
 
 
 func _on_timer_selector_annulla_orario():
@@ -216,6 +222,7 @@ func _on_area_log_body_entered(body):
 		dialogue_box.show_dialogue(dialogues["log"])
 		dialogue_box.visible = true
 		can_read_log = true
+		player_an_sp.material = shader_material
 
 
 func _on_area_log_body_exited(body):
@@ -223,6 +230,7 @@ func _on_area_log_body_exited(body):
 		dialogue_box.visible = false
 		can_read_log = false
 		background_overlay.visible = false
+		player_an_sp.material = null
 
 
 func _on_log_viewer_annulla_log() -> void:
@@ -238,9 +246,11 @@ func _on_area_torna_menu_body_entered(body):
 		dialogue_box.show_dialogue(dialogues["torna_menu"])
 		dialogue_box.visible = true
 		can_tornare_menu = true
+		player_an_sp.material = shader_material
 
 
 func _on_area_torna_menu_body_exited(body):
 	if body.name == "protagonista":
 		dialogue_box.visible = false
 		can_tornare_menu = false
+		player_an_sp.material = null
