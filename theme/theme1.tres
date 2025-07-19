@@ -58,7 +58,8 @@ texture = ExtResource("1_5i60x")
 region_rect = Rect2(0, 0, 64, 64)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_he4yr"]
-region_rect = Rect2(0, 0, 64, 64)
+texture = ExtResource("1_5i60x")
+region_rect = Rect2(0, 64, 64, 16)
 
 [resource]
 Button/colors/font_color = Color(0, 0, 0, 1)
@@ -89,5 +90,8 @@ Label/colors/font_color = Color(0, 0, 0, 1)
 Label/colors/font_outline_color = Color(1, 1, 1, 1)
 Label/styles/normal = SubResource("StyleBoxTexture_cuuor")
 Panel/styles/normal = SubResource("StyleBoxTexture_mdss1")
+TabBar/colors/drop_mark_color = Color(0, 0, 0, 1)
+TabBar/colors/font_hovered_color = Color(0, 0, 0, 1)
+TabBar/colors/font_selected_color = Color(0, 0, 0, 1)
 TabBar/styles/normal = SubResource("StyleBoxTexture_he4yr")
 Window/fonts/title_font = ExtResource("1_rhpoe")
