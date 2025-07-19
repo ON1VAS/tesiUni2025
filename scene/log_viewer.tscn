@@ -1,6 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://b037wyg1la5ql"]
+[gd_scene load_steps=6 format=3 uid="uid://b037wyg1la5ql"]
 
 [ext_resource type="Script" uid="uid://cbhq5pit0hgw8" path="res://script/log_viewer.gd" id="1_c0dvn"]
+[ext_resource type="Texture2D" uid="uid://da8moeshvudgb" path="res://testures/Legacy-Fantasy - High Forest 2.3/HUD/Base-01.png" id="2_x78dh"]
+[ext_resource type="Theme" uid="uid://c3usv1irpubfp" path="res://theme/theme2.tres" id="3_olh5i"]
+[ext_resource type="Theme" uid="uid://l2vc7oc1ypof" path="res://theme/theme1.tres" id="4_yjw1r"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_64bpq"]
+atlas = ExtResource("2_x78dh")
+region = Rect2(0, 0, 64, 64)
 
 [node name="LogViewer" type="Control"]
 layout_mode = 3
@@ -9,26 +16,29 @@ offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("1_c0dvn")
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="ColorRect" type="TextureRect" parent="."]
 layout_mode = 0
-offset_left = -11.0
+offset_left = -19.0
 offset_right = 409.0
-offset_bottom = 376.0
-color = Color(0.0862745, 0.0862745, 0.0862745, 0.788235)
+offset_bottom = 335.0
+texture = SubResource("AtlasTexture_64bpq")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_right = 400.0
+offset_bottom = 359.0
 
 [node name="Label" type="Label" parent="VBoxContainer"]
 layout_mode = 2
-text = "Registro riposi"
+theme = ExtResource("3_olh5i")
+text = "
+Registro riposi"
 horizontal_alignment = 1
 
 [node name="LogText" type="RichTextLabel" parent="VBoxContainer"]
 custom_minimum_size = Vector2(400, 300)
 layout_mode = 2
+theme = ExtResource("3_olh5i")
 
 [node name="HScrollBar" type="VScrollBar" parent="VBoxContainer/LogText"]
 layout_mode = 2
@@ -38,4 +48,6 @@ offset_bottom = 312.0
 
 [node name="Button" type="Button" parent="VBoxContainer"]
 layout_mode = 2
-text = "annulla"
+size_flags_horizontal = 4
+theme = ExtResource("4_yjw1r")
+text = " annulla "
