@@ -34,6 +34,10 @@ window/stretch/aspect="expand"
 player_weapon=""
 enemies=""
 
+[gui]
+
+theme/custom_font="uid://1citclbl86o"
+
 [input]
 
 ui_accept={
@@ -116,5 +120,6 @@ locale/translations_pot_files=PackedStringArray("res://dialogue/dialogue1.dialog
 
 [rendering]
 
+textures/canvas_textures/default_texture_filter=0
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"

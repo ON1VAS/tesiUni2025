@@ -1,0 +1,93 @@
+[gd_resource type="Theme" load_steps=11 format=3 uid="uid://l2vc7oc1ypof"]
+
+[ext_resource type="Texture2D" uid="uid://da8moeshvudgb" path="res://testures/Legacy-Fantasy - High Forest 2.3/HUD/Base-01.png" id="1_5i60x"]
+[ext_resource type="FontFile" uid="uid://1citclbl86o" path="res://font/TrajanPro-Regular.ttf" id="1_rhpoe"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rhpoe"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.1, 0.1, 0.1, 0.3)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_81jcn"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(1, 1, 1, 0.75)
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_81jcn"]
+texture = ExtResource("1_5i60x")
+region_rect = Rect2(0, 64, 64, 16)
+modulate_color = Color(0.781924, 0.408594, 0.28174, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_rhpoe"]
+texture = ExtResource("1_5i60x")
+region_rect = Rect2(0, 64, 64, 16)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_cfdeq"]
+texture = ExtResource("1_5i60x")
+region_rect = Rect2(0, 64, 64, 16)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_cuuor"]
+texture = ExtResource("1_5i60x")
+region_rect = Rect2(0, 0, 64, 64)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mdss1"]
+texture = ExtResource("1_5i60x")
+region_rect = Rect2(0, 0, 64, 64)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_he4yr"]
+region_rect = Rect2(0, 0, 64, 64)
+
+[resource]
+Button/colors/font_color = Color(0, 0, 0, 1)
+Button/colors/font_disabled_color = Color(0, 0, 0, 1)
+Button/colors/font_focus_color = Color(0, 0, 0, 1)
+Button/colors/font_hover_color = Color(0, 0, 0, 1)
+Button/colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+Button/colors/font_outline_color = Color(0, 0, 0, 1)
+Button/colors/font_pressed_color = Color(0, 0, 0, 1)
+Button/colors/icon_disabled_color = Color(0, 0, 0, 1)
+Button/colors/icon_focus_color = Color(0, 0, 0, 1)
+Button/colors/icon_hover_color = Color(0, 0, 0, 1)
+Button/colors/icon_hover_pressed_color = Color(0, 0, 0, 1)
+Button/colors/icon_normal_color = Color(0, 0, 0, 1)
+Button/colors/icon_pressed_color = Color(0, 0, 0, 1)
+Button/constants/align_to_largest_stylebox = 0
+Button/constants/h_separation = 0
+Button/constants/icon_max_width = 0
+Button/constants/outline_size = 0
+Button/font_sizes/font_size = 15
+Button/fonts/font = ExtResource("1_rhpoe")
+Button/styles/disabled = SubResource("StyleBoxFlat_rhpoe")
+Button/styles/focus = SubResource("StyleBoxFlat_81jcn")
+Button/styles/hover = SubResource("StyleBoxTexture_81jcn")
+Button/styles/normal = SubResource("StyleBoxTexture_rhpoe")
+Button/styles/pressed = SubResource("StyleBoxTexture_cfdeq")
+Label/colors/font_color = Color(0, 0, 0, 1)
+Label/colors/font_outline_color = Color(1, 1, 1, 1)
+Label/styles/normal = SubResource("StyleBoxTexture_cuuor")
+Panel/styles/normal = SubResource("StyleBoxTexture_mdss1")
+TabBar/styles/normal = SubResource("StyleBoxTexture_he4yr")
+Window/fonts/title_font = ExtResource("1_rhpoe")
