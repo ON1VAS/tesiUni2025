@@ -1,6 +1,12 @@
-[gd_scene load_steps=2 format=3 uid="uid://c3px6ndac26ab"]
+[gd_scene load_steps=5 format=3 uid="uid://c3px6ndac26ab"]
 
 [ext_resource type="Script" uid="uid://dch4y4pjbggws" path="res://scene/tempo_rimanente.gd" id="1_14ykx"]
+[ext_resource type="Texture2D" uid="uid://da8moeshvudgb" path="res://testures/Legacy-Fantasy - High Forest 2.3/HUD/Base-01.png" id="2_wj8oi"]
+[ext_resource type="Theme" uid="uid://c3usv1irpubfp" path="res://theme/theme2.tres" id="3_j1xil"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7akog"]
+atlas = ExtResource("2_wj8oi")
+region = Rect2(0, 0, 64, 64)
 
 [node name="tempo_rimanente" type="Control"]
 texture_filter = 1
@@ -19,26 +25,21 @@ grow_vertical = 2
 size_flags_horizontal = 4
 script = ExtResource("1_14ykx")
 
-[node name="ColorRect" type="ColorRect" parent="."]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = -0.5
-anchor_top = -0.375
-anchor_right = -0.5
-anchor_bottom = 0.05
-offset_left = -11.0
-offset_top = -4.0
-offset_right = 95.0
-offset_bottom = 53.0
-color = Color(0.129412, 0.129412, 0.129412, 0.615686)
-metadata/_edit_use_anchors_ = true
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = -32.0
+offset_top = -26.0
+offset_right = 87.0
+offset_bottom = 60.0
+texture = SubResource("AtlasTexture_7akog")
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 2
-offset_left = -20.0
-offset_top = -19.0
-offset_right = 65.0
-offset_bottom = 4.0
+offset_left = -21.0
+offset_top = -17.0
+offset_right = 73.0
+offset_bottom = 6.0
+theme = ExtResource("3_j1xil")
 text = "hh  mm  ss"
 horizontal_alignment = 1
 
@@ -46,7 +47,7 @@ horizontal_alignment = 1
 layout_mode = 0
 offset_left = -19.0
 offset_top = 1.0
-offset_right = 64.0
+offset_right = 79.0
 offset_bottom = 51.0
 alignment = 1
 
@@ -56,36 +57,42 @@ alignment = 1
 
 [node name="ore" type="Label" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
+theme = ExtResource("3_j1xil")
 text = "00"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
+theme = ExtResource("3_j1xil")
 text = ":"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="minuti" type="Label" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
+theme = ExtResource("3_j1xil")
 text = "00"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
+theme = ExtResource("3_j1xil")
 text = ":"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="secondi" type="Label" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
+theme = ExtResource("3_j1xil")
 text = "00"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="tempoSecondi" type="Label" parent="VBoxContainer"]
 layout_mode = 2
+theme = ExtResource("3_j1xil")
 text = "00"
 horizontal_alignment = 1
 vertical_alignment = 1

@@ -6237,7 +6237,7 @@ size = Vector2(49, 78)
 size = Vector2(147, 71.5)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t2rro"]
-bg_color = Color(0.662745, 0.203922, 0.819608, 1)
+bg_color = Color(0.607843, 0.0745098, 0, 1)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4hjmu"]
 size = Vector2(96, 65)
@@ -6436,9 +6436,12 @@ anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -110.0
+offset_top = 30.0
 offset_right = 111.0
-offset_bottom = 47.0
+offset_bottom = 77.0
 grow_horizontal = 2
+size_flags_horizontal = 4
+metadata/_edit_use_anchors_ = true
 
 [node name="Label" type="Label" parent="CanvasLayer/VBoxContainer"]
 layout_mode = 2
@@ -6456,9 +6459,11 @@ show_percentage = false
 
 [node name="Label" type="Label" parent="CanvasLayer/VBoxContainer/energiaBar"]
 layout_mode = 0
-offset_right = 40.0
+offset_left = 8.0
+offset_right = 48.0
 offset_bottom = 23.0
 horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="AreaLog" type="Area2D" parent="."]
 

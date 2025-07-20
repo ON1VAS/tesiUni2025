@@ -8,7 +8,7 @@ var is_active = false
 
 func _ready():
 	# cambia colore testo
-	dialogue_label.add_theme_color_override("font_color", Color.WHITE)
+	dialogue_label.add_theme_color_override("font_color", Color.BLACK)
 	
 	
 # Funzione per avviare il dialogo
