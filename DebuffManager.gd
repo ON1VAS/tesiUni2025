@@ -25,10 +25,10 @@ func apply_to_player(player):
 	player.ignore_jump_input = false
 	player.attack_input_delay = 0.0
 	
-	if energia < ENERGY_THRESHOLDS["buffplus"]:
+	if energia < ENERGY_THRESHOLDS["buffplus"]: #se l'energia è 100, avremo un bonus all'attacco
 		player.damage = 25
 	
-	# Debuff 1: rallenta
+	# Debuff 1: rallenta e diminuisce il danno, questo in realtà sarebbe la "normalità"
 	if energia < ENERGY_THRESHOLDS["blocco1"]:
 		player.speed = 150
 		player.damage = 10
@@ -49,10 +49,10 @@ func apply_to_player(player):
 	if energia > 0 and energia < ENERGY_THRESHOLDS["blocco5"]: #perdita di 1 hp ogni 10 secondi
 		if get_tree().current_scene.name != "game":
 			return
-		command_timer += get_process_delta_time()
+		command_timer += get_process_delta_time() #timer per invertire i comandi
 		if command_timer >= invert_interval:
 			command_timer = 0
-			command_inverted = randi() % 2 == 0  # true o false casuale
+			command_inverted = randi() % 2 == 0  # true o false casuale, ha il 50% di possibilità di invertire i comandi di moviemnto
 		if is_instance_valid(player) and player.health > 1 and not player.has_meta("losing_health"):
 			player.set_meta("losing_health", true)
 			var local_player_ref = player
@@ -80,11 +80,11 @@ func enemy_damage_multiplier(): #moltiplicatore del danno dei nemici
 	if energia < ENERGY_THRESHOLDS["blocco4"]:
 		return 1.5
 	return 1.0
-func is_sliding_active() -> bool: #scivolizia 
+func is_sliding_active() -> bool: #diminuisce la responsività del movimento aggiungendo un rallentamento nel iniziare e finire movimento, come se scivolasse
 	return GlobalStats.energia < ENERGY_THRESHOLDS["blocco4"]
 
 func is_vignette_active() -> bool: #vignetta per oscurare parte del campo visivo
 	return GlobalStats.energia <= ENERGY_THRESHOLDS["blocco3"]
 
-func is_command_inverted() -> bool:
+func is_command_inverted() -> bool: #randomicamente inverte i comandi
 	return command_inverted
