@@ -49,6 +49,7 @@ func _ready():
 
 
 func _process(delta: float):
+	#fa partire il timer di pausa
 	if GlobalStats.is_sleeping:
 		tempo_rimanente.calcola_tempo()
 	elif GlobalStats.secondi_totali == 0:

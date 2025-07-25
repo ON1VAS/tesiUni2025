@@ -10,7 +10,6 @@ const SECONDI_TOTALI_PATH := "user://secondi_totali.json"  # Percorso per il fil
 var energia_per_secondo = 100.0 / 86400.0
 var http_request: HTTPRequest
 var recupero_timer: Timer
-var oreRiposo: int
 var minutiRiposo: int
 var motivoRiposo: String
 #variabile per capire se il protagonista sta dormendo
@@ -140,7 +139,7 @@ func procedi_con_timestamp(current_time: int):
 func controlla_reset(current_time: int):
 	var elapsed = current_time - timestamp
 	if elapsed >= 86400:
-		print("✅ È passato un giorno! Reset energia.")
+		print("È passato un giorno! Reset energia.")
 		energia = 100
 		salva_dati()
 
@@ -162,23 +161,22 @@ func _on_recupero_timer_timeout():
 			in_menu = false
 			recupero_timer.stop()
 			can_log = true
-			_log(oreRiposo, minutiRiposo, motivoRiposo)
+			_log(minutiRiposo, motivoRiposo)
 	aumenta_energia(energia_per_secondo * 15)
 	
 
-func simula_recupero_energia(ore: int, minuti: int, motivo: String):
-	if ore + minuti == 0:
+func simula_recupero_energia( minuti: int, motivo: String):
+	if minuti == 0:
 		return
 	is_sleeping = true
-	oreRiposo = ore
 	minutiRiposo = minuti
 	motivoRiposo = motivo
 	recupero_timer.start()
-	secondi_totali = (ore * 3600) + (minuti * 60)
+	secondi_totali = (minuti * 60)
 	secondi_totali2 = secondi_totali
 	
 
-func _log(ore: int, minuti: int, motivo: String):
+func _log(minuti: int, motivo: String):
 	if can_log:
 		# Ora corrente come stringa
 		var now = Time.get_datetime_string_from_system(true)  # es. "2025-06-18 15:30:00"
@@ -187,7 +185,7 @@ func _log(ore: int, minuti: int, motivo: String):
 			var energia_recuperata = secondi_totali2 * energia_per_secondo * bonus
 			var energia_finale = round(energia_recuperata)
 			# Messaggio da scrivere nel log
-			var log_entry = "%s -> Ho riposato %d ore e %d minuti recuperando %d energia\nMotivo: %s\n" % [now, ore, minuti, energia_finale, motivo]
+			var log_entry = "%s -> Ho riposato per %d minuti recuperando %d energia\nMotivo: %s\n" % [now, minuti, energia_finale, motivo]
 		
 		# Scrittura su file in modalità append
 			var file: FileAccess

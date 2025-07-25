@@ -1,8 +1,6 @@
-[gd_scene load_steps=10 format=3 uid="uid://bi18x11emhua"]
+[gd_scene load_steps=8 format=3 uid="uid://bi18x11emhua"]
 
 [ext_resource type="Script" uid="uid://btshb2cmmgqwt" path="res://scene/timer_selector.gd" id="1_qxxub"]
-[ext_resource type="Script" uid="uid://dgqekrn07c64g" path="res://scene/decine_ore.gd" id="1_vom58"]
-[ext_resource type="Script" uid="uid://cfw4k77hq33b8" path="res://scene/unita_ore.gd" id="2_t0e23"]
 [ext_resource type="Texture2D" uid="uid://da8moeshvudgb" path="res://testures/Legacy-Fantasy - High Forest 2.3/HUD/Base-01.png" id="2_x4mk2"]
 [ext_resource type="Theme" uid="uid://c3usv1irpubfp" path="res://theme/theme2.tres" id="3_3ypxs"]
 [ext_resource type="Script" uid="uid://dpl5ovtups6ua" path="res://scene/decine_minuti.gd" id="3_t0e23"]
@@ -44,68 +42,23 @@ alignment = 1
 [node name="Label2" type="Label" parent="VBoxContainer"]
 layout_mode = 2
 theme = ExtResource("3_3ypxs")
-text = "Scegli quanto tempo far riposare l'avventuriero,
-Nel mentre ti potrai dedicare a ciò che vuoi!"
+text = "Scegli quanto tempo far allenare il cavaliere.
+Attenzione però! ci sarà un periodo di pausa
+durante il quale ti potrai
+dedicare a ciò che vuoi!"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Label" type="Label" parent="VBoxContainer"]
 layout_mode = 2
 theme = ExtResource("3_3ypxs")
-text = " ora      min"
+text = "min"
 horizontal_alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 texture_filter = 1
 layout_mode = 2
 alignment = 1
-
-[node name="decineOre" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
-texture_filter = 1
-layout_mode = 2
-script = ExtResource("1_vom58")
-
-[node name="oreUp" type="Button" parent="VBoxContainer/HBoxContainer/decineOre"]
-layout_mode = 2
-theme = ExtResource("5_mkuok")
-text = " + "
-
-[node name="Label1" type="Label" parent="VBoxContainer/HBoxContainer/decineOre"]
-layout_mode = 2
-theme = ExtResource("3_3ypxs")
-horizontal_alignment = 1
-
-[node name="oreDown" type="Button" parent="VBoxContainer/HBoxContainer/decineOre"]
-layout_mode = 2
-theme = ExtResource("5_mkuok")
-text = " - "
-
-[node name="unitaOre" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
-layout_mode = 2
-script = ExtResource("2_t0e23")
-
-[node name="ore2Up" type="Button" parent="VBoxContainer/HBoxContainer/unitaOre"]
-layout_mode = 2
-theme = ExtResource("5_mkuok")
-text = " + "
-
-[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer/unitaOre"]
-layout_mode = 2
-theme = ExtResource("3_3ypxs")
-horizontal_alignment = 1
-
-[node name="ore2Down" type="Button" parent="VBoxContainer/HBoxContainer/unitaOre"]
-layout_mode = 2
-theme = ExtResource("5_mkuok")
-text = " - "
-
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/HBoxContainer"]
-layout_mode = 2
-theme = ExtResource("3_3ypxs")
-text = ":"
 
 [node name="decineMinuti" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
@@ -149,8 +102,8 @@ text = " - "
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 size_flags_vertical = 3
-placeholder_text = "               a cosa dedicherai il tuo tempo?
-								 scrivilo qui!"
+placeholder_text = "a cosa dedicherai il	tuo tempo libero?
+scrivilo qui!"
 wrap_mode = 1
 
 [node name="pulsanti" type="HBoxContainer" parent="VBoxContainer"]
@@ -167,5 +120,3 @@ text = " annulla "
 layout_mode = 2
 theme = ExtResource("5_mkuok")
 text = "  inizia! "
-
-[connection signal="cambia_decine_ore" from="VBoxContainer/HBoxContainer/unitaOre" to="VBoxContainer/HBoxContainer/decineOre" method="_on_unita_ore_cambia_decine_ore"]
