@@ -1851,7 +1851,7 @@ position = Vector2(452, 73)
 texture = ExtResource("5_44tah")
 
 [node name="Sprite2D" type="Sprite2D" parent="sfondo"]
-position = Vector2(461, 62)
+position = Vector2(462, 75)
 texture = ExtResource("2_0r5x8")
 
 [node name="TileMapLayerBackground" type="TileMapLayer" parent="."]
@@ -1888,7 +1888,7 @@ position = Vector2(1718, 51)
 shape = SubResource("SegmentShape2D_eptoe")
 
 [node name="protagonista" parent="." instance=ExtResource("2_6dret")]
-position = Vector2(69, -95)
+position = Vector2(868, 114)
 scale = Vector2(0.8, 0.8)
 
 [node name="Camera2D" type="Camera2D" parent="protagonista"]
