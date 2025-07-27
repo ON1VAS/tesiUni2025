@@ -1894,7 +1894,7 @@ scale = Vector2(0.8, 0.8)
 [node name="Camera2D" type="Camera2D" parent="protagonista"]
 zoom = Vector2(2.5, 2.5)
 limit_left = -47
-limit_right = 1715
+limit_right = 1710
 limit_bottom = 190
 
 [node name="piattaforme" type="StaticBody2D" parent="."]
