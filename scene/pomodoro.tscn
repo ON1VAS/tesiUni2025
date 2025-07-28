@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=4 uid="uid://cr74nqcmv5wub"]
+[gd_scene load_steps=25 format=4 uid="uid://cr74nqcmv5wub"]
 
 [ext_resource type="Script" uid="uid://bt1ljq8asd5ab" path="res://script/pomodoro.gd" id="1_6dret"]
 [ext_resource type="Texture2D" uid="uid://j3pjf38vcse3" path="res://testures/Platform/FinalAreaPixelArts/Tiles.png" id="1_d2uo8"]
@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://d4ilglda5fivb" path="res://testures/gh-platform/Other Tiles1.png" id="4_0r5x8"]
 [ext_resource type="Texture2D" uid="uid://d3fgma3bsvhfs" path="res://testures/gh-platform/GandalfHardcore Background layers/Autumn BG/GandalfHardcore Background layers_layer 3.png" id="4_2kq4s"]
 [ext_resource type="Texture2D" uid="uid://oqmv1pm06i1a" path="res://testures/gh-platform/GandalfHardcore Background layers/Autumn BG/GandalfHardcore Background layers_layer 2.png" id="5_44tah"]
+[ext_resource type="Theme" uid="uid://l2vc7oc1ypof" path="res://theme/theme1.tres" id="11_5cs3s"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_pi1fw"]
 texture = ExtResource("2_eptoe")
@@ -1820,7 +1821,7 @@ size = Vector2(1759, 27)
 a = Vector2(1, -479)
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_eptoe"]
-a = Vector2(-19, -319)
+a = Vector2(-5, -319)
 b = Vector2(-9, 105)
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_0r5x8"]
@@ -1968,3 +1969,22 @@ one_way_collision = true
 position = Vector2(1524, 50)
 shape = SubResource("SegmentShape2D_0r5x8")
 one_way_collision = true
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="timer" type="Timer" parent="HUD"]
+
+[node name="timerlabel" type="Label" parent="HUD"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_top = 30.0
+offset_right = 20.0
+offset_bottom = 46.0
+grow_horizontal = 2
+scale = Vector2(1.8, 1.8)
+size_flags_horizontal = 4
+theme = ExtResource("11_5cs3s")
+horizontal_alignment = 1
+metadata/_edit_use_anchors_ = true

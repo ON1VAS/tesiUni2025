@@ -40,7 +40,7 @@ offset_top = -17.0
 offset_right = 73.0
 offset_bottom = 6.0
 theme = ExtResource("3_j1xil")
-text = "hh  mm  ss"
+text = "mm  ss"
 horizontal_alignment = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
@@ -54,20 +54,6 @@ alignment = 1
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
 alignment = 1
-
-[node name="ore" type="Label" parent="VBoxContainer/HBoxContainer"]
-layout_mode = 2
-theme = ExtResource("3_j1xil")
-text = "00"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer"]
-layout_mode = 2
-theme = ExtResource("3_j1xil")
-text = ":"
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="minuti" type="Label" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
