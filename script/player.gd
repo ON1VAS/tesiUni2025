@@ -5,7 +5,7 @@ extends CharacterBody2D
 @onready var healthbar = $HealthBar
 
 const GRAVITY = 400.0
-const JUMP_FORCE = -200
+const JUMP_FORCE = -230
 const MAX_HEALTH = 150.00
 const ROLL_FORCE = 400
 var currentMaxHealth = MAX_HEALTH
