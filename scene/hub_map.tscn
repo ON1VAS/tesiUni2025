@@ -6483,6 +6483,7 @@ debug_color = Color(0.639739, 0.356704, 0.965752, 0.42)
 [connection signal="body_exited" from="areaRiposo" to="." method="_on_area_riposo_body_exited"]
 [connection signal="annulla_orario" from="CanvasLayer/TimerSelector" to="." method="_on_timer_selector_annulla_orario"]
 [connection signal="conferma_iniziato" from="CanvasLayer/TimerSelector" to="." method="_on_timer_selector_conferma_iniziato"]
+[connection signal="annulla_tempo_rimanente" from="CanvasLayer/tempo_rimanente" to="." method="_on_tempo_rimanente_annulla_tempo_rimanente"]
 [connection signal="annulla_log" from="CanvasLayer/LogViewer" to="." method="_on_log_viewer_annulla_log"]
 [connection signal="body_entered" from="AreaLog" to="." method="_on_area_log_body_entered"]
 [connection signal="body_exited" from="AreaLog" to="." method="_on_area_log_body_exited"]

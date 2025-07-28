@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://c3px6ndac26ab"]
+[gd_scene load_steps=6 format=3 uid="uid://c3px6ndac26ab"]
 
 [ext_resource type="Script" uid="uid://dch4y4pjbggws" path="res://scene/tempo_rimanente.gd" id="1_14ykx"]
 [ext_resource type="Texture2D" uid="uid://da8moeshvudgb" path="res://testures/Legacy-Fantasy - High Forest 2.3/HUD/Base-01.png" id="2_wj8oi"]
 [ext_resource type="Theme" uid="uid://c3usv1irpubfp" path="res://theme/theme2.tres" id="3_j1xil"]
+[ext_resource type="Theme" uid="uid://l2vc7oc1ypof" path="res://theme/theme1.tres" id="4_j1xil"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7akog"]
 atlas = ExtResource("2_wj8oi")
@@ -82,3 +83,12 @@ theme = ExtResource("3_j1xil")
 text = "00"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_top = 62.0
+offset_right = 58.0
+offset_bottom = 78.0
+theme = ExtResource("4_j1xil")
+text = "chiudi"
+metadata/_edit_use_anchors_ = true

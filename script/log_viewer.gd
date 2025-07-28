@@ -1,7 +1,7 @@
 extends Control
 
 @onready var log_text: RichTextLabel = $VBoxContainer/LogText
-@onready var back_button: Button = $VBoxContainer/Button
+@onready var back_button: Button = $Button
 @onready var scroll = $VBoxContainer/LogText/HScrollBar
 var recovery_log_path = "user://recovery_log.txt"
 signal annulla_log

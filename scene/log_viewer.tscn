@@ -36,7 +36,7 @@ Registro riposi"
 horizontal_alignment = 1
 
 [node name="LogText" type="RichTextLabel" parent="VBoxContainer"]
-custom_minimum_size = Vector2(400, 300)
+custom_minimum_size = Vector2(400, 280)
 layout_mode = 2
 theme = ExtResource("3_olh5i")
 
@@ -46,8 +46,13 @@ offset_top = 304.0
 offset_right = 8.0
 offset_bottom = 312.0
 
-[node name="Button" type="Button" parent="VBoxContainer"]
+[node name="Button" type="Button" parent="."]
 layout_mode = 2
+offset_left = 159.0
+offset_top = 339.0
+offset_right = 240.0
+offset_bottom = 355.0
 size_flags_horizontal = 4
 theme = ExtResource("4_yjw1r")
 text = " annulla "
+metadata/_edit_use_anchors_ = true

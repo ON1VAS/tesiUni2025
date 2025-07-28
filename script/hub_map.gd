@@ -37,10 +37,8 @@ func _ready():
 	load_dialogues()
 	timer_selector.visible = false
 	background_overlay.visible = false
-	if GlobalStats.is_sleeping:
-		background_overlay.visible = true
-		tempo_rimanente.scale = Vector2(2.5,2.5)
-		tempo_rimanente.visible = true
+	tempo_rimanente.visible = false
+	
 	
 	player.hide_health_bar()
 	
@@ -108,7 +106,7 @@ func _input(event):
 		_start_dialogue()
 	if can_start_game and event.is_action_pressed("ui_accept"):
 		if GlobalStats.energia >=50:
-			scene_change()
+			scene_change("res://scene/game.tscn")
 		else:
 			dialogue_box.show_dialogue(dialogues["energia_insufficente"])
 		
@@ -118,11 +116,14 @@ func _input(event):
 		background_overlay.visible = true
 		GlobalStats.in_menu = true
 		timer_selector.scale = Vector2(1.5,1.5)
-		tempo_rimanente.scale = Vector2(2.5,2.5)
 		$CanvasLayer/TimerSelector/VBoxContainer/TextEdit.clear()
 		var viewport_size = get_viewport().get_visible_rect().size  # dimensione effettiva della finestra visibile
 		var offset = Vector2( -290, -140 )
 		timer_selector.position = (viewport_size / 2 - (timer_selector.get_size() * timer_selector.scale) / 2) + offset
+	elif can_rest and GlobalStats.is_sleeping and event.is_action_pressed("ui_accept"):
+		tempo_rimanente.scale = Vector2(2,2)
+		tempo_rimanente.visible = true
+		
 	
 	if can_read_log and event.is_action_pressed("ui_accept"):
 		background_overlay.visible = true
@@ -175,12 +176,12 @@ func _on_start_game_area_exited(body):
 	player_an_sp.material = null
 
 
-func scene_change():
+func scene_change(Scena: String):
 	#animazione transizione
 	TransitionScreen.transition()
 	await TransitionScreen.on_transition_finished
 	#cambio della scena
-	get_tree().change_scene_to_file("res://scene/game.tscn")
+	get_tree().change_scene_to_file(Scena)
 	
 
 
@@ -210,11 +211,14 @@ func _on_timer_selector_annulla_orario():
 	dialogue_box.show_dialogue(dialogues["rest"])
 	
 
-
-func _on_timer_selector_conferma_iniziato() -> void:
+#qua è da inserire il cambio scena al posto del freeze
+func _on_timer_selector_conferma_iniziato():
 	timer_selector.visible = false
-	background_overlay.visible = true
-	tempo_rimanente.visible = true
+	GlobalStats.in_menu = false
+	GlobalStats.is_sleeping = false
+	scene_change("res://scene/pomodoro.tscn")
+	#background_overlay.visible = true
+	#tempo_rimanente.visible = true
 	
 
 
@@ -255,3 +259,10 @@ func _on_area_torna_menu_body_exited(body):
 		dialogue_box.visible = false
 		can_tornare_menu = false
 		player_an_sp.material = null
+
+
+func _on_tempo_rimanente_annulla_tempo_rimanente() -> void:
+	dialogue_box.visible = false
+	tempo_rimanente.visible = false
+	GlobalStats.in_menu = false
+	background_overlay.visible = false

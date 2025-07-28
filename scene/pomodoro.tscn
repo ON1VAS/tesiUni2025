@@ -1988,3 +1988,5 @@ size_flags_horizontal = 4
 theme = ExtResource("11_5cs3s")
 horizontal_alignment = 1
 metadata/_edit_use_anchors_ = true
+
+[connection signal="timerfinito" from="." to="." method="_on_timerfinito"]

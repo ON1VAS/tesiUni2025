@@ -2,12 +2,15 @@ extends Control
 
 @onready var minuti = $VBoxContainer/HBoxContainer/minuti
 @onready var secondi = $VBoxContainer/HBoxContainer/secondi
-
 @onready var tempoSecondi = $VBoxContainer/tempoSecondi
+@onready var back_button: Button = $Button
+
+signal annulla_tempo_rimanente
 
 func _ready():
 	self.visible = false
-
+	back_button.pressed.connect(torna_al_menu)
+	
 
 func calcola_tempo():
 	var secondi_totali = GlobalStats.secondi_totali
@@ -25,4 +28,6 @@ func calcola_tempo():
 	
 	tempoSecondi.text = str(secondi_totali)
 	
-	
+
+func torna_al_menu():
+	annulla_tempo_rimanente.emit()
