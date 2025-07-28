@@ -48,9 +48,10 @@ func format_time(seconds:float) -> String:
 
 func scene_change(Scena: String):
 	#animazione transizione
-	GlobalStats.is_cooldowngame1 = true
+	GlobalStats.is_sleeping = true
 	TransitionScreen.transition()
 	await TransitionScreen.on_transition_finished
+	GlobalStats.im_back = true
 	#cambio della scena
 	get_tree().change_scene_to_file(Scena)
 

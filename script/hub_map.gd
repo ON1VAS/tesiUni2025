@@ -21,7 +21,7 @@ var shader_material = ShaderMaterial.new()
 var can_rest = false
 var can_read_log = false
 var can_tornare_menu = false
-
+var cooldown: float
 
 func _ready():
 	var shader = preload("res://scene/player.gdshader")
@@ -39,9 +39,10 @@ func _ready():
 	background_overlay.visible = false
 	tempo_rimanente.visible = false
 	
-	
 	player.hide_health_bar()
-	
+	if GlobalStats.im_back:
+		tempo_rimanente.calcola_tempo()
+		GlobalStats.im_back = false
 	energyBar.value = GlobalStats.energia
 	$CanvasLayer/VBoxContainer/energiaBar/Label.text = "%d / %d" % [GlobalStats.energia, 100]
 
@@ -216,6 +217,7 @@ func _on_timer_selector_conferma_iniziato():
 	timer_selector.visible = false
 	GlobalStats.in_menu = false
 	GlobalStats.is_sleeping = false
+	GlobalStats.tempo_cooldown = GlobalStats.secondi_totali * 3
 	scene_change("res://scene/pomodoro.tscn")
 	#background_overlay.visible = true
 	#tempo_rimanente.visible = true

@@ -6,6 +6,7 @@ const SAVE_PATH := "user://save_data.json"     # per energia
 var recovery_log_path := "user://recovery_log.txt" # per log di recupero energia
 var secondi_totali: int = 0  # Variabile per memorizzare i secondi totali, adnrà poi scalata
 var secondi_totali2: int = 0 # Variabile per memorizzare i secondi totali
+var tempo_cooldown:int = 0
 const SECONDI_TOTALI_PATH := "user://secondi_totali.json"  # Percorso per il file dei secondi totali
 var energia_per_secondo = 100.0 / 86400.0
 var http_request: HTTPRequest
@@ -16,13 +17,14 @@ var motivoRiposo: String
 var is_sleeping = false
 var in_menu = false
 var can_log = false
+var im_back = false
 # Energia
 var energia: float = 100
 # Timestamp per il reset giornaliero
 var timestamp: int
 
+
 func _ready():
-	
 	http_request = HTTPRequest.new()
 	add_child(http_request)
 	http_request.request_completed.connect(_on_http_request_request_completed)
@@ -31,7 +33,7 @@ func _ready():
 	add_child(recupero_timer)
 	recupero_timer.timeout.connect(_on_recupero_timer_timeout)
 	carica_dati()
-	if secondi_totali > 0:
+	if tempo_cooldown > 0:
 		is_sleeping = true
 	await get_tree().process_frame  # assicura inizializzazione HTTPRequest
 	
@@ -81,7 +83,7 @@ func carica_dati():
 		if data and data.has("secondi_totali"):
 			secondi_totali = data["secondi_totali"]
 			print("Secondi totali caricati:", secondi_totali)
-			if secondi_totali > 0:
+			if tempo_cooldown > 0:
 				
 				recupero_timer.start()
 		else:
@@ -152,11 +154,11 @@ func controlla_reset(current_time: int):
 		print("⏳ Manca ancora %.2f ore per il prossimo reset." % ore_mancanti)
 
 func _on_recupero_timer_timeout():
-	if secondi_totali > 0:
+	if tempo_cooldown > 0:
 		can_log = false
-		secondi_totali -= 1
+		tempo_cooldown -= 1
 		print(secondi_totali)
-		if secondi_totali == 0:
+		if tempo_cooldown == 0:
 			is_sleeping = false
 			in_menu = false
 			recupero_timer.stop()

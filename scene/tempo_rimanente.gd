@@ -13,7 +13,7 @@ func _ready():
 	
 
 func calcola_tempo():
-	var secondi_totali = GlobalStats.secondi_totali
+	var secondi_totali = GlobalStats.tempo_cooldown
 	var minuti_rimanenti: int = (secondi_totali % 3600) / 60
 	var secondi_rimanenti: int = secondi_totali % 60
 	
