@@ -124,6 +124,7 @@ func _input(event):
 	elif can_rest and GlobalStats.is_sleeping and event.is_action_pressed("ui_accept"):
 		tempo_rimanente.scale = Vector2(2,2)
 		tempo_rimanente.visible = true
+		GlobalStats.in_menu = true
 		
 	
 	if can_read_log and event.is_action_pressed("ui_accept"):
@@ -268,3 +269,6 @@ func _on_tempo_rimanente_annulla_tempo_rimanente() -> void:
 	tempo_rimanente.visible = false
 	GlobalStats.in_menu = false
 	background_overlay.visible = false
+	GlobalStats.in_menu = false
+	
+	

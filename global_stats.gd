@@ -4,6 +4,8 @@ extends Node
 var save_file_path = "user://timestamp.save"   # per timestamp (tempo reale)
 const SAVE_PATH := "user://save_data.json"     # per energia
 var recovery_log_path := "user://recovery_log.txt" # per log di recupero energia
+const TEMPO_COOLDOWN_PATH := "user://tempo_cooldown.json"
+
 var secondi_totali: int = 0  # Variabile per memorizzare i secondi totali, adnrà poi scalata
 var secondi_totali2: int = 0 # Variabile per memorizzare i secondi totali
 var tempo_cooldown:int = 0
@@ -83,17 +85,33 @@ func carica_dati():
 		if data and data.has("secondi_totali"):
 			secondi_totali = data["secondi_totali"]
 			print("Secondi totali caricati:", secondi_totali)
-			if tempo_cooldown > 0:
-				
-				recupero_timer.start()
+			
 		else:
 			print("File di salvataggio secondi totali danneggiato")
 	else:
 		print("File di salvataggio secondi totali non trovato")
+	# Carica tempo cooldown
+	if FileAccess.file_exists(TEMPO_COOLDOWN_PATH):
+		var file = FileAccess.open(TEMPO_COOLDOWN_PATH, FileAccess.READ)
+		var content = file.get_as_text()
+		file.close()
+		var data = JSON.parse_string(content)
+		if data and data.has("tempo_cooldown"):
+			tempo_cooldown = data["tempo_cooldown"]
+			print("Tempo cooldown caricato:", tempo_cooldown)
+			if tempo_cooldown > 0:
+				
+				recupero_timer.start()
+		else:
+			print("File cooldown danneggiato")
+	else:
+		print("File cooldown non trovato")
 
 # Salva energia su JSON
 func salva_dati():
-	var save_data = {"energia": energia}
+	var save_data = {
+		"energia": energia
+	}
 	var file = FileAccess.open(SAVE_PATH, FileAccess.WRITE)
 	file.store_string(JSON.stringify(save_data))
 	file.close()
@@ -105,6 +123,13 @@ func salva_dati():
 	secondi_file.store_string(JSON.stringify(secondi_data))
 	secondi_file.close()
 	print("Dati secondi totali salvati")
+	
+	# Salva tempo cooldown
+	var cooldown_data = {"tempo_cooldown": tempo_cooldown}
+	var cooldown_file = FileAccess.open(TEMPO_COOLDOWN_PATH, FileAccess.WRITE)
+	cooldown_file.store_string(JSON.stringify(cooldown_data))
+	cooldown_file.close()
+	print("Dati tempo cooldown salvati")
 
 # Callback richiesta HTTP completata
 func _on_http_request_request_completed(result, response_code, headers, body):
