@@ -1,16 +1,14 @@
 extends Node2D
-#configurazione dello spawner
+
 @export var enemies: Array[PackedScene] = []
 @export var spawn_points: Array[Marker2D] = []
-@export var max_enemies: int = 2
-@export var spawn_interval: float = 3.0
+@export var max_enemies: int = 5
+@export var spawn_interval: float = 5.0
 
 var current_enemies: int = 0
-var defeated_enemies: int = 0
-signal wave_ended
 
 func _ready():
-	$Timer.wait_time = spawn_interval #fa il preload dei nemici e li aggiunge all'array
+	# Carica le scene nemiche
 	enemies.append(preload("res://scene/ape.tscn"))
 	enemies.append(preload("res://scene/golem.tscn"))
 	enemies.append(preload("res://scene/chinghiale.tscn"))
@@ -18,12 +16,15 @@ func _ready():
 	enemies.append(preload("res://scene/golem_pietra.tscn"))
 	enemies.append(preload("res://provapermodificare/ragno/ragno.tscn"))
 
-func _on_timer_timeout() -> void: #loop che spawna i nemici
-	if current_enemies >= max_enemies:
-		return
-	spawn_enemy()
+	# Imposta e avvia il timer
+	$Timer.wait_time = spawn_interval
+	$Timer.start()
 
-func spawn_enemy(): #spawna i nemici
+func _on_timer_timeout() -> void:
+	if current_enemies < max_enemies:
+		spawn_enemy()
+
+func spawn_enemy():
 	var enemy_scene = enemies.pick_random()
 	var spawn_point = spawn_points.pick_random()
 	var enemy = enemy_scene.instantiate()
@@ -31,22 +32,8 @@ func spawn_enemy(): #spawna i nemici
 	enemy.dead.connect(_on_enemy_dead)
 	add_child(enemy)
 	current_enemies += 1
-	print("nemico spawnato: ", enemy.name," ", spawn_point.name)
+	print("Nemico spawnato: ", enemy.name, " in ", spawn_point.name)
 
-func _on_game_game_started(valore: int) -> void: #timer
-	print("difficolta: ", valore)
-	max_enemies = valore
-	print("max enemies: ", max_enemies)
-	current_enemies = 0
-	defeated_enemies = 0
-	$Timer.start()
-
-func _on_enemy_dead(): #così il gioco sa quando la wave è finita
-	defeated_enemies+=1
-	print("nemico morto. nemici rimanenti: ", current_enemies - defeated_enemies)
-	if (current_enemies == defeated_enemies):
-		wave_finished()
-
-func wave_finished():
-	print("wave finita")
-	wave_ended.emit()
+func _on_enemy_dead():
+	current_enemies -= 1
+	print("Nemico morto. Nemici attivi: ", current_enemies)

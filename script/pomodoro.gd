@@ -6,11 +6,11 @@ extends Node2D
 @onready var player_an_sp = $protagonista/AnimatedSprite2D
 @onready var timer = $HUD/timer
 @onready var timerlabel = $HUD/timerlabel
-
+@onready var dialogue_box = $DialogueBox #per le interazioni e i dialoghi
 #variabili
 var shader_material = ShaderMaterial.new()
 var time_left: float
-
+var dialogues = {}
 #Signal
 signal timerfinito
 
@@ -56,4 +56,19 @@ func scene_change(Scena: String):
 	get_tree().change_scene_to_file(Scena)
 
 func _on_timerfinito():
+	scene_change("res://scene/hub_map.tscn")
+
+
+func _on_protagonista_player_defeated():
+	#dialogue_box.visible = true
+	#dialogue_box.show_dialogue(dialogues["defeated"])
+	GlobalStats.riduci_energia(25)
+	var timer = Timer.new()
+	timer.wait_time = 2.0
+	timer.one_shot = true
+	add_child(timer) 
+	timer.start()
+	await timer.timeout
+	#dialogue_box.visible = false
+	timer.queue_free()  # cleanup the timer
 	scene_change("res://scene/hub_map.tscn")

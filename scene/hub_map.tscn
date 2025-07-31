@@ -6246,6 +6246,7 @@ size = Vector2(96, 65)
 size = Vector2(102, 138)
 
 [node name="hubMap" type="Node2D"]
+position = Vector2(0, -2)
 script = ExtResource("1_33jsw")
 metadata/_edit_horizontal_guides_ = [-27.0, 743.0, 22.0]
 
@@ -6400,6 +6401,9 @@ tile_map_data = PackedByteArray("AAAlAB0AAQAKAAsAAAAlAB4AAQAKAAwAAAAmAB0AAQALAAs
 tile_set = SubResource("TileSet_c4g2m")
 
 [node name="Area2DstartGame" type="Area2D" parent="."]
+visible = false
+monitoring = false
+monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2DstartGame"]
 position = Vector2(1125, 452)

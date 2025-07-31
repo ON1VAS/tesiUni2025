@@ -1,8 +1,9 @@
-[gd_scene load_steps=25 format=4 uid="uid://cr74nqcmv5wub"]
+[gd_scene load_steps=27 format=4 uid="uid://cr74nqcmv5wub"]
 
 [ext_resource type="Script" uid="uid://bt1ljq8asd5ab" path="res://script/pomodoro.gd" id="1_6dret"]
 [ext_resource type="Texture2D" uid="uid://j3pjf38vcse3" path="res://testures/Platform/FinalAreaPixelArts/Tiles.png" id="1_d2uo8"]
 [ext_resource type="Texture2D" uid="uid://cq83i3mfs3xyd" path="res://testures/gh-platform/GandalfHardcore Background layers/Autumn BG/GandalfHardcore Background layers_layer 1.png" id="2_0r5x8"]
+[ext_resource type="PackedScene" uid="uid://b50aqprkx4ob8" path="res://scene/DialogueBox.tscn" id="2_2kq4s"]
 [ext_resource type="Texture2D" uid="uid://bouud65jtuf1k" path="res://testures/gh-platform/GandalfHardcore Background layers/Autumn BG/GandalfHardcore Background layers_layer 5.png" id="2_03lme"]
 [ext_resource type="PackedScene" uid="uid://cm1ru7bxfj1s0" path="res://scene/player.tscn" id="2_6dret"]
 [ext_resource type="Texture2D" uid="uid://bqcirtba7bm2p" path="res://testures/Legacy-Fantasy - High Forest 2.3/Assets/Tiles.png" id="2_eptoe"]
@@ -11,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://d3fgma3bsvhfs" path="res://testures/gh-platform/GandalfHardcore Background layers/Autumn BG/GandalfHardcore Background layers_layer 3.png" id="4_2kq4s"]
 [ext_resource type="Texture2D" uid="uid://oqmv1pm06i1a" path="res://testures/gh-platform/GandalfHardcore Background layers/Autumn BG/GandalfHardcore Background layers_layer 2.png" id="5_44tah"]
 [ext_resource type="Theme" uid="uid://l2vc7oc1ypof" path="res://theme/theme1.tres" id="11_5cs3s"]
+[ext_resource type="Script" uid="uid://dm6owndp4a6s6" path="res://script/enemy_spawner.gd" id="13_44tah"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_pi1fw"]
 texture = ExtResource("2_eptoe")
@@ -1815,20 +1817,24 @@ a = Vector2(-179.5, -7)
 b = Vector2(1492.5, -9)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6dret"]
-size = Vector2(1759, 27)
+size = Vector2(2039, 27)
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_7bp47"]
 a = Vector2(1, -479)
+b = Vector2(-76, 10)
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_eptoe"]
 a = Vector2(-5, -319)
-b = Vector2(-9, 105)
+b = Vector2(73, 103)
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_0r5x8"]
 b = Vector2(42, 0)
 
 [node name="Pomodoro" type="Node2D"]
 script = ExtResource("1_6dret")
+
+[node name="DialogueBox" parent="." instance=ExtResource("2_2kq4s")]
+visible = false
 
 [node name="sfondo" type="Parallax2D" parent="."]
 scroll_offset = Vector2(-14, -35)
@@ -1877,7 +1883,7 @@ shape = SubResource("SegmentShape2D_6dret")
 one_way_collision = true
 
 [node name="pavimento2" type="CollisionShape2D" parent="pavimentazione"]
-position = Vector2(831.5, 162.5)
+position = Vector2(793.5, 162.5)
 shape = SubResource("RectangleShape2D_6dret")
 
 [node name="murosx" type="CollisionShape2D" parent="pavimentazione"]
@@ -1989,4 +1995,18 @@ theme = ExtResource("11_5cs3s")
 horizontal_alignment = 1
 metadata/_edit_use_anchors_ = true
 
+[node name="EnemySpawner" type="Node2D" parent="." node_paths=PackedStringArray("spawn_points")]
+script = ExtResource("13_44tah")
+spawn_points = [NodePath("spawnerDx"), NodePath("spawnerSx")]
+
+[node name="spawnerSx" type="Marker2D" parent="EnemySpawner"]
+position = Vector2(-82, 105)
+
+[node name="spawnerDx" type="Marker2D" parent="EnemySpawner"]
+position = Vector2(1756, 122)
+
+[node name="Timer" type="Timer" parent="EnemySpawner"]
+
 [connection signal="timerfinito" from="." to="." method="_on_timerfinito"]
+[connection signal="player_defeated" from="protagonista" to="." method="_on_protagonista_player_defeated"]
+[connection signal="timeout" from="EnemySpawner/Timer" to="EnemySpawner" method="_on_timer_timeout"]
