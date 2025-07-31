@@ -4,6 +4,7 @@ extends Node2D
 @export var spawn_points: Array[Marker2D] = []
 @export var max_enemies: int = 5
 @export var spawn_interval: float = 5.0
+@export var difficulty_interval: float = 30.0 #ogni quanti secondi aumenta la difficoltà
 
 var current_enemies: int = 0
 
@@ -19,6 +20,10 @@ func _ready():
 	# Imposta e avvia il timer
 	$Timer.wait_time = spawn_interval
 	$Timer.start()
+	
+	# Timer difficoltà
+	$difficultyTimer.wait_time = difficulty_interval
+	$difficultyTimer.start()
 
 func _on_timer_timeout() -> void:
 	if current_enemies < max_enemies:
@@ -37,3 +42,9 @@ func spawn_enemy():
 func _on_enemy_dead():
 	current_enemies -= 1
 	print("Nemico morto. Nemici attivi: ", current_enemies)
+
+
+func _on_difficulty_timer_timeout():
+	max_enemies += 1
+	print("numero di nemici max incrementato")
+	

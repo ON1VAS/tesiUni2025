@@ -2007,6 +2007,9 @@ position = Vector2(1756, 122)
 
 [node name="Timer" type="Timer" parent="EnemySpawner"]
 
+[node name="difficultyTimer" type="Timer" parent="EnemySpawner"]
+
 [connection signal="timerfinito" from="." to="." method="_on_timerfinito"]
 [connection signal="player_defeated" from="protagonista" to="." method="_on_protagonista_player_defeated"]
 [connection signal="timeout" from="EnemySpawner/Timer" to="EnemySpawner" method="_on_timer_timeout"]
+[connection signal="timeout" from="EnemySpawner/difficultyTimer" to="EnemySpawner" method="_on_difficulty_timer_timeout"]

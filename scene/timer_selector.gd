@@ -12,6 +12,7 @@ signal conferma_iniziato
 func _ready():
 	conferma_button.pressed.connect(_on_confirm_pressed)
 	annulla_button.pressed.connect(_on_cancel_pressed)
+	$VBoxContainer/HBoxContainer/decineMinuti.decina_changed.connect($VBoxContainer/HBoxContainer/unitaMinuti.set_max_value_from_decina)
 
 func _on_confirm_pressed():
 	#calcolo minuti di riflessione
