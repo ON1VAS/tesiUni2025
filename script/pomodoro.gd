@@ -62,7 +62,6 @@ func _on_timerfinito():
 func _on_protagonista_player_defeated():
 	#dialogue_box.visible = true
 	#dialogue_box.show_dialogue(dialogues["defeated"])
-	GlobalStats.riduci_energia(25)
 	var timer = Timer.new()
 	timer.wait_time = 2.0
 	timer.one_shot = true

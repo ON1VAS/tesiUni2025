@@ -26,6 +26,24 @@ grow_vertical = 2
 size_flags_horizontal = 4
 script = ExtResource("1_14ykx")
 
+[node name="Label2" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.6
+anchor_right = 0.6
+offset_left = -152.0
+offset_top = -100.0
+offset_right = 152.0
+offset_bottom = -46.0
+grow_horizontal = 2
+theme = ExtResource("4_j1xil")
+text = "Non puoi ancora giocare!
+Attendi studiando un po' 
+o dando sfogo alla tua fantasia!"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
 [node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 0
 offset_left = -32.0
