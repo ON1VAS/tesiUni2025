@@ -17,11 +17,12 @@ func _ready():
 func _on_confirm_pressed():
 	#calcolo minuti di riflessione
 	var minuti_interi = int(decineMinuti.text) * 10 + int(unitaMinuti.text)
-	var motivo = str(motivolabel.text)
+	var motivo = motivolabel.get_text()
 	if motivo.is_empty():
 		motivo = "non specificato"
 	if minuti_interi == 0:
 		return
+	print(motivo)
 	GlobalStats.simula_recupero_energia(minuti_interi, motivo)
 	conferma_iniziato.emit()
 	TransitionScreen.transition()

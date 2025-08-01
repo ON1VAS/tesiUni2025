@@ -241,7 +241,7 @@ func _on_area_log_body_exited(body):
 		player_an_sp.material = null
 
 
-func _on_log_viewer_annulla_log() -> void:
+func _on_log_viewer_annulla_log():
 	dialogue_box.visible = false
 	can_read_log = false
 	log_viewer.visible = false

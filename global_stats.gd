@@ -182,13 +182,12 @@ func _on_recupero_timer_timeout():
 	if tempo_cooldown > 0:
 		can_log = false
 		tempo_cooldown -= 1
-		print(secondi_totali)
+		print(tempo_cooldown)
 		if tempo_cooldown == 0:
 			is_sleeping = false
 			in_menu = false
 			recupero_timer.stop()
-			can_log = true
-			_log(minutiRiposo, motivoRiposo)
+			
 	aumenta_energia(energia_per_secondo * 15)
 	
 
@@ -199,6 +198,9 @@ func simula_recupero_energia( minuti: int, motivo: String):
 	minutiRiposo = minuti
 	motivoRiposo = motivo
 	recupero_timer.start()
+	can_log = true
+	print("stiamo a passare da qua zio pera 1, in teoria ha salvato il motivo")
+	_log(minutiRiposo, motivoRiposo)
 	secondi_totali = (minuti * 60)
 	secondi_totali2 = secondi_totali
 	
@@ -207,23 +209,22 @@ func _log(minuti: int, motivo: String):
 	if can_log:
 		# Ora corrente come stringa
 		var now = Time.get_datetime_string_from_system(true)  # es. "2025-06-18 15:30:00"
-		if (secondi_totali == 0):
-			var bonus = 15.0
-			var energia_recuperata = secondi_totali2 * energia_per_secondo * bonus
-			var energia_finale = round(energia_recuperata)
-			# Messaggio da scrivere nel log
-			var log_entry = "%s -> Ho riposato per %d minuti recuperando %d energia\nMotivo: %s\n" % [now, minuti, energia_finale, motivo]
-		
-		# Scrittura su file in modalità append
-			var file: FileAccess
-			if FileAccess.file_exists(recovery_log_path):
-				file = FileAccess.open(recovery_log_path, FileAccess.READ_WRITE)
-				file.seek_end()
-			else:
-				file = FileAccess.open(recovery_log_path, FileAccess.WRITE)
-			file.store_string(log_entry)
-			file.close()
-			print("📘 Log aggiornato:", log_entry.strip_edges())
+		var bonus = 15.0
+		var energia_recuperata = secondi_totali2 * energia_per_secondo * bonus
+		var energia_finale = round(energia_recuperata)
+		# Messaggio da scrivere nel log
+		var log_entry = "%s -> Ho giocato per %d minuti, riposando poi %d minuti\nCosa ho fatto dopo?: %s\n" % [now, minuti, minuti*2, motivo]
+	
+	# Scrittura su file in modalità append
+		var file: FileAccess
+		if FileAccess.file_exists(recovery_log_path):
+			file = FileAccess.open(recovery_log_path, FileAccess.READ_WRITE)
+			file.seek_end()
+		else:
+			file = FileAccess.open(recovery_log_path, FileAccess.WRITE)
+		file.store_string(log_entry)
+		file.close()
+		print("📘 Log aggiornato:", log_entry.strip_edges())
 
 func mostra_log_recupero(): #fa vedere cosa c'è nel log
 	if FileAccess.file_exists(recovery_log_path):
