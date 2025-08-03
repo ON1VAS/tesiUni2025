@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="BonusItem" load_steps=3 format=3 uid="uid://ded2ahy4t75tc"]
+
+[ext_resource type="Texture2D" uid="uid://m8vlnsm23q5y" path="res://Godot_icon.png" id="1_474sn"]
+[ext_resource type="Script" uid="uid://b74wgkuj3os82" path="res://bonus_item.gd" id="1_axtlo"]
+
+[resource]
+script = ExtResource("1_axtlo")
+name = "pozione di rigenerazione"
+description = "regen di 1hp al secondo"
+icon = ExtResource("1_474sn")
+bonus_key = "regen"
+bonus_value = 1
+metadata/_custom_type_script = "uid://b74wgkuj3os82"

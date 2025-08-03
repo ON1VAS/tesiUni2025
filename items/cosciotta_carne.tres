@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="BonusItem" load_steps=3 format=3 uid="uid://ccqfwscxih25v"]
+
+[ext_resource type="Texture2D" uid="uid://m8vlnsm23q5y" path="res://Godot_icon.png" id="1_nesyf"]
+[ext_resource type="Script" uid="uid://b74wgkuj3os82" path="res://bonus_item.gd" id="1_t0pki"]
+
+[resource]
+script = ExtResource("1_t0pki")
+name = "cosciotta di carne"
+description = "aumenta danno di 5"
+icon = ExtResource("1_nesyf")
+bonus_key = "damage"
+bonus_value = 5
+metadata/_custom_type_script = "uid://b74wgkuj3os82"

@@ -11,6 +11,7 @@ extends Node2D
 @onready var tempo_rimanente = $CanvasLayer/tempo_rimanente
 @onready var log_viewer = $CanvasLayer/LogViewer
 @onready var energyBar = $CanvasLayer/VBoxContainer/energiaBar
+@onready var inventoryUI = $CanvasLayer/InventoryUI
 
 var player_in_range = false
 var can_start_dialogue = true  # Nuovo flag per controllare la possibilità di iniziare dialogo
@@ -22,6 +23,8 @@ var can_rest = false
 var can_read_log = false
 var can_tornare_menu = false
 var cooldown: float
+
+var mela = preload("res://items/mela.tres")
 
 func _ready():
 	var shader = preload("res://scene/player.gdshader")
@@ -140,6 +143,16 @@ func _input(event):
 		TransitionScreen.transition()
 		await TransitionScreen.on_transition_finished
 		get_tree().change_scene_to_file("res://scene/menu.tscn")
+	
+	if event.is_action_pressed("tab") and !GlobalStats.in_menu:
+		GlobalStats.in_menu = true
+		
+		# Aggiungi l'oggetto solo se non c'è già
+		if not InventoryManager.items.has(mela):
+			InventoryManager.add_item(mela)
+			
+		inventoryUI.open_inventory(player)  # Questo chiama già _refresh_list()
+
 
 func _start_dialogue():
 	if npc_name=="npc_Eleonore": #npc_Eleonore si girano se giocatore si trova dietro di lei

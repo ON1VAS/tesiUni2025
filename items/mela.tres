@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="BonusItem" load_steps=3 format=3 uid="uid://6cx3cspuho64"]
+
+[ext_resource type="Texture2D" uid="uid://m8vlnsm23q5y" path="res://Godot_icon.png" id="1_i8tg7"]
+[ext_resource type="Script" uid="uid://b74wgkuj3os82" path="res://bonus_item.gd" id="1_v44kh"]
+
+[resource]
+script = ExtResource("1_v44kh")
+name = "mela"
+description = "aumenta hp di 10"
+icon = ExtResource("1_i8tg7")
+bonus_key = "currentMaxHealth"
+bonus_value = 10
+metadata/_custom_type_script = "uid://b74wgkuj3os82"

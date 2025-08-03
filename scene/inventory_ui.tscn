@@ -1,0 +1,56 @@
+[gd_scene load_steps=2 format=3 uid="uid://b5b4vmci7f6h5"]
+
+[ext_resource type="Script" uid="uid://c74d52unij03y" path="res://script/inventory_ui.gd" id="1_ia0un"]
+
+[node name="InventoryUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ia0un")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -58.0
+offset_top = -24.0
+offset_right = 58.0
+offset_bottom = 24.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+custom_minimum_size = Vector2(200, 300)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Inventario"
+horizontal_alignment = 1
+
+[node name="ItemList" type="ItemList" parent="PanelContainer/VBoxContainer"]
+custom_minimum_size = Vector2(100, 250)
+layout_mode = 2
+max_columns = 8
+same_column_width = true
+icon_mode = 0
+fixed_icon_size = Vector2i(16, 16)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="useButton" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Usa"
+
+[node name="closeButton" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Chiudi"

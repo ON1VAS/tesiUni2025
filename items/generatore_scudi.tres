@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="BonusItem" load_steps=3 format=3 uid="uid://dvf4pe4wc22dt"]
+
+[ext_resource type="Script" uid="uid://b74wgkuj3os82" path="res://bonus_item.gd" id="1_5qiqv"]
+[ext_resource type="Texture2D" uid="uid://m8vlnsm23q5y" path="res://Godot_icon.png" id="1_srcqi"]
+
+[resource]
+script = ExtResource("1_5qiqv")
+name = "generatore di scudi"
+description = "Uccidendo un nemico si ottengono 10 di scudo temporanei"
+icon = ExtResource("1_srcqi")
+bonus_key = "killshield"
+bonus_value = 1
+metadata/_custom_type_script = "uid://b74wgkuj3os82"
