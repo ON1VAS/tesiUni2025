@@ -6,7 +6,7 @@ extends Node
 	#"regen": false,
 	#"temp_hp": false,
 	#"jump_force": JUMP_FORCE,
-	#"extra_jump": false,
+	#"extra_jump": 0,
 	#"killshield": false
 #}
 
