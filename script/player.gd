@@ -19,6 +19,9 @@ var can_jump = true
 var can_roll = true
 var ignore_jump_input := false
 var damage_timer : SceneTreeTimer = null
+#gestione salti
+var max_jumps = 1
+var jumps_done = 0
 
 var attack_input_delay = 0.0 #per debuff sul delay attacchi
 var is_losing_health_over_time := false
@@ -33,6 +36,17 @@ var attack_properties = {
 	"attack2": {"delay": 0.15, "duration": 0.2, "keyframes": [2,3]},
 	"attackfermo2": {"delay": 0.15, "duration": 0.2, "keyframes": [2,3]}
 }
+#servono per gestire i power up dopo
+var base_stats := {
+	"damage" : 10,
+	"currentMaxHealth": MAX_HEALTH,
+	"regen": false,
+	"temp_hp": false,
+	"jump_force": JUMP_FORCE,
+	"extra_jump": 0, #gestito l'incremento dei salti
+	"killshield": false
+}
+
 
 func _ready():
 	print(self.name)
@@ -101,16 +115,15 @@ func _physics_process(delta):
 		position.y = position.y + 2
 		
 	
-	# Salto
-	if can_jump and not ignore_jump_input:
-		if Input.is_action_just_pressed("ui_up") and is_on_floor():
+# SALTO MULTIPLO
+	if Input.is_action_just_pressed("ui_up") and not ignore_jump_input and can_jump:
+		if jumps_done < max_jumps:
 			velocity.y = JUMP_FORCE
-			print("Can jump:", can_jump, "| Ignore input:", ignore_jump_input)
-	else:
-	# Forza il blocco verticale
-		if Input.is_action_just_pressed("ui_up"):
-			print("SALTO BLOCCATO")  # Debug
-			velocity.y = 0  # Se vuoi proprio bloccare anche tentativi
+			jumps_done += 1
+			print("Salto numero:", jumps_done)
+		else:
+			print("SALTO BLOCCATO")
+
 
 
 	
@@ -148,6 +161,10 @@ func _physics_process(delta):
 		$SwordHitbox.position.x = 10 * facing_direction  # co 10 sta giusto davanti al cavaliere
 		$CollisionShape2D.position.x = facing_direction
 	move_and_slide()
+	
+	#reset salti
+	if is_on_floor():
+		jumps_done = 0
 
 func SetHealthBar(): #imposto barretta vita
 	$HealthBar.value = health
@@ -208,3 +225,36 @@ func hide_health_bar():
 
 func show_health_bar():
 	healthbar.visible = true
+
+
+#nel caso siano valori numerici li cambia, nel caso sia booleani li rende true
+func apply_temp_bonus():
+	for key in BonusManager.active_bonus:
+		if not base_stats.has(key):
+			continue  # ignora bonus non riconosciuti
+
+		var current_value = self.get(key)
+		var bonus_value = BonusManager.active_bonus[key]
+
+		match typeof(current_value):
+			TYPE_INT, TYPE_FLOAT:
+				self.set(key, current_value + bonus_value)
+			TYPE_BOOL:
+				self.set(key, bonus_value)
+			_:
+				push_warning("Tipo non gestito per bonus: %s" % key)
+
+	# Se cambia la max health, aggiorna salute e barra
+	if BonusManager.active_bonus.has("currentMaxHealth"):
+		health = currentMaxHealth
+		SetHealthBar()
+
+
+
+func reset_temp_bonus():
+	for key in base_stats:
+		self.set(key, base_stats[key])
+	# Reset salute e barra se necessario
+	if base_stats.has("currentMaxHealth"):
+		health = currentMaxHealth
+		SetHealthBar()

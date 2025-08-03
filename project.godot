@@ -21,6 +21,7 @@ GlobalStats="*res://global_stats.gd"
 TransitionScreen="*res://scene/transition_screen.tscn"
 DebuffManager="*res://DebuffManager.gd"
 Persist="*res://script/Persist.gd"
+BonusManager="*res://bonus_manager.gd"
 
 [display]
 

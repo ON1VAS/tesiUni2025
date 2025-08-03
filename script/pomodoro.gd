@@ -20,6 +20,9 @@ func _ready():
 	shader_material.shader = shader
 	player_an_sp.material = null #di default è spenta, dovrebbe almeno
 	GlobalStats.is_sleeping = false
+	
+	#attiva bonus oggetti
+	player.apply_temp_bonus()
 	#setup timer
 	time_left = GlobalStats.secondi_totali
 	timerlabel.text = format_time(time_left)
@@ -47,6 +50,9 @@ func format_time(seconds:float) -> String:
 	return "%02d:%02d" % [minutes, secs]
 
 func scene_change(Scena: String):
+	#toglie i bonus
+	player.reset_temp_bonus()
+	BonusManager.clear()
 	#animazione transizione
 	GlobalStats.is_sleeping = true
 	TransitionScreen.transition()
