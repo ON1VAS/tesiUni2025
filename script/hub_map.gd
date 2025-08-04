@@ -25,6 +25,8 @@ var can_tornare_menu = false
 var cooldown: float
 
 var mela = preload("res://items/mela.tres")
+var piuma = preload("res://items/piuma.tres")
+var carne = preload("res://items/cosciotta_carne.tres")
 
 func _ready():
 	var shader = preload("res://scene/player.gdshader")
@@ -72,7 +74,6 @@ func _on_npc_body_entered(body, npc):
 		can_start_dialogue = true  # Reset possibilità dialogo solo entrando nell'area
 		dialogue_box.visible = true
 		dialogue_box.show_dialogue(dialogues["Talk"])
-		print(npc_name)
 		player_an_sp.material = shader_material
 
 
@@ -144,12 +145,17 @@ func _input(event):
 		await TransitionScreen.on_transition_finished
 		get_tree().change_scene_to_file("res://scene/menu.tscn")
 	
-	if event.is_action_pressed("tab") and !GlobalStats.in_menu:
+	if event.is_action_pressed("tab") and !GlobalStats.in_menu and player.is_on_floor():
 		GlobalStats.in_menu = true
 		
 		# Aggiungi l'oggetto solo se non c'è già
 		if not InventoryManager.items.has(mela):
 			InventoryManager.add_item(mela)
+		if not InventoryManager.items.has(piuma):
+			InventoryManager.add_item(piuma)
+		if not InventoryManager.items.has(carne):
+			InventoryManager.add_item(carne)
+			InventoryManager.add_item(carne)
 			
 		inventoryUI.open_inventory(player)  # Questo chiama già _refresh_list()
 
@@ -180,14 +186,12 @@ func _on_start_game_area_entered(body):
 		dialogue_box.show_dialogue(dialogues["Exit"])
 		dialogue_box.visible = true
 		can_start_game = true
-		print("entrata ", can_start_game)
 		player_an_sp.material = shader_material
 
 
 func _on_start_game_area_exited(body):
 	can_start_game = false
 	dialogue_box.visible = false
-	print("uscita ", can_start_game)
 	player_an_sp.material = null
 
 

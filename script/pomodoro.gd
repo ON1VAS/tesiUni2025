@@ -50,9 +50,7 @@ func format_time(seconds:float) -> String:
 	return "%02d:%02d" % [minutes, secs]
 
 func scene_change(Scena: String):
-	#toglie i bonus
-	player.reset_temp_bonus()
-	BonusManager.clear()
+	
 	#animazione transizione
 	GlobalStats.is_sleeping = true
 	TransitionScreen.transition()
@@ -62,12 +60,20 @@ func scene_change(Scena: String):
 	get_tree().change_scene_to_file(Scena)
 
 func _on_timerfinito():
+	#toglie i bonus
+	player.reset_temp_bonus()
+	BonusManager.clear()
 	scene_change("res://scene/hub_map.tscn")
 
 
 func _on_protagonista_player_defeated():
 	#dialogue_box.visible = true
 	#dialogue_box.show_dialogue(dialogues["defeated"])
+	
+	#toglie i bonus
+	player.reset_temp_bonus()
+	BonusManager.clear()
+	player.hide_health_bar()
 	var timer = Timer.new()
 	timer.wait_time = 2.0
 	timer.one_shot = true

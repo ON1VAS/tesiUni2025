@@ -5,7 +5,7 @@
 
 [resource]
 script = ExtResource("1_t0pki")
-name = "cosciotta di carne"
+name = "carne"
 description = "aumenta danno di 5"
 icon = ExtResource("1_nesyf")
 bonus_key = "damage"

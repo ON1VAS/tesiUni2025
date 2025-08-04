@@ -22,7 +22,7 @@ var damage_timer : SceneTreeTimer = null
 #gestione salti
 var max_jumps = 1
 var jumps_done = 0
-
+var extra_jump = 0
 var attack_input_delay = 0.0 #per debuff sul delay attacchi
 var is_losing_health_over_time := false
 
@@ -49,7 +49,6 @@ var base_stats := {
 
 
 func _ready():
-	print(self.name)
 	$AnimatedSprite2D.play("idle")
 	$HealthBar.value = health
 	sword_hitbox.disabled = true #disattivato di default
@@ -117,12 +116,11 @@ func _physics_process(delta):
 	
 # SALTO MULTIPLO
 	if Input.is_action_just_pressed("ui_up") and not ignore_jump_input and can_jump:
-		if jumps_done < max_jumps:
+		if jumps_done < max_jumps + extra_jump:
 			velocity.y = JUMP_FORCE
 			jumps_done += 1
-			print("Salto numero:", jumps_done)
-		else:
-			print("SALTO BLOCCATO")
+			print("danno", damage)
+		
 
 
 
