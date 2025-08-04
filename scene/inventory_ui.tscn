@@ -1,6 +1,12 @@
-[gd_scene load_steps=2 format=3 uid="uid://b5b4vmci7f6h5"]
+[gd_scene load_steps=5 format=3 uid="uid://b5b4vmci7f6h5"]
 
 [ext_resource type="Script" uid="uid://c74d52unij03y" path="res://script/inventory_ui.gd" id="1_ia0un"]
+[ext_resource type="Texture2D" uid="uid://da8moeshvudgb" path="res://testures/Legacy-Fantasy - High Forest 2.3/HUD/Base-01.png" id="2_dp107"]
+[ext_resource type="Theme" uid="uid://l2vc7oc1ypof" path="res://theme/theme1.tres" id="3_vsf47"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j1u10"]
+atlas = ExtResource("2_dp107")
+region = Rect2(0, 0, 64, 64)
 
 [node name="InventoryUI" type="Control"]
 layout_mode = 3
@@ -11,18 +17,33 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ia0un")
 
-[node name="PanelContainer" type="PanelContainer" parent="."]
-custom_minimum_size = Vector2(500, 0)
+[node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -58.0
-offset_top = -24.0
-offset_right = 58.0
-offset_bottom = 24.0
+offset_left = -276.5
+offset_top = -201.0
+offset_right = 276.5
+offset_bottom = 201.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_j1u10")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(500, 10)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -250.0
+offset_top = -180.0
+offset_right = 250.0
+offset_bottom = 167.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -38,10 +59,14 @@ horizontal_alignment = 1
 [node name="ItemList" type="ItemList" parent="PanelContainer/VBoxContainer"]
 custom_minimum_size = Vector2(100, 250)
 layout_mode = 2
+max_text_lines = 3
 max_columns = 8
-same_column_width = true
 icon_mode = 0
-fixed_icon_size = Vector2i(16, 16)
+fixed_icon_size = Vector2i(32, 32)
+
+[node name="descriptionLabel" type="Label" parent="PanelContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
@@ -49,8 +74,10 @@ alignment = 1
 
 [node name="useButton" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
-text = "Usa"
+theme = ExtResource("3_vsf47")
+text = " Usa "
 
 [node name="closeButton" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
-text = "Chiudi"
+theme = ExtResource("3_vsf47")
+text = " Chiudi "

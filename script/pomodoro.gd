@@ -34,6 +34,10 @@ func _ready():
 #gestione timer, gestisce il label e il timer
 func _on_timer_timeout():
 	time_left -= 1
+	#regen vita data da regen potion
+	if player.regen and player.health < player.MAX_HEALTH:
+		player.health += 1
+		print("vita: ", player.health)
 	if time_left <= 0:
 		timer.stop()
 		time_left = 0

@@ -52,12 +52,10 @@ func _ready():
 # Funzioni per energia - indipendenti dal timestamp
 func riduci_energia(valore: int):
 	energia = max(energia - valore, 0)
-	print("Energia attuale:", energia)
 	salva_dati()
 
 func aumenta_energia(valore: float):
 	energia = min(energia + valore, 100)
-	print("Energia attuale:", energia)
 	salva_dati()
 
 # Carica energia da file JSON
@@ -115,21 +113,21 @@ func salva_dati():
 	var file = FileAccess.open(SAVE_PATH, FileAccess.WRITE)
 	file.store_string(JSON.stringify(save_data))
 	file.close()
-	print("Dati energia salvati")
+	#print("Dati energia salvati")
 	
 	# Salva secondi totali
 	var secondi_data = {"secondi_totali": secondi_totali}
 	var secondi_file = FileAccess.open(SECONDI_TOTALI_PATH, FileAccess.WRITE)
 	secondi_file.store_string(JSON.stringify(secondi_data))
 	secondi_file.close()
-	print("Dati secondi totali salvati")
+	#print("Dati secondi totali salvati")
 	
 	# Salva tempo cooldown
 	var cooldown_data = {"tempo_cooldown": tempo_cooldown}
 	var cooldown_file = FileAccess.open(TEMPO_COOLDOWN_PATH, FileAccess.WRITE)
 	cooldown_file.store_string(JSON.stringify(cooldown_data))
 	cooldown_file.close()
-	print("Dati tempo cooldown salvati")
+	#print("Dati tempo cooldown salvati")
 
 # Callback richiesta HTTP completata
 func _on_http_request_request_completed(result, response_code, headers, body):
@@ -199,7 +197,6 @@ func simula_recupero_energia( minuti: int, motivo: String):
 	motivoRiposo = motivo
 	recupero_timer.start()
 	can_log = true
-	print("stiamo a passare da qua zio pera 1, in teoria ha salvato il motivo")
 	_log(minutiRiposo, motivoRiposo)
 	secondi_totali = (minuti * 60)
 	secondi_totali2 = secondi_totali

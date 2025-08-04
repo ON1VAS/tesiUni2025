@@ -27,18 +27,22 @@ var cooldown: float
 var mela = preload("res://items/mela.tres")
 var piuma = preload("res://items/piuma.tres")
 var carne = preload("res://items/cosciotta_carne.tres")
+var molla = preload("res://items/molla.tres")
+var regen_potion = preload("res://items/regen_potion.tres")
 
 func _ready():
 	var shader = preload("res://scene/player.gdshader")
 	shader_material.shader = shader
 	player_an_sp.material = null #di default è spenta
+	#vari connect
 	npcJoanna.connect("body_entered", _on_npc_body_entered.bind("npc_Joanna"))
 	npcJoanna.connect("body_exited", _on_npc_body_exited.bind("npc_Joanna"))
 	npcEleonore.connect("body_entered", _on_npc_body_entered.bind("npc_Eleonore"))
 	npcEleonore.connect("body_exited", _on_npc_body_exited.bind("npc_Eleonore"))
-	
 	startGame.connect("body_entered", _on_start_game_area_entered)
 	startGame.connect("body_exited", _on_start_game_area_exited)
+	
+	#carica dialoghi
 	load_dialogues()
 	timer_selector.visible = false
 	background_overlay.visible = false
@@ -145,18 +149,16 @@ func _input(event):
 		await TransitionScreen.on_transition_finished
 		get_tree().change_scene_to_file("res://scene/menu.tscn")
 	
-	if event.is_action_pressed("tab") and !GlobalStats.in_menu and player.is_on_floor():
+	if event.is_action_pressed("tab") and !GlobalStats.in_menu:
 		GlobalStats.in_menu = true
 		
-		# Aggiungi l'oggetto solo se non c'è già
-		if not InventoryManager.items.has(mela):
-			InventoryManager.add_item(mela)
-		if not InventoryManager.items.has(piuma):
-			InventoryManager.add_item(piuma)
-		if not InventoryManager.items.has(carne):
-			InventoryManager.add_item(carne)
-			InventoryManager.add_item(carne)
-			
+		InventoryManager.add_item(mela)
+		InventoryManager.add_item(piuma)
+		InventoryManager.add_item(carne)
+		InventoryManager.add_item(molla)
+		InventoryManager.add_item(regen_potion)
+		
+		
 		inventoryUI.open_inventory(player)  # Questo chiama già _refresh_list()
 
 

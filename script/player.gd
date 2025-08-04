@@ -23,6 +23,8 @@ var damage_timer : SceneTreeTimer = null
 var max_jumps = 1
 var jumps_done = 0
 var extra_jump = 0
+var jump_force = 0 #potenza in più di salto
+var regen = false
 var attack_input_delay = 0.0 #per debuff sul delay attacchi
 var is_losing_health_over_time := false
 
@@ -42,7 +44,7 @@ var base_stats := {
 	"currentMaxHealth": MAX_HEALTH,
 	"regen": false,
 	"temp_hp": false,
-	"jump_force": JUMP_FORCE,
+	"jump_force": 0,
 	"extra_jump": 0, #gestito l'incremento dei salti
 	"killshield": false
 }
@@ -117,7 +119,7 @@ func _physics_process(delta):
 # SALTO MULTIPLO
 	if Input.is_action_just_pressed("ui_up") and not ignore_jump_input and can_jump:
 		if jumps_done < max_jumps + extra_jump:
-			velocity.y = JUMP_FORCE
+			velocity.y = JUMP_FORCE + jump_force
 			jumps_done += 1
 			print("danno", damage)
 		

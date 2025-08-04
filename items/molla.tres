@@ -9,5 +9,6 @@ name = "molla"
 description = "puoi saltare più in alto"
 icon = ExtResource("1_2d03a")
 bonus_key = "jump_force"
-bonus_value = -200
+bonus_value = -70
+single_use = true
 metadata/_custom_type_script = "uid://b74wgkuj3os82"
