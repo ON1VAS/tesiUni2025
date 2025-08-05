@@ -42,11 +42,11 @@ var attack_properties = {
 var base_stats := {
 	"damage" : 10,
 	"currentMaxHealth": MAX_HEALTH,
-	"regen": false,
-	"temp_hp": false,
+	"regen": 0,
+	"temp_hp": 0,
 	"jump_force": 0,
 	"extra_jump": 0, #gestito l'incremento dei salti
-	"killshield": false
+	"killshield": 0
 }
 
 

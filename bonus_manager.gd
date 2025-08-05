@@ -26,3 +26,4 @@ func add_bonus(key: String, value):
 
 func clear():
 	active_bonus.clear()
+	InventoryManager.reset_used_items()

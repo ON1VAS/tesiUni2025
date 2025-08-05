@@ -8,3 +8,4 @@ class_name BonusItem
 @export var bonus_key: String
 @export var bonus_value := 0
 @export var single_use := true
+@export var used := false

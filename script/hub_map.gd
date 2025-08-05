@@ -47,7 +47,9 @@ func _ready():
 	timer_selector.visible = false
 	background_overlay.visible = false
 	tempo_rimanente.visible = false
-	
+	BonusManager.clear()
+	InventoryManager.reset_used_items()
+	player.reset_temp_bonus()
 	player.hide_health_bar()
 	if GlobalStats.im_back:
 		tempo_rimanente.calcola_tempo()
@@ -153,7 +155,7 @@ func _input(event):
 		GlobalStats.in_menu = true
 		
 		#InventoryManager.add_item(mela)
-		#InventoryManager.add_item(piuma)
+		InventoryManager.add_item(piuma)
 		#InventoryManager.add_item(carne)
 		#InventoryManager.add_item(molla)
 		#InventoryManager.add_item(regen_potion)

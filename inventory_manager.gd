@@ -1,19 +1,19 @@
 extends Node
 
-# Dizionario con chiave = nome oggetto, valore = { item, quantity, active }
+#Dizionario con chiave = nome oggetto, valore = { item, quantity, active }
 var items: Dictionary = {}
 
-# Lista di tutte le risorse BonusItem disponibili (modifica i path con i tuoi reali)
+#Lista di tutte le risorse BonusItem disponibili (modifica i path con i tuoi reali)
 var all_bonus_items := [
 	preload("res://items/cosciotta_carne.tres"),
 	preload("res://items/mela.tres"),
 	preload("res://items/piuma.tres"),
 	preload("res://items/regen_potion.tres"),
 	preload("res://items/molla.tres")
-	# aggiungi qui tutte le risorse .tres o scene dei tuoi BonusItem
+	#aggiungi qui tutte le risorse .tres o scene dei tuoi BonusItem
 ]
 
-var inventario = []  # Lista di dizionari, es. [{ "id": "pozion", "quantita": 3 }, ...]
+var inventario = []  #Lista di dizionari, es. [{ "id": "pozion", "quantita": 3 }, ...]
 
 const INVENTARIO_PATH = "user://inventario.json"
 
@@ -91,3 +91,22 @@ func use_item(item_name: String, player: Node):
 		if entry["quantity"] <= 0:
 			items.erase(item_name)
 	salva_inventario()
+
+#assegna i reward
+func assegna_reward(minuti: int):
+	print("Assegnazione reward per", minuti, "minuti")
+	for i in range(minuti):
+		if all_bonus_items.size() == 0:
+			print("Nessun oggetto disponibile nella pool")
+			break
+
+		var item = all_bonus_items.pick_random()
+		add_item(item)
+		print("Ricompensa ottenuta:", item.name)
+
+func reset_used_items():
+	for key in items.keys():
+		var entry = items[key]
+		entry["active"] = false
+	salva_inventario()
+	print("Oggetti usati resettati")

@@ -54,13 +54,17 @@ func format_time(seconds:float) -> String:
 	return "%02d:%02d" % [minutes, secs]
 
 func scene_change(Scena: String):
-	
+	#assegna ricompense prima del cambio scena
+	var minuti_giocati = int(GlobalStats.secondi_totali / 60)
+	if minuti_giocati > 0:
+		InventoryManager.assegna_reward(minuti_giocati)
+
 	#animazione transizione
 	GlobalStats.is_sleeping = true
 	TransitionScreen.transition()
 	await TransitionScreen.on_transition_finished
 	GlobalStats.im_back = true
-	#cambio della scena
+	
 	get_tree().change_scene_to_file(Scena)
 
 func _on_timerfinito():
