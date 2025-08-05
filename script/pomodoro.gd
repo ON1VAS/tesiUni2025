@@ -77,6 +77,8 @@ func _on_protagonista_player_defeated():
 	#toglie i bonus
 	player.reset_temp_bonus()
 	BonusManager.clear()
+	
+	#inizio cambio scena
 	player.hide_health_bar()
 	var timer = Timer.new()
 	timer.wait_time = 2.0
