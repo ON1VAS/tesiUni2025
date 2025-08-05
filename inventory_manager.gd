@@ -1,8 +1,67 @@
-### InventoryManager.gd
 extends Node
 
-#Chiave: item name, Valore: dizionario con {item, quantity, active}
+# Dizionario con chiave = nome oggetto, valore = { item, quantity, active }
 var items: Dictionary = {}
+
+# Lista di tutte le risorse BonusItem disponibili (modifica i path con i tuoi reali)
+var all_bonus_items := [
+	preload("res://items/cosciotta_carne.tres"),
+	preload("res://items/mela.tres"),
+	preload("res://items/piuma.tres"),
+	preload("res://items/regen_potion.tres"),
+	preload("res://items/molla.tres")
+	# aggiungi qui tutte le risorse .tres o scene dei tuoi BonusItem
+]
+
+var inventario = []  # Lista di dizionari, es. [{ "id": "pozion", "quantita": 3 }, ...]
+
+const INVENTARIO_PATH = "user://inventario.json"
+
+func _ready() -> void:
+	carica_inventario()
+
+func get_item_by_name(name: String) -> BonusItem:
+	for item in all_bonus_items:
+		if item.name == name:
+			return item
+	return null
+
+func salva_inventario():
+	var to_save = []
+	for key in items.keys():
+		var entry = items[key]
+		to_save.append({"id": key, "quantita": entry["quantity"]})
+	var file = FileAccess.open(INVENTARIO_PATH, FileAccess.WRITE)
+	file.store_string(JSON.stringify(to_save))
+	file.close()
+	print("Inventario salvato:", to_save)
+
+func carica_inventario():
+	if FileAccess.file_exists(INVENTARIO_PATH):
+		var file = FileAccess.open(INVENTARIO_PATH, FileAccess.READ)
+		var content = file.get_as_text()
+		file.close()
+		var data = JSON.parse_string(content)
+		if data and typeof(data) == TYPE_ARRAY:
+			inventario = data
+			items.clear()
+			for entry in inventario:
+				var item_name = entry["id"]
+				var quantity = entry["quantita"]
+				var item_instance = get_item_by_name(item_name)
+				if item_instance != null:
+					items[item_name] = {
+						"item": item_instance,
+						"quantity": quantity,
+						"active": false
+					}
+			print("Inventario caricato:", items)
+		else:
+			print("File inventario danneggiato o formato errato")
+	else:
+		inventario = []
+		items.clear()
+		print("File inventario non trovato, inventario vuoto")
 
 func add_item(item: BonusItem):
 	if not items.has(item.name):
@@ -13,6 +72,7 @@ func add_item(item: BonusItem):
 		}
 	else:
 		items[item.name]["quantity"] += 1
+	salva_inventario()
 	print("Item aggiunto:", item.name, "x", items[item.name]["quantity"])
 
 func use_item(item_name: String, player: Node):
@@ -22,21 +82,12 @@ func use_item(item_name: String, player: Node):
 	var entry = items[item_name]
 	var item = entry["item"]
 
-	# Se non è già attivo, attiva il bonus e decrementa
 	if not entry["active"]:
 		BonusManager.add_bonus(item.bonus_key, item.bonus_value)
 		player.apply_temp_bonus()
 		entry["quantity"] -= 1
 		entry["active"] = true
 
-		# Se finiti, rimuovi dall'inventario
 		if entry["quantity"] <= 0:
 			items.erase(item_name)
-
-
-	if not BonusManager.active_bonus.has(item.bonus_key):
-		BonusManager.add_bonus(item.bonus_key, item.bonus_value)
-		player.apply_temp_bonus()
-		items[item_name][1] -= 1
-		if items[item_name][1] <= 0:
-			items.erase(item_name)
+	salva_inventario()

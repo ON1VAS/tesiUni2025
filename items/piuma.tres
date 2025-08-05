@@ -10,4 +10,5 @@ description = "disponi di un salto in più"
 icon = ExtResource("1_rco5m")
 bonus_key = "extra_jump"
 bonus_value = 1
+single_use = true
 metadata/_custom_type_script = "uid://b74wgkuj3os82"

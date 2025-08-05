@@ -42,7 +42,7 @@ func _ready():
 	var url = "http://worldtimeapi.org/api/ip"
 	var error = http_request.request(url)
 	if error != OK:
-		print("❌ Errore nella chiamata HTTPRequest.request():", error)
+		print("Errore nella chiamata HTTPRequest.request():", error)
 		usa_fallback_locale()
 		
 	#svuota_log_recupero()
@@ -134,16 +134,16 @@ func _on_http_request_request_completed(result, response_code, headers, body):
 	if response_code == 200:
 		var json = JSON.parse_string(body.get_string_from_utf8())
 		var time_unix = json["unixtime"]
-		print("🌐 Orario reale:", time_unix)
+		print("Orario reale:", time_unix)
 		procedi_con_timestamp(time_unix)
 	else:
-		print("❌ Errore nella risposta HTTP:", response_code)
+		print("Errore nella risposta HTTP:", response_code)
 		usa_fallback_locale()
 
 # Fallback al tempo locale
 func usa_fallback_locale():
 	var time_unix = Time.get_unix_time_from_system()
-	print("🕒 Fallback locale:", time_unix)
+	print("Fallback locale:", time_unix)
 	procedi_con_timestamp(time_unix)
 
 # Gestione timestamp per reset
@@ -174,7 +174,7 @@ func controlla_reset(current_time: int):
 		file.close()
 	else:
 		var ore_mancanti = (86400 - elapsed) / 3600.0
-		print("⏳ Manca ancora %.2f ore per il prossimo reset." % ore_mancanti)
+		print("Manca ancora %.2f ore per il prossimo reset." % ore_mancanti)
 
 func _on_recupero_timer_timeout():
 	if tempo_cooldown > 0:
@@ -221,22 +221,22 @@ func _log(minuti: int, motivo: String):
 			file = FileAccess.open(recovery_log_path, FileAccess.WRITE)
 		file.store_string(log_entry)
 		file.close()
-		print("📘 Log aggiornato:", log_entry.strip_edges())
+		print("Log aggiornato:", log_entry.strip_edges())
 
 func mostra_log_recupero(): #fa vedere cosa c'è nel log
 	if FileAccess.file_exists(recovery_log_path):
 		var file = FileAccess.open(recovery_log_path, FileAccess.READ)
 		var contenuto = file.get_as_text()
 		file.close()
-		print("📖 Contenuto del log di recupero energia:\n", contenuto)
+		print("Contenuto del log di recupero energia:\n", contenuto)
 	else:
-		print("📂 Nessun log di recupero trovato.")
+		print("Nessun log di recupero trovato.")
 
 func svuota_log_recupero():
 	if FileAccess.file_exists(recovery_log_path):
 		var file = FileAccess.open(recovery_log_path, FileAccess.WRITE)
 		file.store_string("")  # Scrive una stringa vuota
 		file.close()
-		print("🗑️ Log svuotato correttamente.")
+		print("Log svuotato correttamente.")
 	else:
-		print("⚠️ Nessun file di log da svuotare.")
+		print("Nessun file di log da svuotare.")
