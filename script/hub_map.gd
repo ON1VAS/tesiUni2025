@@ -152,11 +152,11 @@ func _input(event):
 	if event.is_action_pressed("tab") and !GlobalStats.in_menu:
 		GlobalStats.in_menu = true
 		
-		#InventoryManager.add_item(mela)
-		#InventoryManager.add_item(piuma)
-		#InventoryManager.add_item(carne)
-		#InventoryManager.add_item(molla)
-		#InventoryManager.add_item(regen_potion)
+		InventoryManager.add_item(mela)
+		InventoryManager.add_item(piuma)
+		InventoryManager.add_item(carne)
+		InventoryManager.add_item(molla)
+		InventoryManager.add_item(regen_potion)
 		
 		
 		inventoryUI.open_inventory(player)  # Questo chiama già _refresh_list()

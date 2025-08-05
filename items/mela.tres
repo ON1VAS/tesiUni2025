@@ -10,5 +10,4 @@ description = "aumenta hp di 10"
 icon = ExtResource("1_i8tg7")
 bonus_key = "currentMaxHealth"
 bonus_value = 10
-single_use = true
 metadata/_custom_type_script = "uid://b74wgkuj3os82"
