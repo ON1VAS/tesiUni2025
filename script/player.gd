@@ -121,7 +121,6 @@ func _physics_process(delta):
 		if jumps_done < max_jumps + extra_jump:
 			velocity.y = JUMP_FORCE + jump_force
 			jumps_done += 1
-			print("danno", damage)
 		
 
 

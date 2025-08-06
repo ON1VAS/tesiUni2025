@@ -12,7 +12,7 @@ extends Node2D
 @onready var log_viewer = $CanvasLayer/LogViewer
 @onready var energyBar = $CanvasLayer/VBoxContainer/energiaBar
 @onready var inventoryUI = $CanvasLayer/InventoryUI
-
+@onready var RewardNotifier = $CanvasLayer/RewardNotifier
 var player_in_range = false
 var can_start_dialogue = true  # Nuovo flag per controllare la possibilità di iniziare dialogo
 var dialogues = {}
@@ -56,6 +56,8 @@ func _ready():
 		GlobalStats.im_back = false
 	energyBar.value = GlobalStats.energia
 	$CanvasLayer/VBoxContainer/energiaBar/Label.text = "%d / %d" % [GlobalStats.energia, 100]
+	#mostra i reward nel caso ce ne siano
+	mostra_reward_post_gioco()
 
 
 func _process(delta: float):
@@ -155,7 +157,7 @@ func _input(event):
 		GlobalStats.in_menu = true
 		
 		#InventoryManager.add_item(mela)
-		InventoryManager.add_item(piuma)
+		#InventoryManager.add_item(piuma)
 		#InventoryManager.add_item(carne)
 		#InventoryManager.add_item(molla)
 		#InventoryManager.add_item(regen_potion)
@@ -292,4 +294,8 @@ func _on_tempo_rimanente_annulla_tempo_rimanente() -> void:
 	background_overlay.visible = false
 	GlobalStats.in_menu = false
 	
-	
+
+func mostra_reward_post_gioco():
+	for item in InventoryManager.pending_rewards:
+		RewardNotifier.show_reward("     Hai ottenuto: %s" % item.name, null)
+	InventoryManager.pending_rewards.clear()

@@ -10,10 +10,12 @@ var all_bonus_items := [
 	preload("res://items/piuma.tres"),
 	preload("res://items/regen_potion.tres"),
 	preload("res://items/molla.tres")
-	#aggiungi qui tutte le risorse .tres o scene dei tuoi BonusItem
+	#aggiungi qui tutte le risorse .tres che vuoi possano essere ricompense della pool
 ]
 
 var inventario = []  #Lista di dizionari, es. [{ "id": "pozion", "quantita": 3 }, ...]
+
+var pending_rewards := []
 
 const INVENTARIO_PATH = "user://inventario.json"
 
@@ -103,6 +105,7 @@ func assegna_reward(minuti: int):
 		var item = all_bonus_items.pick_random()
 		add_item(item)
 		print("Ricompensa ottenuta:", item.name)
+		InventoryManager.pending_rewards.append(item)
 
 func reset_used_items():
 	for key in items.keys():

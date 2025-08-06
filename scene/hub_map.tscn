@@ -1,4 +1,4 @@
-[gd_scene load_steps=70 format=4 uid="uid://dxdeq1u760j5c"]
+[gd_scene load_steps=71 format=4 uid="uid://dxdeq1u760j5c"]
 
 [ext_resource type="Script" uid="uid://c7fyigx7s0x64" path="res://script/hub_map.gd" id="1_33jsw"]
 [ext_resource type="PackedScene" uid="uid://cm1ru7bxfj1s0" path="res://scene/player.tscn" id="1_nmp41"]
@@ -24,6 +24,7 @@
 [ext_resource type="PackedScene" uid="uid://bsfslsux5w0mh" path="res://scene/npc_eleonore.tscn" id="19_i0hfc"]
 [ext_resource type="AudioStream" uid="uid://7eg4rcbibp17" path="res://music/hubMapmusic.mp3" id="22_t2rro"]
 [ext_resource type="PackedScene" uid="uid://c3px6ndac26ab" path="res://scene/tempo_rimanente.tscn" id="23_v33p7"]
+[ext_resource type="PackedScene" uid="uid://cf4mfp83xeq16" path="res://scene/reward_notifier.tscn" id="23_wsx1d"]
 [ext_resource type="PackedScene" uid="uid://b037wyg1la5ql" path="res://scene/log_viewer.tscn" id="24_4hjmu"]
 [ext_resource type="PackedScene" uid="uid://b5b4vmci7f6h5" path="res://scene/inventory_ui.tscn" id="26_lv1f2"]
 
@@ -6420,6 +6421,9 @@ shape = SubResource("RectangleShape2D_v33p7")
 debug_color = Color(0.688775, 0.497531, 0.0883892, 0.42)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="RewardNotifier" parent="CanvasLayer" instance=ExtResource("23_wsx1d")]
+visible = false
 
 [node name="BackgroundOverlay" type="ColorRect" parent="CanvasLayer"]
 visible = false

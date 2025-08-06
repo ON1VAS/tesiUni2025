@@ -11,4 +11,5 @@ icon = ExtResource("1_nesyf")
 bonus_key = "damage"
 bonus_value = 5
 single_use = true
+used = false
 metadata/_custom_type_script = "uid://b74wgkuj3os82"

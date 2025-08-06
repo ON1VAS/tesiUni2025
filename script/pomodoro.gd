@@ -57,8 +57,8 @@ func scene_change(Scena: String):
 	#assegna ricompense prima del cambio scena
 	var minuti_giocati = int(GlobalStats.secondi_totali / 60)
 	if minuti_giocati > 0:
-		InventoryManager.assegna_reward(minuti_giocati)
-
+		InventoryManager.assegna_reward(1 + minuti_giocati)
+	
 	#animazione transizione
 	GlobalStats.is_sleeping = true
 	TransitionScreen.transition()
