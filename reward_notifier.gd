@@ -1,7 +1,7 @@
 extends Control
 
 @onready var panel = $PanelContainer
-@onready var container = $PanelContainer/VBoxContainer
+@onready var container = $PanelContainer/TextureRect/VBoxContainer
 
 func show_reward(text: String, icon: Texture2D = null):
 	self.visible = true
@@ -27,4 +27,4 @@ func show_reward(text: String, icon: Texture2D = null):
 	container.add_child(hbox)
 	await get_tree().create_timer(3).timeout
 	hbox.queue_free()
-	self.visible = true
+	self.visible = false
