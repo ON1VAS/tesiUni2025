@@ -8,3 +8,7 @@ func _process(delta):
 	# Mantieni solo la coordinata X del player, Y rimane fissa
 	sprite2D4.position.x = player.position.x
 	sprite2D5.position.x = player.position.x
+	
+func _ready() -> void:
+	DebuffManager.set_platform_mode(true)
+	DebuffManager.apply_to_player($protagonista)

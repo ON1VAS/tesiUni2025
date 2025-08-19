@@ -1819,6 +1819,8 @@ shape = SubResource("SegmentShape2D_8fyo7")
 
 [node name="protagonista" parent="." instance=ExtResource("6_naqrm")]
 position = Vector2(-674, -108)
+speed = null
+damage = null
 
 [node name="Camera2D" type="Camera2D" parent="protagonista"]
 position = Vector2(0, -38)
