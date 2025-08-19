@@ -7,6 +7,13 @@ func _ready():
 	vbox.scale = Vector2(2,2)
 	panel.visible = false
 	audio_settings_panel.visible = false
+	# Start campagna platform
+#LevelFlow.start_run(LevelFlow.Mode.PLATFORM_CAMPAIGN)
+#get_tree().change_scene_to_packed(LevelFlow.get_current_scene())
+# Start survivor mode (se vuoi anche orchestrarla da LevelFlow)
+#LevelFlow.start_run(LevelFlow.Mode.SURVIVOR_MODE)
+#get_tree().change_scene_to_packed(LevelFlow.get_current_scene())
+
 
 func _on_gioca_pressed() -> void:
 	TransitionScreen.transition()
@@ -33,3 +40,29 @@ func _on_opzioni_pressed() -> void:
 
 func _on_opzioni_closed_pressed() -> void:
 	audio_settings_panel.visible = false
+
+
+func _on_survivor_pressed() -> void:
+	TransitionScreen.transition()
+	await TransitionScreen.on_transition_finished
+
+	LevelFlow.start_run(LevelFlow.Mode.SURVIVOR_MODE)
+	var first_scene: PackedScene = LevelFlow.get_current_scene()
+	if first_scene:
+		get_tree().change_scene_to_packed(first_scene)
+	else:
+		push_error("LevelFlow.survivor_mode_levels è vuoto: aggiungi le scene nell'Ispettore di LevelFlow.tscn.")
+
+
+
+func _on_platform_pressed() -> void:
+	TransitionScreen.transition()
+	await TransitionScreen.on_transition_finished
+
+	# Avvia la run platform e vai al primo livello
+	LevelFlow.start_run(LevelFlow.Mode.PLATFORM_CAMPAIGN)
+	var first_scene: PackedScene = LevelFlow.get_current_scene()
+	if first_scene:
+		get_tree().change_scene_to_packed(first_scene)
+	else:
+		push_error("LevelFlow.platform_campaign_levels è vuoto: aggiungi le scene nell'Ispettore di LevelFlow.tscn.")

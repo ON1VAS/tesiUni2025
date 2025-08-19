@@ -1,90 +1,178 @@
 extends Node
 
-# Parametri configurabili
-const ENERGY_THRESHOLDS = {
-	"buffplus": 100,
-	"blocco1": 80,
-	"blocco2": 40,
-	"blocco3": 30,
-	"blocco4": 20,
-	"blocco5": 10,
+# Attiva il processing per timer inversione comandi & drain HP
+func _ready() -> void:
+	set_process(true)
+
+# === Stato e configurazione ===
+var platform_mode: bool = false  # true quando siamo in un livello platform
+var active_debuffs: = {}         # set di string -> true
+var command_inverted := false
+var _invert_timer := 0.0
+var invert_interval := 2.0       # ogni 2s può flippare
+
+# Per perdita HP ogni 10s
+var _hp_drain_timer_running := false
+var _player_ref: WeakRef = null
+
+# === Debuff disponibili (nomi canonicali) ===
+const DEBUFF = {
+	"SLOW": "SLOW",
+	"LOW_DAMAGE": "LOW_DAMAGE",
+	"ATTACK_DELAY": "ATTACK_DELAY",
+	"NO_ROLL": "NO_ROLL",
+	"NO_JUMP": "NO_JUMP",
+	"HP_DRAIN": "HP_DRAIN",
+	"INVERT_COMMANDS": "INVERT_COMMANDS",
+	"ENEMY_DAMAGE_UP": "ENEMY_DAMAGE_UP",
+	"SLIDING": "SLIDING",
+	"VIGNETTE": "VIGNETTE",
 }
-# Variabile per tenere traccia dello stato del debuff
-var debuff_active = false
 
-var command_inverted := false #debuff per inversione comandi
-var command_timer := 0.0
-var invert_interval := 2.0 # cambia ogni 5 secondi
+# === API pubblica ===
 
-func apply_to_player(player):
-	# Reset valori
-	var energia = GlobalStats.energia
-	player.speed = 200
-	player.can_roll = true
-	player.can_jump = true
-	player.ignore_jump_input = false
-	player.attack_input_delay = 0.0
-	
-	if energia < ENERGY_THRESHOLDS["buffplus"]: #se l'energia è 100, avremo un bonus all'attacco
-		player.damage = 25
-	
-	# Debuff 1: rallenta e diminuisce il danno, questo in realtà sarebbe la "normalità"
-	if energia < ENERGY_THRESHOLDS["blocco1"]:
-		player.speed = 150
-		player.damage = 10
-	
-	if energia < ENERGY_THRESHOLDS["blocco2"]:
-		player.speed = 100
-		player.attack_input_delay = 0.5 #mezzo secondo di delay negli attacchi
-		player.can_roll = false #rimosso il roll
-		
-	
-	# Debuff 3: disabilita salto
-	if energia < ENERGY_THRESHOLDS["blocco3"]:
-		  # velocità diminuita, tolto salto
-		player.speed = 50
-		player.can_jump = false
-		player.ignore_jump_input = true
-	
-	if energia > 0 and energia < ENERGY_THRESHOLDS["blocco5"]: #perdita di 1 hp ogni 10 secondi
-		if get_tree().current_scene.name != "game":
-			return
-		command_timer += get_process_delta_time() #timer per invertire i comandi
-		if command_timer >= invert_interval:
-			command_timer = 0
-			command_inverted = randi() % 2 == 0  # true o false casuale, ha il 50% di possibilità di invertire i comandi di moviemnto
-		if is_instance_valid(player) and player.health > 1 and not player.has_meta("losing_health"):
-			player.set_meta("losing_health", true)
-			var local_player_ref = player
-			var timer := get_tree().create_timer(10.0)
-			await timer.timeout
-			
-			if get_tree().current_scene.name != "game":
-				return
+## Abilita/Disabilita l'effetto del manager nei livelli platform
+func set_platform_mode(enabled: bool) -> void:
+	platform_mode = enabled
+	if not platform_mode:
+		clear_all()
 
-	# Ricontrolla dopo il timeout se il player è ancora valido
-			if is_instance_valid(local_player_ref):
-				print("🩸 Timer scaduto, player valido: procedo a togliere vita")
-				local_player_ref.health -= 1
-				print("🔥 Vita attuale del player dopo il danno:", local_player_ref.health)
-				local_player_ref.SetHealthBar()
-				if local_player_ref.health < 1:
-					local_player_ref.die()
-			if is_instance_valid(player):
-				player.set_meta("losing_health", false)
-				print("♻️ Flag 'losing_health' rimesso a false")
+## Imposta i debuff attivi da un array di stringhe (sovrascrive lo stato)
+func set_debuffs(debuff_names: Array[String]) -> void:
+	active_debuffs.clear()
+	for n in debuff_names:
+		active_debuffs[n] = true
 
+## Aggiungi o rimuovi un debuff singolo
+func add_debuff(name: String) -> void:
+	active_debuffs[name] = true
 
-func enemy_damage_multiplier(): #moltiplicatore del danno dei nemici
-	var energia = GlobalStats.energia
-	if energia < ENERGY_THRESHOLDS["blocco4"]:
+func remove_debuff(name: String) -> void:
+	active_debuffs.erase(name)
+
+## Applica i debuff al player (chiamala in _ready del livello e quando cambi debuff)
+func apply_to_player(player: Node) -> void:
+	if not platform_mode: 
+		return
+
+	_player_ref = weakref(player)
+
+	# RESET valori "baseline"
+	if "speed" in player: player.speed = 200
+	if "damage" in player: player.damage = 15
+	if "can_roll" in player: player.can_roll = true
+	if "can_jump" in player: player.can_jump = true
+	if "ignore_jump_input" in player: player.ignore_jump_input = false
+	if "attack_input_delay" in player: player.attack_input_delay = 0.0
+
+	# --- Applica effetti singoli ---
+	if active_debuffs.has(DEBUFF.SLOW):
+		if "speed" in player: player.speed = 150
+
+	if active_debuffs.has(DEBUFF.LOW_DAMAGE):
+		if "damage" in player: player.damage = 10
+
+	if active_debuffs.has(DEBUFF.ATTACK_DELAY):
+		if "attack_input_delay" in player: player.attack_input_delay = 0.5
+
+	if active_debuffs.has(DEBUFF.NO_ROLL):
+		if "can_roll" in player: player.can_roll = false
+
+	if active_debuffs.has(DEBUFF.NO_JUMP):
+		if "can_jump" in player: player.can_jump = false
+		if "ignore_jump_input" in player: player.ignore_jump_input = true
+
+	# HP drain parte/continua tramite timer asincrono
+	if active_debuffs.has(DEBUFF.HP_DRAIN):
+		_start_hp_drain_loop()
+	else:
+		_hp_drain_timer_running = false
+
+	# INVERT_COMMANDS è gestito da _process con flip casuale
+	# ENEMY_DAMAGE_UP, SLIDING e VIGNETTE sono esposti come getter
+
+## Pulisce tutto
+func clear_all() -> void:
+	active_debuffs.clear()
+	command_inverted = false
+	_hp_drain_timer_running = false
+	_player_ref = null
+
+# === Helper che il tuo player o l'HUD può interrogare ===
+
+func enemy_damage_multiplier() -> float:
+	if platform_mode and active_debuffs.has(DEBUFF.ENEMY_DAMAGE_UP):
 		return 1.5
 	return 1.0
-func is_sliding_active() -> bool: #diminuisce la responsività del movimento aggiungendo un rallentamento nel iniziare e finire movimento, come se scivolasse
-	return GlobalStats.energia < ENERGY_THRESHOLDS["blocco4"]
 
-func is_vignette_active() -> bool: #vignetta per oscurare parte del campo visivo
-	return GlobalStats.energia <= ENERGY_THRESHOLDS["blocco3"]
+func is_sliding_active() -> bool:
+	if platform_mode and active_debuffs.has(DEBUFF.SLIDING):
+		return true
+	return false
 
-func is_command_inverted() -> bool: #randomicamente inverte i comandi
-	return command_inverted
+func is_vignette_active() -> bool:
+	if platform_mode and active_debuffs.has(DEBUFF.VIGNETTE):
+		return true
+	return false
+
+func is_command_inverted() -> bool:
+	if platform_mode and active_debuffs.has(DEBUFF.INVERT_COMMANDS) and command_inverted:
+		return true
+	return false
+
+
+# === Loop inversione comandi & drain HP ===
+
+func _process(delta: float) -> void:
+	if not platform_mode:
+		return
+
+	# Flip random dei comandi se attivo
+	if active_debuffs.has(DEBUFF.INVERT_COMMANDS):
+		_invert_timer += delta
+		if _invert_timer >= invert_interval:
+			_invert_timer = 0.0
+			command_inverted = randi() % 2 == 0
+
+# Perdita di 1 HP ogni 10 secondi finché attivo e su livello platform
+func _start_hp_drain_loop() -> void:
+	if _hp_drain_timer_running:
+		return
+	_hp_drain_timer_running = true
+	call_deferred("_hp_drain_coroutine")
+
+# Pool dei debuff candidati (escludi quelli che non vuoi mai dare a caso)
+func _random_debuff_pool() -> Array:
+	# Usa DEBUFF.values() per tutti. Se vuoi filtrare, modifica l'array qui.
+	return DEBUFF.values()
+
+# Ritorna il nome del debuff scelto
+func pick_random_debuff() -> String:
+	var pool := _random_debuff_pool()
+	if pool.is_empty():
+		return ""
+	return pool[randi() % pool.size()]
+
+# Sceglie UN debuff a caso e lo imposta, sovrascrivendo gli altri
+func set_random_debuff() -> String:
+	var d := pick_random_debuff()
+	if d == "":
+		return ""
+	active_debuffs.clear()
+	active_debuffs[d] = true
+	return d
+
+
+@warning_ignore("redundant_await")
+func _hp_drain_coroutine() -> void:
+	while _hp_drain_timer_running and platform_mode and active_debuffs.has(DEBUFF.HP_DRAIN):
+		await get_tree().create_timer(10.0).timeout
+		if not _hp_drain_timer_running:
+			break
+		var p: Node = _player_ref.get_ref() if _player_ref else null
+		if p and "health" in p and "SetHealthBar" in p:
+			if p.health > 1:
+				p.health -= 1
+				p.SetHealthBar()
+			elif "die" in p:
+				p.die()

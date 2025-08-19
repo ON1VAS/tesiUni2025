@@ -1,0 +1,11 @@
+[gd_scene load_steps=5 format=3 uid="uid://uaq45o8vr43a"]
+
+[ext_resource type="Script" uid="uid://b6c83fqamlkk1" path="res://script/PlatformGame/LevelFlow.gd" id="1_7dsxp"]
+[ext_resource type="PackedScene" uid="uid://d3kv4y6lbsnxj" path="res://scene/PlatformGame/cloud_level.tscn" id="2_870th"]
+[ext_resource type="PackedScene" uid="uid://b2i5uslgbudfg" path="res://script/PlatformGame/cavern_level.tscn" id="3_c5uvi"]
+[ext_resource type="PackedScene" uid="uid://dxdeq1u760j5c" path="res://scene/hub_map.tscn" id="4_870th"]
+
+[node name="LevelFlow" type="Node2D"]
+script = ExtResource("1_7dsxp")
+platform_campaign_levels = Array[PackedScene]([ExtResource("2_870th"), ExtResource("3_c5uvi")])
+survivor_mode_levels = Array[PackedScene]([ExtResource("4_870th")])

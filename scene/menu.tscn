@@ -4,7 +4,7 @@
 [ext_resource type="Theme" uid="uid://l2vc7oc1ypof" path="res://theme/theme1.tres" id="1_vi6sp"]
 [ext_resource type="Texture2D" uid="uid://u6ku7qe6odsc" path="res://testures/Legacy-Fantasy - High Forest 2.3/Background/Background.png" id="2_8hxod"]
 [ext_resource type="Texture2D" uid="uid://irnknxe7uji1" path="res://logo/knightsRest-removebg-preview.png" id="3_bo06a"]
-[ext_resource type="Script" uid="uid://drg7ebobc5vnp" path="res://script/audio.gd" id="4_15se8"]
+[ext_resource type="Script" uid="uid://kj18erji1igc" path="res://script/audio.gd" id="4_15se8"]
 [ext_resource type="AudioStream" uid="uid://bhcgq50opjhwt" path="res://music/menumusic.mp3" id="4_xs5te"]
 [ext_resource type="Texture2D" uid="uid://da8moeshvudgb" path="res://testures/Legacy-Fantasy - High Forest 2.3/HUD/Base-01.png" id="6_1qlln"]
 [ext_resource type="Theme" uid="uid://c3usv1irpubfp" path="res://theme/theme2.tres" id="8_wd6lm"]
@@ -63,15 +63,23 @@ layout_mode = 2
 size_flags_vertical = 4
 text = "Opzioni"
 
-[node name="howtoplay" type="Button" parent="MarginContainer/VBoxContainer"]
-custom_minimum_size = Vector2(0, 30)
+[node name="Platform" type="Button" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "Come si gioca?"
+text = "ProvaAlessio"
 
 [node name="Esci" type="Button" parent="MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 text = "Esci"
+
+[node name="Survivor" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "ProvaDaniele"
+
+[node name="howtoplay" type="Button" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+text = "Come si gioca?"
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -121,8 +129,6 @@ Come giocare:
 - usa WASD per muoverti e K, L per attaccare
 - usa SHIFT per effettuare una schivata
 - il gioco diventerà man mano più difficile in base a quanto ci si gioca in una sessione continua, dandoti malus e potenziando i nemici
-- ottieni oggetti giocando la modalitù endless (modalità allenamento mentale del cavaliere)
-- utilizza gli oggetti per potenziare il cavaliere!
 -il cavaliere si stancherà, ricordati di farlo riposare per riportarlo alle piene forze (e approfittane anche tu per studiare o fare ciò che vuoi!)
 "
 horizontal_alignment = 1
@@ -201,7 +207,6 @@ vertical_alignment = 1
 
 [node name="Settings" type="TabContainer" parent="UI"]
 unique_name_in_owner = true
-visible = false
 texture_filter = 1
 anchors_preset = -1
 anchor_left = 0.196875
@@ -292,8 +297,10 @@ step = 0.05
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Gioca" to="." method="_on_gioca_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Opzioni" to="." method="_on_opzioni_pressed"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/howtoplay" to="." method="_on_howtoplay_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Platform" to="." method="_on_platform_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Esci" to="." method="_on_esci_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Survivor" to="." method="_on_survivor_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/howtoplay" to="." method="_on_howtoplay_pressed"]
 [connection signal="pressed" from="howtoplaypanel/VBoxContainer/chiudi" to="." method="_on_chiudi_pressed"]
 [connection signal="pressed" from="UI/Button" to="." method="_on_opzioni_closed_pressed"]
 [connection signal="value_changed" from="UI/Settings/Audio/HBoxContainer/VBoxContainer2/Master" to="UI/Settings/Audio" method="_on_master_value_changed"]
