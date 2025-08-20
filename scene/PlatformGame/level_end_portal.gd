@@ -26,7 +26,7 @@ func _on_body_entered(body: Node) -> void:
 	DebuffManager.set_platform_mode(false)
 
 	# (se usi una transizione, falla qui)
-	# TransitionScreen.transition()
-	# await TransitionScreen.on_transition_finished
+	TransitionScreen.transition()
+	await TransitionScreen.on_transition_finished
 
 	get_tree().change_scene_to_file(rest_scene_path)

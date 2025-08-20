@@ -290,7 +290,7 @@ tile_set = SubResource("TileSet_eowee")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 offset = Vector2(0, -15)
-zoom = Vector2(4, 4)
+zoom = Vector2(3, 3)
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 offset_left = -127.0
