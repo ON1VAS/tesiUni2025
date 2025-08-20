@@ -5,9 +5,11 @@ var mode := LevelFlow.Mode.PLATFORM_CAMPAIGN
 
 func _ready() -> void:
 	# Se arrivi qui al termine di un livello platform, assicura la modalità corrente
+	$AnimatedSprite2D.play("default")
+	$AnimatedSprite2D2.play("default")
 	LevelFlow.current_mode = LevelFlow.Mode.PLATFORM_CAMPAIGN
 
-func _on_BtnRest_pressed() -> void:
+func _on_riposa_pressed() -> void:
 	# Cura (recupera il player come preferisci: autoload, singleton, o salvataggio)
 	var player := _get_player_reference()
 	if player and "max_health" in player and "health" in player and "SetHealthBar" in player:
@@ -16,7 +18,7 @@ func _on_BtnRest_pressed() -> void:
 	# Avvia il lock 5 minuti
 	RestLock.start(300)
 
-func _on_BtnContinue_pressed() -> void:
+func _on_continua_pressed() -> void:
 	if RestLock.is_active():
 		return
 	# Debuff random SOLO in campagna platform

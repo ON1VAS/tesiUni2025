@@ -291,3 +291,24 @@ tile_set = SubResource("TileSet_eowee")
 [node name="Camera2D" type="Camera2D" parent="."]
 offset = Vector2(0, -15)
 zoom = Vector2(4, 4)
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+offset_left = -127.0
+offset_top = -95.0
+offset_right = 126.0
+offset_bottom = -38.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="Continua" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Continua"
+
+[node name="Riposa" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Riposa
+"
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Continua" to="." method="_on_continua_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Riposa" to="." method="_on_riposa_pressed"]
