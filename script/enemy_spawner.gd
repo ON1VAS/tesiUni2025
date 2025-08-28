@@ -21,9 +21,7 @@ func _ready():
 	$Timer.wait_time = spawn_interval
 	$Timer.start()
 	
-	# Timer difficoltà
-	$difficultyTimer.wait_time = difficulty_interval
-	$difficultyTimer.start()
+
 
 func _on_timer_timeout() -> void:
 	if current_enemies < max_enemies:
