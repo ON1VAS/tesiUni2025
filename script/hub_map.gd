@@ -10,7 +10,6 @@ extends Node2D
 @onready var background_overlay = $CanvasLayer/BackgroundOverlay
 @onready var tempo_rimanente = $CanvasLayer/tempo_rimanente
 @onready var log_viewer = $CanvasLayer/LogViewer
-@onready var energyBar = $CanvasLayer/VBoxContainer/energiaBar
 @onready var inventoryUI = $CanvasLayer/InventoryUI
 @onready var RewardNotifier = $CanvasLayer/RewardNotifier
 var player_in_range = false
@@ -54,8 +53,6 @@ func _ready():
 	if GlobalStats.im_back:
 		tempo_rimanente.calcola_tempo()
 		GlobalStats.im_back = false
-	energyBar.value = GlobalStats.energia
-	$CanvasLayer/VBoxContainer/energiaBar/Label.text = "%d / %d" % [GlobalStats.energia, 100]
 	#mostra i reward nel caso ce ne siano
 	mostra_reward_post_gioco()
 
@@ -71,8 +68,6 @@ func _process(delta: float):
 			background_overlay.visible = false
 		tempo_rimanente.visible = false
 	
-	energyBar.value = GlobalStats.energia
-	$CanvasLayer/VBoxContainer/energiaBar/Label.text = "%d / %d" % [GlobalStats.energia, 100]
 
 
 func _on_npc_body_entered(body, npc):

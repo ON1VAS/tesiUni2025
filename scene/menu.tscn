@@ -4,7 +4,7 @@
 [ext_resource type="Theme" uid="uid://l2vc7oc1ypof" path="res://theme/theme1.tres" id="1_vi6sp"]
 [ext_resource type="Texture2D" uid="uid://u6ku7qe6odsc" path="res://testures/Legacy-Fantasy - High Forest 2.3/Background/Background.png" id="2_8hxod"]
 [ext_resource type="Texture2D" uid="uid://irnknxe7uji1" path="res://logo/knightsRest-removebg-preview.png" id="3_bo06a"]
-[ext_resource type="Script" uid="uid://kj18erji1igc" path="res://script/audio.gd" id="4_15se8"]
+[ext_resource type="Script" uid="uid://drg7ebobc5vnp" path="res://script/audio.gd" id="4_15se8"]
 [ext_resource type="AudioStream" uid="uid://bhcgq50opjhwt" path="res://music/menumusic.mp3" id="4_xs5te"]
 [ext_resource type="Texture2D" uid="uid://da8moeshvudgb" path="res://testures/Legacy-Fantasy - High Forest 2.3/HUD/Base-01.png" id="6_1qlln"]
 [ext_resource type="Theme" uid="uid://c3usv1irpubfp" path="res://theme/theme2.tres" id="8_wd6lm"]

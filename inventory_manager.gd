@@ -3,7 +3,7 @@ extends Node
 #Dizionario con chiave = nome oggetto, valore = { item, quantity, active }
 var items: Dictionary = {}
 
-#Lista di tutte le risorse BonusItem disponibili (modifica i path con i tuoi reali)
+#Lista di tutte le risorse BonusItem disponibili
 var all_bonus_items := [
 	preload("res://items/cosciotta_carne.tres"),
 	preload("res://items/mela.tres"),
