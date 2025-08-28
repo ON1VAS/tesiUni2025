@@ -10,5 +10,5 @@
 
 [node name="LevelFlow" type="Node2D"]
 script = ExtResource("1_7dsxp")
-platform_campaign_levels = Array[PackedScene]([ExtResource("2_in3nv"), ExtResource("2_870th"), ExtResource("3_c5uvi"), ExtResource("5_upqsv"), ExtResource("2_870th"), ExtResource("5_upqsv"), ExtResource("6_rsil3")])
+platform_campaign_levels = Array[PackedScene]([ExtResource("2_in3nv"), ExtResource("3_c5uvi"), ExtResource("2_870th"), ExtResource("5_upqsv"), ExtResource("2_870th"), ExtResource("5_upqsv"), ExtResource("6_rsil3")])
 survivor_mode_levels = Array[PackedScene]([ExtResource("4_870th")])
