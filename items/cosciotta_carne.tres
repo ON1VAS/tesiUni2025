@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="BonusItem" load_steps=3 format=3 uid="uid://ccqfwscxih25v"]
 
 [ext_resource type="Texture2D" uid="uid://dj3n4sjo58k2c" path="res://items/Carne.png" id="1_nesyf"]
-[ext_resource type="Script" uid="uid://b74wgkuj3os82" path="res://bonus_item.gd" id="1_t0pki"]
+[ext_resource type="Script" path="res://bonus_item.gd" id="1_t0pki"]
 
 [resource]
 script = ExtResource("1_t0pki")
