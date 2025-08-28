@@ -10,10 +10,10 @@ var all_bonus_items := [
 	preload("res://items/piuma.tres"),
 	preload("res://items/regen_potion.tres"),
 	preload("res://items/molla.tres")
-	#aggiungi qui tutte le risorse .tres che vuoi possano essere ricompense della pool
+	#aggiungere qui tutte le risorse .tres in modo che siano nella pool
 ]
 
-var inventario = []  #Lista di dizionari, es. [{ "id": "pozion", "quantita": 3 }, ...]
+var inventario = []  #Lista di dizionari
 
 var pending_rewards := []
 
