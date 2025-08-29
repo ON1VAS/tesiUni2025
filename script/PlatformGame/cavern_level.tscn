@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=4 uid="uid://b2i5uslgbudfg"]
+[gd_scene load_steps=44 format=4 uid="uid://b2i5uslgbudfg"]
 
 [ext_resource type="Script" uid="uid://dmymx22h2u50l" path="res://script/PlatformGame/cavern_level.gd" id="1_7vmgf"]
 [ext_resource type="Texture2D" uid="uid://bwmekpdefyteg" path="res://testures/Platform/Cave Tileset/_Complete_static_BG_(288 x 208).png" id="1_xg6fw"]
@@ -1751,6 +1751,12 @@ size = Vector2(64, 20)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4781p"]
 size = Vector2(74.9949, 8.04083)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5b80h"]
+size = Vector2(63, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sd0b2"]
+size = Vector2(62.1738, 16)
+
 [node name="cavern_level" type="Node2D"]
 script = ExtResource("1_7vmgf")
 
@@ -1943,6 +1949,14 @@ shape = SubResource("RectangleShape2D_scpwm")
 position = Vector2(6593.17, -628.945)
 rotation = -0.626573
 shape = SubResource("RectangleShape2D_4781p")
+
+[node name="Spine5" type="CollisionShape2D" parent="hitboxes"]
+position = Vector2(6768.5, -696)
+shape = SubResource("RectangleShape2D_5b80h")
+
+[node name="Spine6" type="CollisionShape2D" parent="hitboxes"]
+position = Vector2(6862.91, -696)
+shape = SubResource("RectangleShape2D_sd0b2")
 
 [node name="Area2D" parent="." instance=ExtResource("9_g1cjk")]
 position = Vector2(7247, -809)
