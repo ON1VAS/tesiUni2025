@@ -2,12 +2,18 @@ extends Node2D
 
 # Se vuoi mostrare che modalità stai continuando (opzionale):
 var mode := LevelFlow.Mode.PLATFORM_CAMPAIGN
+@onready var continue_btn: Button = $MarginContainer/VBoxContainer/Continua
+
+var _ui_accum := 0.0
+const UI_TICK := 0.25
 
 func _ready() -> void:
 	# Se arrivi qui al termine di un livello platform, assicura la modalità corrente
 	$AnimatedSprite2D.play("default")
 	$AnimatedSprite2D2.play("default")
 	LevelFlow.current_mode = LevelFlow.Mode.PLATFORM_CAMPAIGN
+	RestLock.lock_changed.connect(_refresh_ui)
+	_refresh_ui()
 
 func _on_riposa_pressed() -> void:
 	# Cura (recupera il player come preferisci: autoload, singleton, o salvataggio)
@@ -17,6 +23,7 @@ func _on_riposa_pressed() -> void:
 		player.SetHealthBar()
 	# Avvia il lock 5 minuti
 	RestLock.start(300)
+	_refresh_ui()
 
 func _on_continua_pressed() -> void:
 	if RestLock.is_active():
@@ -34,10 +41,29 @@ func _on_continua_pressed() -> void:
 		push_error("Fine livelli della campagna platform (nessun prossimo livello).")
 		# opzionale: vai a una scena finale/credits/menu
 
-func _process(_delta: float) -> void:
-	# Se vuoi disabilitare il tasto "Continua" via UI, usa RestLock.remaining()
-	pass
+
+func _process(delta: float) -> void:
+	if RestLock.is_active():
+		_ui_accum += delta
+		if _ui_accum >= UI_TICK:
+			_ui_accum = 0.0
+			_refresh_ui()
+	elif _ui_accum != 0.0:
+		_ui_accum = 0.0
+		_refresh_ui()
+
+func _refresh_ui() -> void:
+	if RestLock.is_active():
+		continue_btn.text = _format_time(RestLock.remaining())
+		continue_btn.disabled = true
+	else:
+		continue_btn.text = "Continua"
+		continue_btn.disabled = false
+
+func _format_time(rem: int) -> String:
+	var minutes: int = rem / 60
+	var seconds: int = rem % 60
+	return "%02d:%02d" % [minutes, seconds]
 
 func _get_player_reference() -> Node:
-	# Implementa secondo la tua architettura: ad es. un autoload PlayerState, o un nodo persistente
 	return null
