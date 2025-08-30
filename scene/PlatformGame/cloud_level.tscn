@@ -6029,7 +6029,7 @@ a = Vector2(-4.09521, -1.37828)
 b = Vector2(73.9048, -1.37828)
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_ykhav"]
-b = Vector2(126, -1)
+b = Vector2(133, 0)
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_bewdf"]
 b = Vector2(49.1135, -1.14258)
@@ -6530,6 +6530,14 @@ one_way_collision = true
 position = Vector2(2486.11, -71.667)
 shape = SubResource("SegmentShape2D_gvpus")
 one_way_collision = true
+
+[node name="CollisionPolygon2D13" type="CollisionPolygon2D" parent="hitboxes"]
+position = Vector2(1180.46, -534.985)
+polygon = PackedVector2Array(2.54443, 5.98523, 0.544434, -20.0148, -23.4556, -38.0148, -60.4556, -40.0148, -69.4556, -55.0148, -114.456, -55.0148, -124.456, -42.0148, -173.456, -41.0148, -173.456, -59.0148, -144.456, -83.0148, -143.456, -110.015, -164.456, -132.015, -212.456, -134.015, -234.456, -111.015, -235.456, -85.0148, -208.456, -62.0148, -205.456, -24.0148, -236.456, -18.0148, -236.456, -2.01477, -222.456, 34.9852, -94.4556, 34.9852, -77.4556, 49.9852, -77.4556, 19.9852)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="hitboxes/CollisionPolygon2D13"]
+position = Vector2(295.181, 2.71033)
+polygon = PackedVector2Array(-0.636719, 4.2749, -19.6367, -10.7251, -17.6367, -18.7251, 27.3633, -58.7251, 69.3633, -56.7251, 92.3633, -26.7251, 139.363, -24.7251, 166.363, -55.7251, 246.363, -54.7251, 247.363, -21.7251, 232.363, -12.7251, 234.363, 4.2749)
 
 [node name="Area2D" parent="." instance=ExtResource("8_rja2y")]
 position = Vector2(2973, -787)
