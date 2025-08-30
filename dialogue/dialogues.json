@@ -38,7 +38,9 @@
 		"Premi [E] per controllare il registro dei riposi"
 	],
 	"torna_menu": [
-		"Premi [E] per tornare al menu"
+		"Premi [E] per tornare al menu"],
+	"wait": [
+		"Il cavaliere sta riposando, aspetta un po'!"
 	]
 	
 	

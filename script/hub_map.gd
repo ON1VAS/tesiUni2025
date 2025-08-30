@@ -55,6 +55,25 @@ func _ready():
 		GlobalStats.im_back = false
 	#mostra i reward nel caso ce ne siano
 	mostra_reward_post_gioco()
+	
+	if GlobalStats.is_sleeping:
+		tempo_rimanente.scale = Vector2(2, 2)
+		tempo_rimanente.visible = true
+		# Ancoraggio in alto a destra
+		tempo_rimanente.anchor_left = 1.0
+		tempo_rimanente.anchor_right = 1.0
+		tempo_rimanente.anchor_top = 0.0
+		tempo_rimanente.anchor_bottom = 0.0
+		# Resetta i margini
+		tempo_rimanente.offset_left = -tempo_rimanente.size.x - 20
+		tempo_rimanente.offset_right = -300
+		tempo_rimanente.offset_top = 100
+		tempo_rimanente.offset_bottom = 0
+		# Pivot in alto a destra (opzionale)
+		tempo_rimanente.pivot_offset = Vector2(tempo_rimanente.size.x, 0)
+		tempo_rimanente.back_button.visible = false
+
+
 
 
 func _process(delta: float):
@@ -129,9 +148,7 @@ func _input(event):
 		var offset = Vector2( -290, -140 )
 		timer_selector.position = (viewport_size / 2 - (timer_selector.get_size() * timer_selector.scale) / 2) + offset
 	elif can_rest and GlobalStats.is_sleeping and event.is_action_pressed("ui_accept"):
-		tempo_rimanente.scale = Vector2(2,2)
-		tempo_rimanente.visible = true
-		GlobalStats.in_menu = true
+		return
 		
 	
 	if can_read_log and event.is_action_pressed("ui_accept"):
@@ -207,11 +224,14 @@ func scene_change(Scena: String):
 
 func _on_area_riposo_body_entered(body):
 	if body.name == "protagonista":
-		dialogue_box.show_dialogue(dialogues["rest"])
-		dialogue_box.visible = true
-		can_rest = true
-		player_an_sp.material = shader_material
-		
+		if !GlobalStats.is_sleeping:
+			dialogue_box.show_dialogue(dialogues["rest"])
+			dialogue_box.visible = true
+			can_rest = true
+			player_an_sp.material = shader_material
+		else:
+			dialogue_box.show_dialogue(dialogues["wait"])
+			dialogue_box.visible = true
 
 
 func _on_area_riposo_body_exited(body):
