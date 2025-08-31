@@ -16,14 +16,15 @@ func _ready() -> void:
 	_refresh_ui()
 
 func _on_riposa_pressed() -> void:
-	# Cura (recupera il player come preferisci: autoload, singleton, o salvataggio)
-	var player := _get_player_reference()
-	if player and "max_health" in player and "health" in player and "SetHealthBar" in player:
-		player.health = player.max_health
-		player.SetHealthBar()
-	# Avvia il lock 5 minuti
+	var p := _get_player_reference()
+	if p and "max_health" in p and "health" in p and "SetHealthBar" in p:
+		p.health = p.max_health
+		p.SetHealthBar()
+
+	DebuffManager.clear_all()   # azzera stato
 	RestLock.start(300)
 	_refresh_ui()
+
 
 func _on_continua_pressed() -> void:
 	if RestLock.is_active():

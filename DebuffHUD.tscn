@@ -7,11 +7,15 @@ layer = 100
 script = ExtResource("1_o0yfs")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
+custom_minimum_size = Vector2(16, 16)
 offset_right = 40.0
 offset_bottom = 40.0
+scale = Vector2(0.6, 0.6)
 pivot_offset = Vector2(8, 8)
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
 
-[node name="Icon" type="TextureRect" parent="MarginContainer"]
-custom_minimum_size = Vector2(32, 32)
+[node name="Icons" type="HBoxContainer" parent="MarginContainer"]
+custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
-stretch_mode = 5
+theme_override_constants/separation = 6
