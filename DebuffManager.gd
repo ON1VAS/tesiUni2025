@@ -48,9 +48,13 @@ var DEBUFF_ICON: Dictionary = {
 ## Abilita/Disabilita l'effetto del manager nei livelli platform
 func set_platform_mode(enabled: bool) -> void:
 	platform_mode = enabled
+	set_process(enabled)  # ferma _process quando non sei in platform
 	if not platform_mode:
-		clear_all()
+		# sospendi effetti runtime, ma NON cancelli la lista
+		command_inverted = false
+		_hp_drain_timer_running = false
 	debuffs_updated.emit()
+
 
 ## Imposta i debuff attivi da un array di stringhe (sovrascrive lo stato)
 func set_debuffs(debuff_names: Array[String]) -> void:
@@ -174,13 +178,18 @@ func pick_random_debuff() -> String:
 
 # Sceglie UN debuff a caso e lo imposta, sovrascrivendo gli altri
 func set_random_debuff() -> String:
-	var d := pick_random_debuff()
-	if d == "":
-		return ""
-	active_debuffs.clear()
+	var pool = _random_debuff_pool().filter(
+		func(n): return not active_debuffs.has(n)
+	)
+	if pool.is_empty():
+		return ""  # già li hai tutti
+
+	var d = pool[randi() % pool.size()]
 	active_debuffs[d] = true
 	debuffs_updated.emit()
 	return d
+
+
 
 func get_active_debuffs() -> Array[String]:
 	var out: Array[String] = []
