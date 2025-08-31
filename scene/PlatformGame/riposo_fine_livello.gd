@@ -21,8 +21,9 @@ func _on_riposa_pressed() -> void:
 		p.health = p.max_health
 		p.SetHealthBar()
 
-	DebuffManager.clear_all()   # azzera stato
-	RestLock.start(300)
+	DebuffManager.clear_all()
+	DebuffManager.grant_rest_grace()  # ⬅️ salta il prossimo debuff
+	RestLock.start(300)               # 5 minuti
 	_refresh_ui()
 
 
@@ -31,8 +32,12 @@ func _on_continua_pressed() -> void:
 		return
 	# Debuff random SOLO in campagna platform
 	if LevelFlow.current_mode == LevelFlow.Mode.PLATFORM_CAMPAIGN:
-		var chosen := DebuffManager.set_random_debuff()
-		print("Debuff scelto automaticamente:", chosen)
+		# Se hai riposato prima, salta il debuff UNA volta
+		if not DebuffManager.consume_rest_grace():
+			var chosen := DebuffManager.set_random_debuff()
+			print("Debuff scelto automaticamente:", chosen)
+		else:
+			print("Riposo effettuato: nessun debuff questa volta.")
 
 	# Avanza pista platform e carica
 	var next_scene := LevelFlow.advance_and_get_next(LevelFlow.current_mode)

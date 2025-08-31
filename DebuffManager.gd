@@ -1,6 +1,12 @@
 extends Node
 
 signal debuffs_updated
+
+var _grace_no_debuff := false  # se true, il prossimo "continua" NON assegna debuff
+
+# Concedi la grazia (chiamata quando riposi)
+func grant_rest_grace() -> void:
+	_grace_no_debuff = true
 # Attiva il processing per timer inversione comandi & drain HP
 func _ready() -> void:
 	set_process(true)
@@ -55,6 +61,12 @@ func set_platform_mode(enabled: bool) -> void:
 		_hp_drain_timer_running = false
 	debuffs_updated.emit()
 
+# Usa (e consuma) la grazia; ritorna true se la grazia c'era
+func consume_rest_grace() -> bool:
+	if _grace_no_debuff:
+		_grace_no_debuff = false
+		return true
+	return false
 
 ## Imposta i debuff attivi da un array di stringhe (sovrascrive lo stato)
 func set_debuffs(debuff_names: Array[String]) -> void:
@@ -188,8 +200,6 @@ func set_random_debuff() -> String:
 	active_debuffs[d] = true
 	debuffs_updated.emit()
 	return d
-
-
 
 func get_active_debuffs() -> Array[String]:
 	var out: Array[String] = []
