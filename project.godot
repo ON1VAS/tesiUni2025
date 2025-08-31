@@ -25,6 +25,7 @@ BonusManager="*res://bonus_manager.gd"
 InventoryManager="*res://inventory_manager.gd"
 RestLock="*res://script/PlatformGame/RestLock.gd"
 LevelFlow="*res://scene/PlatformGame/LevelFlow.tscn"
+DebuffHud="*res://DebuffHUD.tscn"
 
 [display]
 

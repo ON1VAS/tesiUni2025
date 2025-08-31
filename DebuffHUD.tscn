@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://ba6rte007wwsl"]
+
+[ext_resource type="Script" uid="uid://dkywhjmwxw6oj" path="res://debuff_hud.gd" id="1_o0yfs"]
+
+[node name="DebuffHUD" type="CanvasLayer"]
+layer = 100
+script = ExtResource("1_o0yfs")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+pivot_offset = Vector2(8, 8)
+
+[node name="Icon" type="TextureRect" parent="MarginContainer"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+stretch_mode = 5
