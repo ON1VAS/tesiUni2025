@@ -1,5 +1,6 @@
 extends Node
 
+signal debuffs_updated
 # Attiva il processing per timer inversione comandi & drain HP
 func _ready() -> void:
 	set_process(true)
@@ -29,26 +30,43 @@ const DEBUFF = {
 	"VIGNETTE": "VIGNETTE",
 }
 
-# === API pubblica ===
+# (opzionale) mappa icone: DEBUFF_NAME -> Texture2D
+# metti i path giusti ai tuoi asset
+var DEBUFF_ICON: Dictionary = {
+	"SLOW": preload("res://testures/Platform/DebuffIcons/slow.png"),
+	"LOW_DAMAGE": preload("res://testures/Platform/DebuffIcons/low_damage.png"),
+	"ATTACK_DELAY": preload("res://testures/Platform/DebuffIcons/attack_delay.png"),
+	"NO_ROLL": preload("res://testures/Platform/DebuffIcons/no_roll.png"),
+	"NO_JUMP": preload("res://testures/Platform/DebuffIcons/no_jump.png"),
+	"HP_DRAIN": preload("res://testures/Platform/DebuffIcons/hp_drain.png"),
+	"INVERT_COMMANDS": preload("res://testures/Platform/DebuffIcons/invert.png"),
+	"ENEMY_DAMAGE_UP": preload("res://testures/Platform/DebuffIcons/enemy_up.png"),
+	"SLIDING": preload("res://testures/Platform/DebuffIcons/sliding.png"),
+	"VIGNETTE": preload("res://testures/Platform/DebuffIcons/vignette.png"),
+}
 
 ## Abilita/Disabilita l'effetto del manager nei livelli platform
 func set_platform_mode(enabled: bool) -> void:
 	platform_mode = enabled
 	if not platform_mode:
 		clear_all()
+	debuffs_updated.emit()
 
 ## Imposta i debuff attivi da un array di stringhe (sovrascrive lo stato)
 func set_debuffs(debuff_names: Array[String]) -> void:
 	active_debuffs.clear()
 	for n in debuff_names:
 		active_debuffs[n] = true
+	debuffs_updated.emit()
 
 ## Aggiungi o rimuovi un debuff singolo
 func add_debuff(name: String) -> void:
 	active_debuffs[name] = true
+	debuffs_updated.emit()
 
 func remove_debuff(name: String) -> void:
 	active_debuffs.erase(name)
+	debuffs_updated.emit()
 
 ## Applica i debuff al player (chiamala in _ready del livello e quando cambi debuff)
 func apply_to_player(player: Node) -> void:
@@ -97,6 +115,7 @@ func clear_all() -> void:
 	command_inverted = false
 	_hp_drain_timer_running = false
 	_player_ref = null
+	debuffs_updated.emit()
 
 # === Helper che il tuo player o l'HUD può interrogare ===
 
@@ -160,8 +179,21 @@ func set_random_debuff() -> String:
 		return ""
 	active_debuffs.clear()
 	active_debuffs[d] = true
+	debuffs_updated.emit()
 	return d
 
+func get_active_debuffs() -> Array[String]:
+	var out: Array[String] = []
+	for k in active_debuffs.keys():
+		out.append(String(k))
+	return out
+
+
+func get_primary_debuff() -> String:
+	# se c’è un solo debuff (come nel tuo set_random_debuff) restituisce quello
+	for k in active_debuffs.keys():
+		return k
+	return ""
 
 @warning_ignore("redundant_await")
 func _hp_drain_coroutine() -> void:
