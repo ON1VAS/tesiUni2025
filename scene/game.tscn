@@ -1,4 +1,4 @@
-[gd_scene load_steps=77 format=4 uid="uid://bfb3n5ulrxtxq"]
+[gd_scene load_steps=82 format=4 uid="uid://bfb3n5ulrxtxq"]
 
 [ext_resource type="PackedScene" uid="uid://cm1ru7bxfj1s0" path="res://scene/player.tscn" id="1_5kiuu"]
 [ext_resource type="Script" uid="uid://p03x4ile571r" path="res://script/game.gd" id="1_81276"]
@@ -21,6 +21,7 @@
 [ext_resource type="Texture2D" uid="uid://cdsx6tu5otur" path="res://testures/Legacy-Fantasy - High Forest 2.3/Assets/Tree-Assets.png" id="19_pp3pk"]
 [ext_resource type="Texture2D" uid="uid://kdoujkbui58j" path="res://testures/Platform/Tiles/Assets/Assets.png" id="20_b8t8i"]
 [ext_resource type="PackedScene" uid="uid://dybv8bvuue87v" path="res://script/PlatformGame/LevelEndPortal.tscn" id="21_355h4"]
+[ext_resource type="Script" uid="uid://cus5fgmqw84e8" path="res://scene/Killbox.gd" id="22_1it6f"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ym5sv"]
 texture = ExtResource("7_5g16k")
@@ -6497,7 +6498,7 @@ _data = {
 radius = 9.35368
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ym5sv"]
-size = Vector2(3272.5, 123)
+size = Vector2(3274.5, 123)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_17rxn"]
 size = Vector2(384, 33)
@@ -6571,6 +6572,18 @@ b = Vector2(35.6035, -0.241333)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i6gbm"]
 bg_color = Color(0.607843, 0.0745098, 0, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_b8t8i"]
+size = Vector2(86, 15.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_355h4"]
+size = Vector2(964, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ca6q5"]
+size = Vector2(465, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yerfe"]
+size = Vector2(240, 20)
 
 [node name="game" type="Node2D"]
 script = ExtResource("1_81276")
@@ -6668,7 +6681,7 @@ light_mask = 129
 visibility_layer = 129
 
 [node name="pavimento" type="CollisionShape2D" parent="hitboxes"]
-position = Vector2(869.75, 205.5)
+position = Vector2(870.75, 205.5)
 shape = SubResource("RectangleShape2D_ym5sv")
 
 [node name="murosx" type="CollisionShape2D" parent="hitboxes"]
@@ -6863,6 +6876,48 @@ vertical_alignment = 1
 
 [node name="Area2D" parent="." instance=ExtResource("21_355h4")]
 position = Vector2(6598, 31)
+
+[node name="Area2D2" type="Area2D" parent="."]
+script = ExtResource("22_1it6f")
+
+[node name="Marker2D" type="Marker2D" parent="Area2D2"]
+position = Vector2(2450.81, 128.918)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D2"]
+light_mask = 129
+visibility_layer = 129
+position = Vector2(2552, 261)
+shape = SubResource("RectangleShape2D_b8t8i")
+
+[node name="Area2D5" type="Area2D" parent="."]
+script = ExtResource("22_1it6f")
+
+[node name="Marker2D" type="Marker2D" parent="Area2D5"]
+position = Vector2(3150, -12)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D5"]
+position = Vector2(3671, 276)
+shape = SubResource("RectangleShape2D_355h4")
+
+[node name="Area2D4" type="Area2D" parent="."]
+script = ExtResource("22_1it6f")
+
+[node name="Marker2D" type="Marker2D" parent="Area2D4"]
+position = Vector2(5255.13, 53.9401)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D4"]
+position = Vector2(5506.5, 235)
+shape = SubResource("RectangleShape2D_ca6q5")
+
+[node name="Area2D3" type="Area2D" parent="."]
+script = ExtResource("22_1it6f")
+
+[node name="Marker2D" type="Marker2D" parent="Area2D3"]
+position = Vector2(5938.7, -10.5227)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D3"]
+position = Vector2(6049, 235)
+shape = SubResource("RectangleShape2D_yerfe")
 
 [connection signal="player_defeated" from="protagonista" to="." method="_on_protagonista_player_defeated"]
 [connection signal="body_entered" from="Area2Dscudo" to="." method="_on_area_2_dscudo_body_entered"]

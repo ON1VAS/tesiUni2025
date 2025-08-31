@@ -4,6 +4,9 @@ extends CharacterBody2D
 @onready var hitbox_timer = $HitboxTimer
 @onready var healthbar = $HealthBar
 
+var pending_respawn_pos: Vector2 = Vector2.INF
+var is_dying: bool = false  # guardia per evitare retrigger
+
 const GRAVITY = 400.0
 const JUMP_FORCE = -230
 const MAX_HEALTH = 150.00
@@ -179,6 +182,9 @@ func Damage (dam): #la vita diminuisce di un certo dam
 
 
 func die():
+	if is_dying:
+		return
+	is_dying = true 
 	health = 0  # Assicurati che la salute non vada sotto zero
 	#$death_sound.play()
 	$AnimatedSprite2D.play("death")
@@ -197,7 +203,27 @@ func _on_animated_sprite_2d_animation_finished() -> void:
 	elif $AnimatedSprite2D.animation == "roll":
 		is_rolling = false
 		$AnimatedSprite2D.play("idle")
-		
+	elif $AnimatedSprite2D.animation == "death":
+		# ===== RESPWAN QUI =====
+		# 1) sposta il player
+		if pending_respawn_pos != Vector2.INF:
+			global_position = pending_respawn_pos
+		# 2) reset stati base
+		velocity = Vector2.ZERO
+		is_invincible = false
+		is_rolling = false
+		jumps_done = 0
+		# 3) riparti
+		set_physics_process(true)
+		set_process(true)
+		is_dying = false
+		# (opzionale) rimettere un po’ di vita
+		if health <= 0:
+			health = max(1, int(currentMaxHealth * 0.5))  # metà vita, cambia a piacere
+		SetHealthBar()
+		$AnimatedSprite2D.play("idle")
+		# libera il respawn pending (così non rimane appeso)
+		pending_respawn_pos = Vector2.INF
 		
 
 
@@ -257,3 +283,9 @@ func reset_temp_bonus():
 	if base_stats.has("currentMaxHealth"):
 		health = currentMaxHealth
 		SetHealthBar()
+		
+
+func force_kill_and_respawn_at(pos: Vector2) -> void:
+	# chiamata dalla Killbox; imposta il punto e fa partire la morte
+	pending_respawn_pos = pos
+	Damage(health)  # o direttamente: die()

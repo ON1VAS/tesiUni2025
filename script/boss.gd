@@ -1,8 +1,13 @@
 extends CharacterBody2D
 
+signal health_changed(current: int, max: int)
+signal died
+
 # --- NUOVO: stato attivo/inattivo ---
 var active: bool = false
-
+@export var display_name := "Mietitore Notturno"
+var health = 100
+@export var max_health := 100
 @onready var hp = 250
 @onready var min_distance = 10
 @onready var speed = 150.0
@@ -151,6 +156,7 @@ func take_damage(amount: int):
 	if is_dead or not active:
 		return
 	hp -= amount
+	emit_signal("health_changed", health, max_health)
 	if hp > 0:
 		anim.play("hurt")
 	if hp <= 0:
