@@ -129,13 +129,6 @@ func load_dialogues():
 
 
 func _input(event):
-	if player_in_range and can_start_dialogue and event.is_action_pressed("ui_accept"):
-		_start_dialogue()
-	if can_start_game and event.is_action_pressed("ui_accept"):
-		if GlobalStats.energia >=50:
-			scene_change("res://scene/game.tscn")
-		else:
-			dialogue_box.show_dialogue(dialogues["energia_insufficente"])
 		
 	if can_rest and event.is_action_pressed("ui_accept") and not $CanvasLayer/TimerSelector/VBoxContainer/TextEdit.has_focus() and !GlobalStats.is_sleeping:
 		timer_selector.z_index = 1000
@@ -147,8 +140,7 @@ func _input(event):
 		var viewport_size = get_viewport().get_visible_rect().size  # dimensione effettiva della finestra visibile
 		var offset = Vector2( -290, -140 )
 		timer_selector.position = (viewport_size / 2 - (timer_selector.get_size() * timer_selector.scale) / 2) + offset
-	elif can_rest and GlobalStats.is_sleeping and event.is_action_pressed("ui_accept"):
-		return
+	
 		
 	
 	if can_read_log and event.is_action_pressed("ui_accept"):
@@ -178,7 +170,9 @@ func _input(event):
 		InventoryManager.add_item(carne)
 		InventoryManager.add_item(molla)
 		InventoryManager.add_item(regen_potion)
-
+		
+	if can_start_dialogue and player_in_range:
+		_start_dialogue()
 
 func _start_dialogue():
 	if npc_name=="npc_Eleonore": #npc_Eleonore si girano se giocatore si trova dietro di lei
@@ -195,6 +189,8 @@ func _start_dialogue():
 	
 	
 	if dialogues.has(npc_name):
+		print("sto a parlare con " + npc_name + "\n")
+		dialogue_box.visible = true
 		dialogue_box.show_dialogue(dialogues[npc_name])
 		can_start_dialogue = false  # Impedisco riavvio del dialogo finché non esce e rientra
 	else:
@@ -253,12 +249,12 @@ func _on_timer_selector_annulla_orario():
 	dialogue_box.show_dialogue(dialogues["rest"])
 	
 
-#qua è da inserire il cambio scena al posto del freeze
 func _on_timer_selector_conferma_iniziato():
 	timer_selector.visible = false
 	GlobalStats.in_menu = false
 	GlobalStats.is_sleeping = false
 	GlobalStats.tempo_cooldown = GlobalStats.secondi_totali * 3
+	
 	scene_change("res://scene/pomodoro.tscn")
 	#background_overlay.visible = true
 	#tempo_rimanente.visible = true

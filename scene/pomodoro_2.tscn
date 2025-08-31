@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://c5aro0asc3tuc"]
+
+[ext_resource type="Script" uid="uid://6nb0e676xeo7" path="res://script/pomodoro_2.gd" id="1_rek0e"]
+
+[node name="pomodoro2" type="Node2D"]
+script = ExtResource("1_rek0e")

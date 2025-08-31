@@ -1,9 +1,8 @@
-[gd_scene load_steps=32 format=4 uid="uid://cr74nqcmv5wub"]
+[gd_scene load_steps=31 format=4 uid="uid://cr74nqcmv5wub"]
 
 [ext_resource type="Script" uid="uid://bt1ljq8asd5ab" path="res://script/pomodoro.gd" id="1_6dret"]
 [ext_resource type="Texture2D" uid="uid://j3pjf38vcse3" path="res://testures/Platform/FinalAreaPixelArts/Tiles.png" id="1_d2uo8"]
 [ext_resource type="Texture2D" uid="uid://cq83i3mfs3xyd" path="res://testures/gh-platform/GandalfHardcore Background layers/Autumn BG/GandalfHardcore Background layers_layer 1.png" id="2_0r5x8"]
-[ext_resource type="PackedScene" uid="uid://b50aqprkx4ob8" path="res://scene/DialogueBox.tscn" id="2_2kq4s"]
 [ext_resource type="Texture2D" uid="uid://bouud65jtuf1k" path="res://testures/gh-platform/GandalfHardcore Background layers/Autumn BG/GandalfHardcore Background layers_layer 5.png" id="2_03lme"]
 [ext_resource type="PackedScene" uid="uid://cm1ru7bxfj1s0" path="res://scene/player.tscn" id="2_6dret"]
 [ext_resource type="Texture2D" uid="uid://bqcirtba7bm2p" path="res://testures/Legacy-Fantasy - High Forest 2.3/Assets/Tiles.png" id="2_eptoe"]
@@ -1851,9 +1850,6 @@ b = Vector2(42, 0)
 
 [node name="Pomodoro" type="Node2D"]
 script = ExtResource("1_6dret")
-
-[node name="DialogueBox" parent="." instance=ExtResource("2_2kq4s")]
-visible = false
 
 [node name="sfondo" type="Parallax2D" parent="."]
 scroll_offset = Vector2(-14, -35)

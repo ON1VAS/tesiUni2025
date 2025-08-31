@@ -180,7 +180,6 @@ func _on_recupero_timer_timeout():
 	if tempo_cooldown > 0:
 		can_log = false
 		tempo_cooldown -= 1
-		print(tempo_cooldown)
 		if tempo_cooldown == 0:
 			is_sleeping = false
 			in_menu = false

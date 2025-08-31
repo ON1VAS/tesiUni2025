@@ -1,14 +1,15 @@
 {
 	"npc_Joanna": [
+		"",
 		"Ciao cavaliere, sembri molto forte",
-		"ti prego, esci e sconfiggi quei mostri. 
-			Sei la nostra unica speranza",
-		"ma sta attento, è pieno di pericoli...",
+		"anche riposare però è importante\npuoi approfittarne per un bell'allenamento mentale",
+		"ma sta attento, è più realistico di quanto sembri..."
 	],
 	"npc_Eleonore": [
-		"Hey cavaliere, stai uscendo?",
-		"Buona fortuna e non stare troppo lì fuori",
-		"i morti sono le uniche cose che qui non mancano..."
+		"",
+		"Hey cavaliere, come sta andando?",
+		"è sempre importante prendere pause",
+		"ma non bisogna abusarne e prolungarle troppo!"
 	],
 	"Exit": [
 		"Premi [E] per uscire e difendere il rifugio"
