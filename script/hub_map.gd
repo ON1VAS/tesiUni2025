@@ -189,7 +189,6 @@ func _start_dialogue():
 	
 	
 	if dialogues.has(npc_name):
-		print("sto a parlare con " + npc_name + "\n")
 		dialogue_box.visible = true
 		dialogue_box.show_dialogue(dialogues[npc_name])
 		can_start_dialogue = false  # Impedisco riavvio del dialogo finché non esce e rientra
