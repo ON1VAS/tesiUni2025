@@ -156,14 +156,17 @@ func take_damage(amount: int):
 	if is_dead or not active:
 		return
 	hp -= amount
-	emit_signal("health_changed", health, max_health)
+	emit_signal("health_changed", hp, max_health)
 	if hp > 0:
 		anim.play("hurt")
 	if hp <= 0:
 		set_collision_layer_value(1, false)
+		attack_timer.stop()
+		teleport_timer.stop()
 		anim.play("death")
 		set_physics_process(false)
 		await anim.animation_finished
+		emit_signal("died")
 		queue_free()
 
 func perform_teleport():
