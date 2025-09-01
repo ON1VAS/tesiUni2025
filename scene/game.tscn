@@ -1,4 +1,4 @@
-[gd_scene load_steps=82 format=4 uid="uid://bfb3n5ulrxtxq"]
+[gd_scene load_steps=85 format=4 uid="uid://bfb3n5ulrxtxq"]
 
 [ext_resource type="PackedScene" uid="uid://cm1ru7bxfj1s0" path="res://scene/player.tscn" id="1_5kiuu"]
 [ext_resource type="Script" uid="uid://p03x4ile571r" path="res://script/game.gd" id="1_81276"]
@@ -22,6 +22,7 @@
 [ext_resource type="Texture2D" uid="uid://kdoujkbui58j" path="res://testures/Platform/Tiles/Assets/Assets.png" id="20_b8t8i"]
 [ext_resource type="PackedScene" uid="uid://dybv8bvuue87v" path="res://script/PlatformGame/LevelEndPortal.tscn" id="21_355h4"]
 [ext_resource type="Script" uid="uid://cus5fgmqw84e8" path="res://scene/Killbox.gd" id="22_1it6f"]
+[ext_resource type="Script" uid="uid://b0j3qw2sx74c1" path="res://script/PlatformGame/hazard_do_t.gd" id="23_pp3pk"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ym5sv"]
 texture = ExtResource("7_5g16k")
@@ -6585,6 +6586,12 @@ size = Vector2(465, 20)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yerfe"]
 size = Vector2(240, 20)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_abp7u"]
+size = Vector2(30, 13.502)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_he4o3"]
+size = Vector2(63.5, 13)
+
 [node name="game" type="Node2D"]
 script = ExtResource("1_81276")
 
@@ -6644,7 +6651,7 @@ tile_map_data = PackedByteArray("AACJAAgAAgAKAAgAAACKAAgAAgAKAAgAAACKAAcAAgAKAAg
 tile_set = SubResource("TileSet_8p2gu")
 
 [node name="protagonista" parent="." instance=ExtResource("1_5kiuu")]
-position = Vector2(553, 103)
+position = Vector2(565, 89)
 
 [node name="Camera2D" type="Camera2D" parent="protagonista"]
 position = Vector2(0, -38)
@@ -6918,6 +6925,17 @@ position = Vector2(5938.7, -10.5227)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D3"]
 position = Vector2(6049, 235)
 shape = SubResource("RectangleShape2D_yerfe")
+
+[node name="HazardDoT" type="Area2D" parent="."]
+script = ExtResource("23_pp3pk")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HazardDoT"]
+position = Vector2(1185, 121)
+shape = SubResource("RectangleShape2D_abp7u")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="HazardDoT"]
+position = Vector2(1279.75, 121)
+shape = SubResource("RectangleShape2D_he4o3")
 
 [connection signal="player_defeated" from="protagonista" to="." method="_on_protagonista_player_defeated"]
 [connection signal="body_entered" from="Area2Dscudo" to="." method="_on_area_2_dscudo_body_entered"]
