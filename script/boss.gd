@@ -7,7 +7,7 @@ signal died
 var active: bool = false
 @export var display_name := "Mietitore Notturno"
 var health = 100
-@export var max_health := 100
+@export var max_health := 250
 @onready var hp = 250
 @onready var min_distance = 10
 @onready var speed = 150.0
@@ -20,6 +20,7 @@ var FireOrbScene = preload("res://scene/dark_orb.tscn")
 @onready var hitbox_timer: Timer = $HitboxTimer
 @onready var attack_timer: Timer = $AttackTimer
 @onready var teleport_timer: Timer = $TeleportTimer
+@onready var healthbar: ProgressBar = $HealthBar
 var damage = 10 * DebuffManager.enemy_damage_multiplier()
 var is_dead = false
 var can_move = true
@@ -34,6 +35,12 @@ var attack_properties = {
 
 func _ready():
 	rng.randomize()
+	hp = max_health  # inizializza coerenza HP
+	# --- init barra vita
+	healthbar.max_value = max_health
+	healthbar.value = hp
+	if not is_connected("health_changed", Callable(self, "_on_health_changed")):
+		connect("health_changed", Callable(self, "_on_health_changed"))
 	anim.play("idle")
 	set_collision_layer_value(3, true) # "nemici"
 	hurtbox.set_collision_layer_value(6, true) # "enemy_hurtbox"
@@ -44,6 +51,7 @@ func _ready():
 	$ScytheHitbox1.set_collision_mask_value(6, true)
 	$ScytheHitbox2.set_collision_layer_value(2, true)
 	$ScytheHitbox2.set_collision_mask_value(6, true)
+	
 
 	attack_timer.connect("timeout", Callable(self, "_on_attack_timer_timeout"))
 	teleport_timer.timeout.connect(_on_teleport_timer_timeout)
@@ -63,6 +71,8 @@ func activate() -> void:
 	teleport_timer.start()
 	set_physics_process(true)
 	set_process(true)
+	if is_instance_valid(healthbar):
+		healthbar.visible = true
 
 func deactivate() -> void:
 	active = false
@@ -77,6 +87,8 @@ func deactivate() -> void:
 	set_process(true)
 	velocity = Vector2.ZERO
 	anim.play("idle")
+	if is_instance_valid(healthbar):
+		healthbar.visible = false
 
 func _physics_process(delta):
 	# --- BLOCCO: se non attivo, non fare nulla ---
@@ -247,3 +259,11 @@ func _on_animation_finished() -> void:
 		attack_started = false
 		current_attack = ""
 		anim.play("idle")
+
+
+func _on_health_changed(current: int, max: int) -> void:
+	if is_instance_valid(healthbar):
+		healthbar.max_value = max
+		healthbar.value = clamp(current, 0, max)
+		# opzionale: mostra/nascondi barra
+		healthbar.visible = active and current > 0.

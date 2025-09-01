@@ -538,6 +538,18 @@ autostart = true
 
 [node name="TeleportTimer" type="Timer" parent="."]
 
+[node name="HealthBar" type="ProgressBar" parent="."]
+modulate = Color(0.926161, 0.00134629, 1.92523e-06, 1)
+texture_filter = 1
+offset_left = -39.0
+offset_top = -44.0
+offset_right = 273.0
+offset_bottom = -13.0
+scale = Vector2(0.25, 0.25)
+max_value = 250.0
+step = 1.0
+show_percentage = false
+
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animation_finished"]
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_hurtbox_area_entered"]
 [connection signal="body_entered" from="ScytheHitbox1" to="." method="_on_scythe_hitbox_1_body_entered"]
@@ -545,3 +557,4 @@ autostart = true
 [connection signal="timeout" from="HitboxTimer" to="." method="_on_hitbox_timer_timeout"]
 [connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]
 [connection signal="timeout" from="TeleportTimer" to="." method="_on_teleport_timer_timeout"]
+[connection signal="changed" from="HealthBar" to="." method="_on_health_changed"]
