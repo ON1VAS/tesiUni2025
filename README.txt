@@ -9,14 +9,17 @@ Questo tempo viene decretato da quanto sarà bravo il giocatore durante la parte
 Ad esempio se si sceglie 2 minuti e si muore dopo 1 minuto avremo 4 minuti (2 min x 2) + 1 minuto rimanente = 5 minuti di countdown di attesa
 -Durante l'attesa non è possibile giocare al game e ci sarà presentato un countdown da scontare in game.
 -Il gioco ci suggerirà di fare attività creative o produttive durante l'attesa
--giocando il gioco si otterranno degli oggetti attivabili che avranno come durata tutta la prossima partita:
+-giocando il gioco si otterranno degli oggetti attivabili che avranno come durata tutta la prossima partita 
+-gli oggetti verranno ottenuti secondo la formula (1 x minuti effettivamente giocati) + 1) così che sia garantito almeno 1 oggetto per partita
+-qui di seguito gli oggetti inseriti attualmente nel gioco:
 --Mela: aumenta leggermente gli hp di 10
 --Carne: aumenta leggermente il danno di 5
 --Pozione di rigenerazione: abilita una rigenerazione di vita di 1hp/s
 --Molla: fa saltare un po' più in alto
 --Piuma: abilita il doppio salto
 -I precedenti oggetti sono tutti attivabili dal menu inventario (apribile con TAB)
--Il gioco in se quindi consiste nel gioco consapevole dell'utente di un "X" minuti con una seguente attesa di X*2 + residui in cui il gioco stesso spingerà l'utente fare attività creative o utili. Ovviamente lo svolgimento o meno di queste ultime dipende dall'utente e il gioco svolge il semplice ruolo di aiutante che da una piccola spinta nella direzione giusta
+-gli oggetti ottenuti giocando saranno riassunti e mostrati in basso a sx a fine della partita quando si tornerà all'hub
+-Il gioco in se quindi consiste nel gioco consapevole dell'utente di un "X" minuti con una seguente attesa di X*2 + residui in cui il gioco stesso spingerà l'utente fare attività creative o utili. Ovviamente lo svolgimento o meno di queste ultime dipende dall'utente e il gioco svolge il semplice ruolo di aiutante che dà una piccola spinta nella direzione giusta
 -presente un log in cui si possono verificare tutte le precedenti partite (attivabile a destra dei tavoli, da alcuni libri su una cassa)
 
 --Future aggiunte comprendono tutorial esaustivo in gioco, trama che possa offrire un contesto alle nostre azioni, nuove mappe, nuovi oggetti, una classifica con i record di "sopravvivenza" e altre possibili funzionalità che possano spingere il giocatore ad un uso consapevole.

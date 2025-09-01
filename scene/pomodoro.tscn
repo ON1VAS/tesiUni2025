@@ -1,10 +1,11 @@
-[gd_scene load_steps=31 format=4 uid="uid://cr74nqcmv5wub"]
+[gd_scene load_steps=32 format=4 uid="uid://cr74nqcmv5wub"]
 
 [ext_resource type="Script" uid="uid://bt1ljq8asd5ab" path="res://script/pomodoro.gd" id="1_6dret"]
 [ext_resource type="Texture2D" uid="uid://j3pjf38vcse3" path="res://testures/Platform/FinalAreaPixelArts/Tiles.png" id="1_d2uo8"]
 [ext_resource type="Texture2D" uid="uid://cq83i3mfs3xyd" path="res://testures/gh-platform/GandalfHardcore Background layers/Autumn BG/GandalfHardcore Background layers_layer 1.png" id="2_0r5x8"]
 [ext_resource type="Texture2D" uid="uid://bouud65jtuf1k" path="res://testures/gh-platform/GandalfHardcore Background layers/Autumn BG/GandalfHardcore Background layers_layer 5.png" id="2_03lme"]
 [ext_resource type="PackedScene" uid="uid://cm1ru7bxfj1s0" path="res://scene/player.tscn" id="2_6dret"]
+[ext_resource type="AudioStream" uid="uid://cdagkb5vv4q5e" path="res://scene/Abandoned Ashes, a Dark Souls Ambiance Arrangement.wav" id="2_44tah"]
 [ext_resource type="Texture2D" uid="uid://bqcirtba7bm2p" path="res://testures/Legacy-Fantasy - High Forest 2.3/Assets/Tiles.png" id="2_eptoe"]
 [ext_resource type="Texture2D" uid="uid://va3gh51wa6fw" path="res://testures/gh-platform/GandalfHardcore Background layers/Autumn BG/GandalfHardcore Background layers_layer 4.png" id="3_5cs3s"]
 [ext_resource type="Texture2D" uid="uid://d4ilglda5fivb" path="res://testures/gh-platform/Other Tiles1.png" id="4_0r5x8"]
@@ -1850,6 +1851,12 @@ b = Vector2(42, 0)
 
 [node name="Pomodoro" type="Node2D"]
 script = ExtResource("1_6dret")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_44tah")
+autoplay = true
+max_distance = 4096.0
+bus = &"Musica"
 
 [node name="sfondo" type="Parallax2D" parent="."]
 scroll_offset = Vector2(-14, -35)

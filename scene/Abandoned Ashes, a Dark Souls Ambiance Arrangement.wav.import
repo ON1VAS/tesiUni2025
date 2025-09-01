@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://cdagkb5vv4q5e"
+path="res://.godot/imported/Abandoned Ashes, a Dark Souls Ambiance Arrangement.wav-40e68cb4e34fe1a8dd3846895b1293e1.sample"
+
+[deps]
+
+source_file="res://scene/Abandoned Ashes, a Dark Souls Ambiance Arrangement.wav"
+dest_files=["res://.godot/imported/Abandoned Ashes, a Dark Souls Ambiance Arrangement.wav-40e68cb4e34fe1a8dd3846895b1293e1.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2
