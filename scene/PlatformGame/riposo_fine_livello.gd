@@ -3,6 +3,8 @@ extends Node2D
 # Se vuoi mostrare che modalità stai continuando (opzionale):
 var mode := LevelFlow.Mode.PLATFORM_CAMPAIGN
 @onready var continue_btn: Button = $MarginContainer/VBoxContainer/Continua
+@onready var inventoryUI = $InventoryUI
+@onready var player = $protagonista
 
 var _ui_accum := 0.0
 const UI_TICK := 0.25
@@ -73,3 +75,8 @@ func _format_time(rem: int) -> String:
 
 func _get_player_reference() -> Node:
 	return null
+
+
+func _on_inventario_pressed() -> void:
+	GlobalStats.in_menu = true
+	inventoryUI.open_inventory(player)
