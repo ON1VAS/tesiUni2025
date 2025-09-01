@@ -171,7 +171,7 @@ func _input(event):
 		InventoryManager.add_item(molla)
 		InventoryManager.add_item(regen_potion)
 		
-	if can_start_dialogue and player_in_range:
+	if can_start_dialogue and player_in_range and event.is_action_pressed("ui_accept"):
 		_start_dialogue()
 
 func _start_dialogue():
