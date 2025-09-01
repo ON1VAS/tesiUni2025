@@ -192,7 +192,7 @@ texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_rpsw2")
 animation = &"move"
 
-[node name="PlayerDetectionArea" type="Area2D" parent="."]
+[node name="PlayerDetectionArea" type="Area2D" parent="." groups=["enemies"]]
 collision_layer = 3
 collision_mask = 32
 

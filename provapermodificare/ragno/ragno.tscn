@@ -211,7 +211,7 @@ size = Vector2(30.4043, 24.4205)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wuebr"]
 size = Vector2(20, 13)
 
-[node name="ragno" type="CharacterBody2D" groups=["nemici"]]
+[node name="ragno" type="CharacterBody2D" groups=["enemies", "nemici"]]
 collision_layer = 2
 collision_mask = 32
 script = ExtResource("1_lr5nt")
