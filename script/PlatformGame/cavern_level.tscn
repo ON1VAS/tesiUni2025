@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=4 uid="uid://b2i5uslgbudfg"]
+[gd_scene load_steps=55 format=4 uid="uid://b2i5uslgbudfg"]
 
 [ext_resource type="Script" uid="uid://dmymx22h2u50l" path="res://script/PlatformGame/cavern_level.gd" id="1_7vmgf"]
 [ext_resource type="Texture2D" uid="uid://bwmekpdefyteg" path="res://testures/Platform/Cave Tileset/_Complete_static_BG_(288 x 208).png" id="1_xg6fw"]
@@ -11,6 +11,12 @@
 [ext_resource type="PackedScene" uid="uid://dybv8bvuue87v" path="res://script/PlatformGame/LevelEndPortal.tscn" id="9_g1cjk"]
 [ext_resource type="Script" uid="uid://cus5fgmqw84e8" path="res://scene/Killbox.gd" id="10_vs78w"]
 [ext_resource type="Script" uid="uid://b0j3qw2sx74c1" path="res://script/PlatformGame/hazard_do_t.gd" id="11_kgiyk"]
+[ext_resource type="PackedScene" uid="uid://km2jwsltrngq" path="res://provapermodificare/ragno/ragno.tscn" id="12_1wsuo"]
+[ext_resource type="PackedScene" uid="uid://dcskbt4mltl8y" path="res://scene/slime.tscn" id="12_4781p"]
+[ext_resource type="PackedScene" uid="uid://d2n7yyyc73rwo" path="res://scene/chinghiale.tscn" id="13_scpwm"]
+[ext_resource type="PackedScene" uid="uid://bthh718uavc0f" path="res://scene/golem.tscn" id="14_4781p"]
+[ext_resource type="PackedScene" uid="uid://dk3ogbro6havf" path="res://scene/golem_pietra.tscn" id="15_5b80h"]
+[ext_resource type="PackedScene" uid="uid://dvtsyd4yk0nba" path="res://scene/ape.tscn" id="16_yy58x"]
 
 [sub_resource type="Gradient" id="Gradient_1wsuo"]
 offsets = PackedFloat32Array(0)
@@ -1741,6 +1747,15 @@ size = Vector2(45, 46)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4781p"]
 size = Vector2(74.9949, 8.04083)
 
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_sd0b2"]
+b = Vector2(-0.616211, 35.1605)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_abgq3"]
+b = Vector2(-0.247559, 32.1743)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_nkp0p"]
+b = Vector2(51.4355, -0.610352)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kgiyk"]
 size = Vector2(257, 20)
 
@@ -1778,7 +1793,7 @@ scale = Vector2(6.8916, 948)
 texture = SubResource("GradientTexture1D_wa331")
 
 [node name="TileMapLayer3" type="TileMapLayer" parent="."]
-tile_map_data = PackedByteArray("AAC3Ac7/AQAEABUAAAC3Ac3/AQAGABUAAAC2Ac3/AQAEABUAAAC2Ac7/AQAFABcAAAC4Ac3/AQAGABUAAAC5Ac//AQAJABIAAAC6Ac//AQAKABIAAAC7Ac//AQAGABcAAAC7Ac7/AQAGABUAAAC7Ac3/AQAGABUAAAC8Ac3/AQAIABUAAAC9Ac3/AQAGABcAAAC8Ac7/AQAIABUAAAC8Ac//AQAHABcAAAC6Ac3/AQAKABIAAAC5Ac3/AQAJABIAAAC6Acz/AQAKABEAAAC5Acz/AQAJABEAAAC4Acz/AQAGABUAAAC4Acv/AQAGABUAAAC5Acv/AQAJABIAAAC6Acv/AQAKABIAAAC6Acr/AQAKABEAAAC7Acr/AQAGABUAAAC0AcT/AQABABAAAAC0AcX/AQABABEAAAC0Acb/AQABABIAAAC1AcP/AQACAA8AAAC1AcT/AQACABAAAAC1AcX/AQACABEAAAC1Acb/AQACABIAAAC1Acf/AQACABMAAAC2AcP/AQADAA8AAAC2AcT/AQADABAAAAC2AcX/AQADABEAAAC2Acb/AQADABIAAAC2Acf/AQADABMAAAC3AcP/AQABABAAAAC3AcT/AQABABEAAAC3AcX/AQABABIAAAC3Acb/AQAEABIAAAC3Acf/AQAEABMAAAC4AcT/AQACABEAAAC4AcX/AQACABIAAAC4Acb/AQACABMAAAC4Acf/AQAFABMAAAC4AcL/AQACAA8AAAC4AcP/AQACABAAAAC5AcL/AQADAA8AAAC5AcP/AQAJABEAAAC5AcT/AQAJABIAAAC5AcX/AQAJABEAAAC5Acb/AQAJABEAAAC6AcL/AQAEAA8AAAC6AcP/AQAKABEAAAC6AcT/AQAKABIAAAC6AcX/AQAKABEAAAC6Acb/AQAKABEAAAC7AcP/AQABABAAAAC7AcT/AQABABEAAAC7AcX/AQABABIAAAC7Acb/AQAFABMAAAC8AcL/AQACAA8AAAC8AcP/AQACABAAAAC8AcT/AQACABEAAAC8AcX/AQACABIAAAC8Acb/AQACABMAAAC9AcL/AQADAA8AAAC9AcP/AQADABAAAAC9AcT/AQADABEAAAC9AcX/AQADABIAAAC9Acb/AQADABMAAAC+AcL/AQAEAA8AAAC+AcP/AQAEABAAAAC+AcT/AQAEABEAAAC+AcX/AQAEABIAAAC+Acb/AQAEABMAAAC/AcP/AQAFABAAAAC/AcT/AQAFABEAAAC/AcX/AQAFABIAAAC5Acf/AQAJABIAAAC6Acf/AQAKABIAAAC5Acj/AQAJABEAAAC5Acn/AQAGABQAAAC6Acj/AQAKABEAAAC6Acn/AQAGABQAAAC5Acr/AQAJABEAAAC5Ac7/AQAJABEAAAC6Ac7/AQAKABEAAAC2Acj/AQAGABMAAAC2Acn/AQAGABQAAAC3Acn/AQAGABQAAAC4Acn/AQAGABQAAAC7Acn/AQAGABQAAAC8Acn/AQAGABQAAAC9Acn/AQAGABQAAAC9Acj/AQAGABQAAAC9Acf/AQAHABMAAAA4AfH/AQAOAAMAAAA5AfH/AQAPAAMAAAA6AfH/AQAPAAMAAAA7AfH/AQAPAAMAAAA8AfH/AQAPAAMAAAA9AfH/AQAPAAMAAAA+AfH/AQAPAAMAAAA/AfH/AQAPAAMAAABAAfH/AQAPAAMAAABBAfH/AQAPAAMAAABCAfH/AQAPAAMAAABDAfH/AQAPAAMAAABEAfH/AQAPAAMAAABFAfH/AQAPAAMAAABGAfH/AQAPAAMAAABHAfH/AQAPAAMAAABIAfH/AQAPAAMAAABJAfH/AQAPAAMAAABKAfH/AQAPAAMAAABLAfH/AQAPAAMAAABMAfH/AQAPAAMAAABNAfH/AQAPAAMAAABOAfH/AQAPAAMAAABPAfH/AQAPAAMAAABQAfH/AQAPAAMAAABRAfH/AQAPAAMAAABSAfH/AQAPAAMAAABTAfH/AQAPAAMAAABUAfH/AQAPAAMAAABVAfH/AQAPAAMAAABWAfH/AQAPAAMAAABXAfH/AQAPAAMAAABYAfH/AQAPAAMAAABZAfH/AQAPAAMAAABaAfH/AQAPAAMAAABbAfH/AQAPAAMAAABcAfH/AQAPAAMAAABdAfH/AQAPAAMAAABeAfH/AQAPAAMAAABfAfH/AQAPAAMAAABgAfH/AQAPAAMAAABhAfH/AQAPAAMAAABiAfH/AQAPAAMAAABjAfH/AQAPAAMAAABkAfH/AQAPAAMAAABlAfH/AQAPAAMAAABmAfH/AQAQAAMAAABnAfH/AQAQAAMAAAA=")
+tile_map_data = PackedByteArray("AAC3Ac7/AQAEABUAAAC3Ac3/AQAGABUAAAC2Ac3/AQAEABUAAAC2Ac7/AQAFABcAAAC4Ac3/AQAGABUAAAC5Ac//AQAJABIAAAC6Ac//AQAKABIAAAC7Ac//AQAGABcAAAC7Ac7/AQAGABUAAAC7Ac3/AQAGABUAAAC8Ac3/AQAIABUAAAC9Ac3/AQAGABcAAAC8Ac7/AQAIABUAAAC8Ac//AQAHABcAAAC6Ac3/AQAKABIAAAC5Ac3/AQAJABIAAAC6Acz/AQAKABEAAAC5Acz/AQAJABEAAAC4Acz/AQAGABUAAAC4Acv/AQAGABUAAAC5Acv/AQAJABIAAAC6Acv/AQAKABIAAAC6Acr/AQAKABEAAAC7Acr/AQAGABUAAAC0AcT/AQABABAAAAC0AcX/AQABABEAAAC0Acb/AQABABIAAAC1AcP/AQACAA8AAAC1AcT/AQACABAAAAC1AcX/AQACABEAAAC1Acb/AQACABIAAAC1Acf/AQACABMAAAC2AcP/AQADAA8AAAC2AcT/AQADABAAAAC2AcX/AQADABEAAAC2Acb/AQADABIAAAC2Acf/AQADABMAAAC3AcP/AQABABAAAAC3AcT/AQABABEAAAC3AcX/AQABABIAAAC3Acb/AQAEABIAAAC3Acf/AQAEABMAAAC4AcT/AQACABEAAAC4AcX/AQACABIAAAC4Acb/AQACABMAAAC4Acf/AQAFABMAAAC4AcL/AQACAA8AAAC4AcP/AQACABAAAAC5AcL/AQADAA8AAAC5AcP/AQAJABEAAAC5AcT/AQAJABIAAAC5AcX/AQAJABEAAAC5Acb/AQAJABEAAAC6AcL/AQAEAA8AAAC6AcP/AQAKABEAAAC6AcT/AQAKABIAAAC6AcX/AQAKABEAAAC6Acb/AQAKABEAAAC7AcP/AQABABAAAAC7AcT/AQABABEAAAC7AcX/AQABABIAAAC7Acb/AQAFABMAAAC8AcL/AQACAA8AAAC8AcP/AQACABAAAAC8AcT/AQACABEAAAC8AcX/AQACABIAAAC8Acb/AQACABMAAAC9AcL/AQADAA8AAAC9AcP/AQADABAAAAC9AcT/AQADABEAAAC9AcX/AQADABIAAAC9Acb/AQADABMAAAC+AcL/AQAEAA8AAAC+AcP/AQAEABAAAAC+AcT/AQAEABEAAAC+AcX/AQAEABIAAAC+Acb/AQAEABMAAAC/AcP/AQAFABAAAAC/AcT/AQAFABEAAAC/AcX/AQAFABIAAAC5Acf/AQAJABIAAAC6Acf/AQAKABIAAAC5Acj/AQAJABEAAAC5Acn/AQAGABQAAAC6Acj/AQAKABEAAAC6Acn/AQAGABQAAAC5Acr/AQAJABEAAAC5Ac7/AQAJABEAAAC6Ac7/AQAKABEAAAC2Acj/AQAGABMAAAC2Acn/AQAGABQAAAC3Acn/AQAGABQAAAC4Acn/AQAGABQAAAC7Acn/AQAGABQAAAC8Acn/AQAGABQAAAC9Acn/AQAGABQAAAC9Acj/AQAGABQAAAC9Acf/AQAHABMAAAA4AfH/AQAOAAMAAAA5AfH/AQAPAAMAAAA6AfH/AQAPAAMAAAA7AfH/AQAPAAMAAAA8AfH/AQAPAAMAAAA9AfH/AQAPAAMAAAA+AfH/AQAPAAMAAAA/AfH/AQAPAAMAAABAAfH/AQAPAAMAAABBAfH/AQAPAAMAAABCAfH/AQAPAAMAAABDAfH/AQAPAAMAAABEAfH/AQAPAAMAAABFAfH/AQAPAAMAAABGAfH/AQAPAAMAAABHAfH/AQAPAAMAAABIAfH/AQAPAAMAAABJAfH/AQAPAAMAAABKAfH/AQAPAAMAAABLAfH/AQAPAAMAAABMAfH/AQAPAAMAAABNAfH/AQAPAAMAAABOAfH/AQAPAAMAAABPAfH/AQAPAAMAAABQAfH/AQAPAAMAAABRAfH/AQAPAAMAAABSAfH/AQAPAAMAAABTAfH/AQAPAAMAAABUAfH/AQAPAAMAAABVAfH/AQAPAAMAAABWAfH/AQAPAAMAAABXAfH/AQAPAAMAAABYAfH/AQAPAAMAAABZAfH/AQAPAAMAAABaAfH/AQAPAAMAAABbAfH/AQAPAAMAAABcAfH/AQAPAAMAAABdAfH/AQAPAAMAAABeAfH/AQAPAAMAAABfAfH/AQAPAAMAAABgAfH/AQAPAAMAAABhAfH/AQAPAAMAAABiAfH/AQAPAAMAAABjAfH/AQAPAAMAAABkAfH/AQAPAAMAAABlAfH/AQAPAAMAAABmAfH/AQAQAAMAAABnAfH/AQAQAAMAAAA8AeX/AQAJAAUAAAA8Aeb/AQAJAAUAAAA/AeX/AQAJAAUAAAA/Aeb/AQAJAAUAAAA8Aef/AQAGAAUAAAA/Aef/AQAIAAUAAAA+Aef/AQAKAAMAAAA9Aef/AQAKAAMAAABMAeX/AQAJAAUAAABMAeb/AQAJAAUAAABMAef/AQAGAAUAAABNAef/AQAKAAMAAABOAef/AQAKAAMAAABPAeX/AQAJAAUAAABPAeb/AQAJAAUAAABPAef/AQAIAAUAAABdAeP/AQAJAAUAAABdAeT/AQAJAAUAAABdAeX/AQAGAAUAAABeAeX/AQAKAAMAAABfAeX/AQAKAAMAAABgAeP/AQAJAAUAAABgAeT/AQAJAAUAAABgAeX/AQAIAAUAAAA=")
 tile_set = SubResource("TileSet_1wsuo")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
@@ -1790,7 +1805,7 @@ tile_map_data = PackedByteArray("AAAoAPn/AAAGAAUAAAApAPn/AAAHAAUAAAAqAPn/AAAIAAU
 tile_set = SubResource("TileSet_slelf")
 
 [node name="protagonista" parent="." instance=ExtResource("6_kgiyk")]
-position = Vector2(-5, -144)
+position = Vector2(-4, -97)
 
 [node name="Camera2D" type="Camera2D" parent="protagonista"]
 position = Vector2(0, -38)
@@ -1884,7 +1899,7 @@ polygon = PackedVector2Array(1440, 0, 1441, 240, 1455, 240, 1455, 664, 3135, 657
 polygon = PackedVector2Array(3135, 352, 3327, 352, 3327, 336, 3376, 336, 3376, 320, 3408, 320, 3408, 304, 3440, 304, 3440, 288, 3520, 288, 3520, 272, 3552, 272, 3552, 256, 3583, 256, 3583, 239, 3632, 239, 3632, 144, 3648, 144, 3648, 128, 3632, 128, 3632, 96, 3648, 96, 3648, 32, 3680, 32, 3680, 16, 3712, 16, 3712, 0, 3727, 0, 3727, -16, 4048, -16, 4048, -32, 4144, -32, 4144, -48, 4240, -48, 4240, -64, 4256, -64, 4256, -80, 4288, -80, 4288, 16, 4288, 663, 3135, 667)
 
 [node name="CollisionPolygon2D5" type="CollisionPolygon2D" parent="hitboxes"]
-polygon = PackedVector2Array(4544, -80, 4544, 33, 6251, 13, 6352, -480, 6264, -480, 6256, -472, 6256, -462, 6240, -462, 6240, -368, 6224, -368, 6224, -352, 6208, -352, 6208, -336, 6192, -336, 6192, -320, 6112, -320, 6112, -304, 6032, -304, 6031, -288, 5968, -288, 5968, -272, 5920, -272, 5920, -256, 5760, -256, 5760, -240, 5744, -240, 5744, -224, 5728, -224, 5728, -208, 5680, -208, 5680, -192, 5648, -192, 5648, -176, 5616, -176, 5616, -159, 5584, -159, 5584, -144, 5552, -144, 5552, -128, 5424, -128, 5424, -112, 5296, -112, 5296, -128, 5153, -127, 5152, -144, 5104, -144, 5104, -161, 5072, -160, 5072, -176, 5040, -176, 5040, -192, 5024, -192, 5024, -207, 5008, -207, 5008, -240, 4992, -240, 4992, -256, 4879, -256, 4879, -240, 4847, -240, 4847, -224, 4832, -224, 4832, -209, 4784, -209, 4784, -192, 4752, -192, 4752, -176, 4736, -176, 4736, -160, 4704, -160, 4704, -144, 4688, -144, 4688, -112, 4672, -112, 4672, -96, 4656, -96, 4656, -80)
+polygon = PackedVector2Array(4544, -80, 4544, 33, 6251, 13, 6352, -480, 6264, -480, 6256, -472, 6256, -462, 6240, -462, 6240, -368, 6224, -368, 6224, -352, 6208, -352, 6208, -336, 6192, -336, 6192, -320, 6112, -320, 6112, -304, 6032, -304, 6031, -288, 5968, -288, 5968, -272, 5920, -272, 5920, -256, 5760, -256, 5760, -240, 5744, -240, 5744, -224, 5728, -224, 5728, -208, 5680, -208, 5680, -192, 5648, -192, 5648, -176, 5616, -176, 5616, -159, 5584, -159, 5584, -144, 5552, -144, 5552, -128, 5427, -128, 5426, -132, 5424, -112, 5365.32, -112, 5360, -119, 5354.78, -112, 5296, -112, 5293, -132, 5291.45, -128, 5152, -128, 5152, -144, 5104, -144, 5104, -161, 5072, -160, 5072, -176, 5040, -176, 5040, -192, 5024, -192, 5024, -207, 5008, -207, 5008, -240, 4992, -240, 4992, -256, 4879, -256, 4879, -240, 4847, -240, 4847, -224, 4832, -224, 4832, -209, 4784, -209, 4784, -192, 4752, -192, 4752, -176, 4736, -176, 4736, -160, 4704, -160, 4704, -144, 4688, -144, 4688, -112, 4672, -112, 4672, -96, 4656, -96, 4656, -80)
 
 [node name="CollisionPolygon2D6" type="CollisionPolygon2D" parent="hitboxes"]
 position = Vector2(0, 1)
@@ -1928,6 +1943,51 @@ polygon = PackedVector2Array(-0.400146, 1.3, 48.5999, 1.3, 47.5999, 18.3, 64.599
 position = Vector2(6593.17, -628.945)
 rotation = -0.626573
 shape = SubResource("RectangleShape2D_4781p")
+
+[node name="CollisionShape2D15" type="CollisionShape2D" parent="hitboxes"]
+position = Vector2(5111.62, -430.16)
+shape = SubResource("SegmentShape2D_sd0b2")
+one_way_collision = true
+
+[node name="CollisionShape2D16" type="CollisionShape2D" parent="hitboxes"]
+position = Vector2(5063, -429)
+shape = SubResource("SegmentShape2D_abgq3")
+one_way_collision = true
+
+[node name="CollisionShape2D11" type="CollisionShape2D" parent="hitboxes"]
+position = Vector2(5062.56, -395.39)
+shape = SubResource("SegmentShape2D_nkp0p")
+one_way_collision = true
+
+[node name="CollisionShape2D17" type="CollisionShape2D" parent="hitboxes"]
+position = Vector2(5368.05, -432)
+shape = SubResource("SegmentShape2D_sd0b2")
+one_way_collision = true
+
+[node name="CollisionShape2D18" type="CollisionShape2D" parent="hitboxes"]
+position = Vector2(5319.44, -430.84)
+shape = SubResource("SegmentShape2D_abgq3")
+one_way_collision = true
+
+[node name="CollisionShape2D19" type="CollisionShape2D" parent="hitboxes"]
+position = Vector2(5319, -397.229)
+shape = SubResource("SegmentShape2D_nkp0p")
+one_way_collision = true
+
+[node name="CollisionShape2D20" type="CollisionShape2D" parent="hitboxes"]
+position = Vector2(5640.05, -462)
+shape = SubResource("SegmentShape2D_sd0b2")
+one_way_collision = true
+
+[node name="CollisionShape2D21" type="CollisionShape2D" parent="hitboxes"]
+position = Vector2(5591.44, -460.84)
+shape = SubResource("SegmentShape2D_abgq3")
+one_way_collision = true
+
+[node name="CollisionShape2D22" type="CollisionShape2D" parent="hitboxes"]
+position = Vector2(5591, -427.229)
+shape = SubResource("SegmentShape2D_nkp0p")
+one_way_collision = true
 
 [node name="Area2D" parent="." instance=ExtResource("9_g1cjk")]
 position = Vector2(7247, -809)
@@ -1985,3 +2045,48 @@ shape = SubResource("RectangleShape2D_5b80h")
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="HazardDoT"]
 position = Vector2(6864.5, -694.5)
 shape = SubResource("RectangleShape2D_sd0b2")
+
+[node name="Slime" parent="." instance=ExtResource("12_4781p")]
+position = Vector2(6992, -802)
+
+[node name="ragno" parent="." instance=ExtResource("12_1wsuo")]
+position = Vector2(5202, -147)
+
+[node name="ragno2" parent="." instance=ExtResource("12_1wsuo")]
+position = Vector2(5483, -143)
+
+[node name="ragno3" parent="." instance=ExtResource("12_1wsuo")]
+position = Vector2(5318, -125)
+
+[node name="ragno4" parent="." instance=ExtResource("12_1wsuo")]
+position = Vector2(5405, -127)
+
+[node name="ragno5" parent="." instance=ExtResource("12_1wsuo")]
+position = Vector2(5088, -413)
+
+[node name="ragno6" parent="." instance=ExtResource("12_1wsuo")]
+position = Vector2(5345, -413)
+
+[node name="ragno7" parent="." instance=ExtResource("12_1wsuo")]
+position = Vector2(5616, -446)
+
+[node name="ragno8" parent="." instance=ExtResource("12_1wsuo")]
+position = Vector2(1785, -16)
+
+[node name="Cinghiale" parent="." instance=ExtResource("13_scpwm")]
+position = Vector2(236, -24)
+
+[node name="Golem" parent="." instance=ExtResource("14_4781p")]
+position = Vector2(1732, -143)
+
+[node name="Golem2" parent="." instance=ExtResource("14_4781p")]
+position = Vector2(1048, -159)
+
+[node name="GolemPietra" parent="." instance=ExtResource("15_5b80h")]
+position = Vector2(3836, -71)
+
+[node name="GolemPietra2" parent="." instance=ExtResource("15_5b80h")]
+position = Vector2(4072, -93)
+
+[node name="Ape" parent="." instance=ExtResource("16_yy58x")]
+position = Vector2(6373, -577)

@@ -232,7 +232,7 @@ script = ExtResource("1_p3a6y")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_ilr4w")
-animation = &"slam_impact"
+animation = &"idle"
 
 [node name="PlayerDetectionArea" type="Area2D" parent="."]
 collision_layer = 2
