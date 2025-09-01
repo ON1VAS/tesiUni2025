@@ -14,6 +14,7 @@ func _ready() -> void:
 	$AnimatedSprite2D.play("default")
 	$AnimatedSprite2D2.play("default")
 	LevelFlow.current_mode = LevelFlow.Mode.PLATFORM_CAMPAIGN
+	GlobalStats.in_intermezzo = true
 	RestLock.lock_changed.connect(_refresh_ui)
 	_refresh_ui()
 
@@ -32,6 +33,7 @@ func _on_riposa_pressed() -> void:
 func _on_continua_pressed() -> void:
 	if RestLock.is_active():
 		return
+	GlobalStats.in_intermezzo = false
 	# Debuff random SOLO in campagna platform
 	if LevelFlow.current_mode == LevelFlow.Mode.PLATFORM_CAMPAIGN:
 		# Se hai riposato prima, salta il debuff UNA volta
@@ -40,11 +42,11 @@ func _on_continua_pressed() -> void:
 			print("Debuff scelto automaticamente:", chosen)
 		else:
 			print("Riposo effettuato: nessun debuff questa volta.")
-
 	# Avanza pista platform e carica
 	var next_scene := LevelFlow.advance_and_get_next(LevelFlow.current_mode)
 	if next_scene:
 		get_tree().change_scene_to_packed(next_scene)
+		
 	else:
 		push_error("Fine livelli della campagna platform (nessun prossimo livello).")
 		# opzionale: vai a una scena finale/credits/menu

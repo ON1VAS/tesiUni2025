@@ -61,6 +61,7 @@ func _ready():
 	$SwordHitbox.set_collision_mask_value(6, true) #abilita la maschera per colpire i nemici
 	if not hitbox_timer.timeout.is_connected(_on_hitbox_timer_timeout):
 		hitbox_timer.timeout.connect(_on_hitbox_timer_timeout)
+	apply_temp_bonus()
 	
 func start_attack(anim_name: String):
 	$AnimatedSprite2D.play(anim_name)
@@ -254,6 +255,9 @@ func show_health_bar():
 
 #nel caso siano valori numerici li cambia, nel caso sia booleani li rende true
 func apply_temp_bonus():
+	if GlobalStats.in_intermezzo:
+		print("apply_temp_bonus: intermezzo attivo, non applico")
+		return
 	for key in BonusManager.active_bonus:
 		if not base_stats.has(key):
 			continue  # ignora bonus non riconosciuti
@@ -273,6 +277,11 @@ func apply_temp_bonus():
 	if BonusManager.active_bonus.has("currentMaxHealth"):
 		health = currentMaxHealth
 		SetHealthBar()
+	if BonusManager.has_method("clear"):
+		BonusManager.clear()
+	else:
+		# fallback: svuota la mappa se non hai un metodo dedicato
+		BonusManager.active_bonus.clear()
 
 
 
