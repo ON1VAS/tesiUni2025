@@ -98,6 +98,7 @@ func apply_to_player(player: Node) -> void:
 	if "can_jump" in player: player.can_jump = true
 	if "ignore_jump_input" in player: player.ignore_jump_input = false
 	if "attack_input_delay" in player: player.attack_input_delay = 0.0
+	if "jump_force" in player: player.jump_force = 0
 
 	# --- Applica effetti singoli ---
 	if active_debuffs.has(DEBUFF.SLOW):
@@ -113,8 +114,10 @@ func apply_to_player(player: Node) -> void:
 		if "can_roll" in player: player.can_roll = false
 
 	if active_debuffs.has(DEBUFF.NO_JUMP):
-		if "can_jump" in player: player.can_jump = false
-		if "ignore_jump_input" in player: player.ignore_jump_input = true
+		if "jump_force" in player and "JUMP_FORCE" in player:
+			player.can_jump = true
+			player.ignore_jump_input = false
+			player.jump_force = -player.JUMP_FORCE * 0.5
 
 	# HP drain parte/continua tramite timer asincrono
 	if active_debuffs.has(DEBUFF.HP_DRAIN):
