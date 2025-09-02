@@ -3,6 +3,7 @@ extends Node2D
 # Se vuoi mostrare che modalità stai continuando (opzionale):
 var mode := LevelFlow.Mode.PLATFORM_CAMPAIGN
 @onready var continue_btn: Button = $MarginContainer/VBoxContainer/Continua
+@onready var rest_btn: Button = $MarginContainer/VBoxContainer/Riposa
 @onready var inventoryUI = $InventoryUI
 @onready var player = $protagonista
 
@@ -19,6 +20,8 @@ func _ready() -> void:
 	_refresh_ui()
 
 func _on_riposa_pressed() -> void:
+	if RestLock.is_active():
+		return # se lo ripremessi non succederebbe niente
 	var p := _get_player_reference()
 	if p and "max_health" in p and "health" in p and "SetHealthBar" in p:
 		p.health = p.max_health
@@ -63,12 +66,20 @@ func _process(delta: float) -> void:
 		_refresh_ui()
 
 func _refresh_ui() -> void:
+	var active := RestLock.is_active()
 	if RestLock.is_active():
 		continue_btn.text = _format_time(RestLock.remaining())
 		continue_btn.disabled = true
 	else:
 		continue_btn.text = "Continua"
 		continue_btn.disabled = false
+	if is_instance_valid(rest_btn):
+		if active:
+			rest_btn.disabled = true
+			rest_btn.text = "Riposo..."
+		else:
+			rest_btn.disabled = false
+			rest_btn.text = "Riposa"
 
 func _format_time(rem: int) -> String:
 	var minutes: int = rem / 60

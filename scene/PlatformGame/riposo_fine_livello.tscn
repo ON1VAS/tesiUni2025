@@ -325,8 +325,6 @@ scale = Vector2(0.5, 0.5)
 
 [node name="protagonista" parent="." instance=ExtResource("10_33s0a")]
 position = Vector2(723, -65)
-speed = 200
-damage = 10
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Continua" to="." method="_on_continua_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Riposa" to="." method="_on_riposa_pressed"]
