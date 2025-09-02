@@ -3627,7 +3627,7 @@ sprite_frames = SubResource("SpriteFrames_rm5v4")
 frame_progress = 0.217208
 
 [node name="protagonista" parent="." instance=ExtResource("6_naqrm")]
-position = Vector2(2410, 24)
+position = Vector2(-1534, -98)
 
 [node name="Camera2D" type="Camera2D" parent="protagonista"]
 position = Vector2(0, -38)
