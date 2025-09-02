@@ -1,4 +1,4 @@
-[gd_scene load_steps=85 format=4 uid="uid://bfb3n5ulrxtxq"]
+[gd_scene load_steps=89 format=4 uid="uid://bfb3n5ulrxtxq"]
 
 [ext_resource type="PackedScene" uid="uid://cm1ru7bxfj1s0" path="res://scene/player.tscn" id="1_5kiuu"]
 [ext_resource type="Script" uid="uid://p03x4ile571r" path="res://script/game.gd" id="1_81276"]
@@ -23,6 +23,10 @@
 [ext_resource type="PackedScene" uid="uid://dybv8bvuue87v" path="res://script/PlatformGame/LevelEndPortal.tscn" id="21_355h4"]
 [ext_resource type="Script" uid="uid://cus5fgmqw84e8" path="res://scene/Killbox.gd" id="22_1it6f"]
 [ext_resource type="Script" uid="uid://b0j3qw2sx74c1" path="res://script/PlatformGame/hazard_do_t.gd" id="23_pp3pk"]
+[ext_resource type="PackedScene" uid="uid://dcskbt4mltl8y" path="res://scene/slime.tscn" id="24_yerfe"]
+[ext_resource type="PackedScene" uid="uid://d2n7yyyc73rwo" path="res://scene/chinghiale.tscn" id="25_abp7u"]
+[ext_resource type="PackedScene" uid="uid://dvtsyd4yk0nba" path="res://scene/ape.tscn" id="26_he4o3"]
+[ext_resource type="PackedScene" uid="uid://dk3ogbro6havf" path="res://scene/golem_pietra.tscn" id="27_yk3to"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ym5sv"]
 texture = ExtResource("7_5g16k")
@@ -6937,6 +6941,47 @@ shape = SubResource("RectangleShape2D_abp7u")
 position = Vector2(1279.75, 121)
 shape = SubResource("RectangleShape2D_he4o3")
 
+[node name="Slime" parent="." instance=ExtResource("24_yerfe")]
+position = Vector2(350, 118)
+
+[node name="Slime2" parent="." instance=ExtResource("24_yerfe")]
+position = Vector2(1728, 121)
+
+[node name="Slime3" parent="." instance=ExtResource("24_yerfe")]
+position = Vector2(2834, 122)
+
+[node name="Slime4" parent="." instance=ExtResource("24_yerfe")]
+position = Vector2(4270, 118)
+
+[node name="Cinghiale" parent="." instance=ExtResource("25_abp7u")]
+position = Vector2(2105, 124)
+
+[node name="Cinghiale2" parent="." instance=ExtResource("25_abp7u")]
+position = Vector2(3084, -5)
+
+[node name="Cinghiale3" parent="." instance=ExtResource("25_abp7u")]
+position = Vector2(4823, 135)
+
+[node name="Ape" parent="." instance=ExtResource("26_he4o3")]
+position = Vector2(1573, 41)
+
+[node name="Ape2" parent="." instance=ExtResource("26_he4o3")]
+position = Vector2(2488, 60)
+
+[node name="Ape3" parent="." instance=ExtResource("26_he4o3")]
+position = Vector2(4988, 21)
+
+[node name="Ape4" parent="." instance=ExtResource("26_he4o3")]
+position = Vector2(4720, -18)
+
+[node name="GolemPietra" parent="." instance=ExtResource("27_yk3to")]
+position = Vector2(5613, 25)
+
+[node name="GolemPietra2" parent="." instance=ExtResource("27_yk3to")]
+position = Vector2(3938, 20)
+
+[node name="Ape5" parent="." instance=ExtResource("26_he4o3")]
+position = Vector2(6448, 62)
+
 [connection signal="player_defeated" from="protagonista" to="." method="_on_protagonista_player_defeated"]
-[connection signal="body_entered" from="Area2Dscudo" to="." method="_on_area_2_dscudo_body_entered"]
 [connection signal="body_exited" from="Area2Dscudo" to="." method="_on_area_2_dscudo_body_exited"]

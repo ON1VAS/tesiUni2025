@@ -1,4 +1,4 @@
-[gd_scene load_steps=82 format=4 uid="uid://d3kv4y6lbsnxj"]
+[gd_scene load_steps=86 format=4 uid="uid://d3kv4y6lbsnxj"]
 
 [ext_resource type="Script" uid="uid://bljqwrjvsitdn" path="res://scene/PlatformGame/cloud_level.gd" id="1_6llef"]
 [ext_resource type="Texture2D" uid="uid://csutod4m3svrj" path="res://testures/Platform/CloudBackgrounds/Clouds/Clouds 5/1.png" id="2_krp7c"]
@@ -11,6 +11,10 @@
 [ext_resource type="PackedScene" uid="uid://dybv8bvuue87v" path="res://script/PlatformGame/LevelEndPortal.tscn" id="8_rja2y"]
 [ext_resource type="Script" uid="uid://cus5fgmqw84e8" path="res://scene/Killbox.gd" id="10_fdjgo"]
 [ext_resource type="Script" uid="uid://b0j3qw2sx74c1" path="res://script/PlatformGame/hazard_do_t.gd" id="11_g22s5"]
+[ext_resource type="PackedScene" uid="uid://d2n7yyyc73rwo" path="res://scene/chinghiale.tscn" id="12_ufuu8"]
+[ext_resource type="PackedScene" uid="uid://dcskbt4mltl8y" path="res://scene/slime.tscn" id="13_th110"]
+[ext_resource type="PackedScene" uid="uid://dvtsyd4yk0nba" path="res://scene/ape.tscn" id="14_wvs1l"]
+[ext_resource type="PackedScene" uid="uid://dk3ogbro6havf" path="res://scene/golem_pietra.tscn" id="15_e0sy1"]
 
 [sub_resource type="Gradient" id="Gradient_if16e"]
 offsets = PackedFloat32Array(0.968504)
@@ -6649,3 +6653,42 @@ shape = SubResource("RectangleShape2D_tvt7h")
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="HazardDoT"]
 position = Vector2(1023.5, 185.5)
 shape = SubResource("RectangleShape2D_f2uwb")
+
+[node name="Cinghiale" parent="." instance=ExtResource("12_ufuu8")]
+position = Vector2(-173, 67)
+
+[node name="Cinghiale2" parent="." instance=ExtResource("12_ufuu8")]
+position = Vector2(1214, -229)
+
+[node name="Slime" parent="." instance=ExtResource("13_th110")]
+position = Vector2(1214, -229)
+
+[node name="Ape" parent="." instance=ExtResource("14_wvs1l")]
+position = Vector2(1113, -635)
+
+[node name="Ape2" parent="." instance=ExtResource("14_wvs1l")]
+position = Vector2(1522, -630)
+
+[node name="Ape3" parent="." instance=ExtResource("14_wvs1l")]
+position = Vector2(804, -240)
+
+[node name="Slime2" parent="." instance=ExtResource("13_th110")]
+position = Vector2(163, -184)
+
+[node name="Slime3" parent="." instance=ExtResource("13_th110")]
+position = Vector2(202, 28)
+
+[node name="Slime4" parent="." instance=ExtResource("13_th110")]
+position = Vector2(1346, 169)
+
+[node name="Ape4" parent="." instance=ExtResource("14_wvs1l")]
+position = Vector2(1869, -18)
+
+[node name="Ape5" parent="." instance=ExtResource("14_wvs1l")]
+position = Vector2(2233, -91)
+
+[node name="GolemPietra" parent="." instance=ExtResource("15_e0sy1")]
+position = Vector2(2173, -694)
+
+[node name="GolemPietra2" parent="." instance=ExtResource("15_e0sy1")]
+position = Vector2(2647, -482)
