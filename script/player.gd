@@ -6,6 +6,7 @@ extends CharacterBody2D
 
 var pending_respawn_pos: Vector2 = Vector2.INF
 var is_dying: bool = false  # guardia per evitare retrigger
+var killbox_death := false # per risolvere bug della killzone
 
 const GRAVITY = 400.0
 const JUMP_FORCE = -230
@@ -205,27 +206,32 @@ func _on_animated_sprite_2d_animation_finished() -> void:
 		is_rolling = false
 		$AnimatedSprite2D.play("idle")
 	elif $AnimatedSprite2D.animation == "death":
-		# ===== RESPWAN QUI =====
-		# 1) sposta il player
-		if pending_respawn_pos != Vector2.INF:
+		if killbox_death and pending_respawn_pos != Vector2.INF:
 			global_position = pending_respawn_pos
-		# 2) reset stati base
-		velocity = Vector2.ZERO
-		is_invincible = false
-		is_rolling = false
-		jumps_done = 0
-		# 3) riparti
+			pending_respawn_pos = Vector2.INF
+			killbox_death = false
+			
+			# 3) ricarica la vita (o quello che preferisci per le killbox)
+			if health <= 0:
+				health = max(1, int(currentMaxHealth * 0.5))  # mezza vita SOLO per killbox
+			SetHealthBar()
+			$AnimatedSprite2D.play("idle")
+			velocity = Vector2.ZERO
+			is_invincible = false
+			is_rolling = false
+			jumps_done = 0
+			is_dying = false
+		else:
+			pending_respawn_pos = Vector2.INF
+			killbox_death = false
+		# attesa 5 secondi e cambio scena al menu
+			await get_tree().create_timer(5.0).timeout
+			get_tree().change_scene_to_file("res://scene/menu.tscn")
+	# pulizie comuni
+		pending_respawn_pos = Vector2.INF
+		killbox_death = false
 		set_physics_process(true)
 		set_process(true)
-		is_dying = false
-		# (opzionale) rimettere un po’ di vita
-		if health <= 0:
-			health = max(1, int(currentMaxHealth * 0.5))  # metà vita, cambia a piacere
-		SetHealthBar()
-		$AnimatedSprite2D.play("idle")
-		# libera il respawn pending (così non rimane appeso)
-		pending_respawn_pos = Vector2.INF
-		
 
 
 func _on_hitbox_timer_timeout() -> void:

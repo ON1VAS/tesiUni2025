@@ -8,18 +8,17 @@ func _ready() -> void:
 	body_entered.connect(_on_body_entered)
 
 func _on_body_entered(body: Node) -> void:
-	if _cooldown:
-		return
-	if not body.is_in_group("giocatore"):
-		return
-	# se il player sta già morendo, non retriggerare
-	if "is_dying" in body and body.is_dying:
-		return
+	if not body.is_in_group("player"): return
+	if "is_dying" in body and body.is_dying: return
+	if marker == null: return
 
-	# imposta la posizione di respawn e uccidi
+	# marca come morte-da-killbox e imposta il respawn
+	if "killbox_death" in body:
+		body.killbox_death = true
 	if "pending_respawn_pos" in body:
 		body.pending_respawn_pos = marker.global_position
 
+	# infliggi il danno "letale"
 	if body.has_method("Damage"):
 		body.Damage(damage_amount)
 	elif body.has_method("die"):
