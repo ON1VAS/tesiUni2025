@@ -6600,6 +6600,7 @@ size = Vector2(63.5, 13)
 script = ExtResource("1_81276")
 
 [node name="DialogueBox" parent="." instance=ExtResource("2_ve786")]
+visible = false
 
 [node name="sfondo" type="Parallax2D" parent="."]
 z_index = -1
@@ -6655,7 +6656,7 @@ tile_map_data = PackedByteArray("AACJAAgAAgAKAAgAAACKAAgAAgAKAAgAAACKAAcAAgAKAAg
 tile_set = SubResource("TileSet_8p2gu")
 
 [node name="protagonista" parent="." instance=ExtResource("1_5kiuu")]
-position = Vector2(565, 89)
+position = Vector2(565, 103)
 
 [node name="Camera2D" type="Camera2D" parent="protagonista"]
 position = Vector2(0, -38)
