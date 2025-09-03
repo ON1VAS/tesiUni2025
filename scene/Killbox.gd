@@ -8,7 +8,7 @@ func _ready() -> void:
 	body_entered.connect(_on_body_entered)
 
 func _on_body_entered(body: Node) -> void:
-	if not body.is_in_group("player"): return
+	if not body.is_in_group("giocatore"): return
 	if "is_dying" in body and body.is_dying: return
 	if marker == null: return
 
