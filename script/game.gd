@@ -33,7 +33,7 @@ func _ready():
 	$CanvasLayer/VBoxContainer/energiaBar/Label.text = "%d / %d" % [GlobalStats.energia, 100]
 
 	# modalità platform (come negli altri livelli)
-	DebuffManager.set_platform_mode(true)
+	DebuffManager.set_platform_mode(true) # forza il debuff vignette (salta il random)
 	DebuffManager.apply_to_player(player)
 
 	# gruppo player
