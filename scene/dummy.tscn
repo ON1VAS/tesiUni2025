@@ -79,3 +79,9 @@ animation = &"hit"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_w4gf6")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -19.2308
+offset_top = -30.7692
+offset_right = 20.7692
+offset_bottom = -14.7692

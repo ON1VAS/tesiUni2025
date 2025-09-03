@@ -1,10 +1,11 @@
-[gd_scene load_steps=12 format=4 uid="uid://c26otxraixole"]
+[gd_scene load_steps=13 format=4 uid="uid://c26otxraixole"]
 
 [ext_resource type="Script" uid="uid://b6k7wgu6dydhj" path="res://script/PlatformGame/DebugMapDebuff.gd" id="1_8jt01"]
 [ext_resource type="Texture2D" uid="uid://t0j6bg5op88d" path="res://testures/Platform/Free Pixel Art Forest/Preview/Background.png" id="2_w514y"]
 [ext_resource type="Texture2D" uid="uid://ceespetvsurf5" path="res://testures/Platform/Cave Tileset/Gray_Tile_Terrain (16 x 16).png" id="3_6po7e"]
 [ext_resource type="PackedScene" uid="uid://cm1ru7bxfj1s0" path="res://scene/player.tscn" id="4_b8a4t"]
 [ext_resource type="Texture2D" uid="uid://kdoujkbui58j" path="res://testures/Platform/Tiles/Assets/Assets.png" id="4_w514y"]
+[ext_resource type="PackedScene" uid="uid://40v2rc48ifjl" path="res://scene/dummy.tscn" id="6_6po7e"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_prute"]
 texture = ExtResource("3_6po7e")
@@ -526,6 +527,7 @@ tile_map_data = PackedByteArray("AADO/xAAAAAEAAQAAADP/xAAAAADAAYAAADQ/xAAAAADAAY
 tile_set = SubResource("TileSet_oqied")
 
 [node name="protagonista" parent="." instance=ExtResource("4_b8a4t")]
+position = Vector2(-1, 215)
 
 [node name="Camera2D" type="Camera2D" parent="protagonista"]
 position = Vector2(0, -38)
@@ -610,3 +612,6 @@ shape = SubResource("RectangleShape2D_w514y")
 [node name="CollisionShape2D3" type="CollisionShape2D" parent="hitboxes"]
 position = Vector2(1059, 201.5)
 shape = SubResource("RectangleShape2D_6po7e")
+
+[node name="dummy" parent="." instance=ExtResource("6_6po7e")]
+position = Vector2(-164, 240)
