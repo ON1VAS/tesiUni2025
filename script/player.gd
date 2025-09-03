@@ -9,7 +9,7 @@ var is_dying: bool = false  # guardia per evitare retrigger
 var killbox_death := false # per risolvere bug della killzone
 
 const GRAVITY = 400.0
-const JUMP_FORCE = -230
+const JUMP_FORCE = -244
 const MAX_HEALTH = 150.00
 const ROLL_FORCE = 400
 var currentMaxHealth = MAX_HEALTH

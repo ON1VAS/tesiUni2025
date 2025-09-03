@@ -102,10 +102,10 @@ func apply_to_player(player: Node) -> void:
 
 	# --- Applica effetti singoli ---
 	if active_debuffs.has(DEBUFF.SLOW):
-		if "speed" in player: player.speed = 150
+		if "speed" in player: player.speed = 100
 
 	if active_debuffs.has(DEBUFF.LOW_DAMAGE):
-		if "damage" in player: player.damage = 10
+		if "damage" in player: player.damage = 8
 
 	if active_debuffs.has(DEBUFF.ATTACK_DELAY):
 		if "attack_input_delay" in player: player.attack_input_delay = 0.5
@@ -117,7 +117,7 @@ func apply_to_player(player: Node) -> void:
 		if "jump_force" in player and "JUMP_FORCE" in player:
 			player.can_jump = true
 			player.ignore_jump_input = false
-			player.jump_force = -player.JUMP_FORCE * 0.5
+			player.jump_force = 65 #salta con 2 tile e mezzo di altezza con le stats attuali
 
 	# HP drain parte/continua tramite timer asincrono
 	if active_debuffs.has(DEBUFF.HP_DRAIN):
@@ -220,7 +220,7 @@ func get_primary_debuff() -> String:
 @warning_ignore("redundant_await")
 func _hp_drain_coroutine() -> void:
 	while _hp_drain_timer_running and platform_mode and active_debuffs.has(DEBUFF.HP_DRAIN):
-		await get_tree().create_timer(10.0).timeout
+		await get_tree().create_timer(5.0).timeout
 		if not _hp_drain_timer_running:
 			break
 		var p: Node = _player_ref.get_ref() if _player_ref else null
