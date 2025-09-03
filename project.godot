@@ -26,6 +26,7 @@ InventoryManager="*res://inventory_manager.gd"
 RestLock="*res://script/PlatformGame/RestLock.gd"
 LevelFlow="*res://scene/PlatformGame/LevelFlow.tscn"
 DebuffHud="*res://DebuffHUD.tscn"
+VignetteOverlay="*res://scene/VignetteOverlay.tscn"
 
 [display]
 

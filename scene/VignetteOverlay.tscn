@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://blj74c77xofl0"]
+
+[ext_resource type="Script" uid="uid://dfd1p0qa8l632" path="res://script/VignetteOverlay.gd" id="1_kopod"]
+
+[node name="CanvasLayer" type="CanvasLayer"]
+layer = 100
+script = ExtResource("1_kopod")
+
+[node name="Vignette" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
