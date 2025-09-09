@@ -1,9 +1,10 @@
-[gd_scene load_steps=56 format=3 uid="uid://bthh718uavc0f"]
+[gd_scene load_steps=57 format=3 uid="uid://bthh718uavc0f"]
 
 [ext_resource type="Script" uid="uid://clc6vjqucdxqc" path="res://script/golem.gd" id="1_u4yfr"]
 [ext_resource type="Texture2D" uid="uid://bptabgrtorilh" path="res://testures/enemy/Golem_sheet.png" id="2_bqbus"]
 [ext_resource type="Texture2D" uid="uid://vy5mi62twij4" path="res://testures/enemy/Golem_sheet2.png" id="3_bqbus"]
 [ext_resource type="AudioStream" uid="uid://dtka1akq1vmmo" path="res://music/sfx/Golem_Damage.wav" id="4_xodqa"]
+[ext_resource type="AudioStream" uid="uid://coi6q4n36wmta" path="res://music/sfx/Golem_Death.wav" id="5_i5vqd"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xodqa"]
 atlas = ExtResource("2_bqbus")
@@ -401,9 +402,11 @@ position = Vector2(24, 0)
 
 [node name="GolemHurt" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("4_xodqa")
+volume_db = -15.0
 bus = &"SFX"
 
 [node name="GolemDeath" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_i5vqd")
 bus = &"SFX"
 
 [connection signal="body_entered" from="PlayerDetectionArea" to="." method="_on_player_detection_area_body_entered"]

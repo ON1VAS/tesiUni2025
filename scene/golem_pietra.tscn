@@ -1,4 +1,4 @@
-[gd_scene load_steps=66 format=3 uid="uid://dk3ogbro6havf"]
+[gd_scene load_steps=68 format=3 uid="uid://dk3ogbro6havf"]
 
 [ext_resource type="Texture2D" uid="uid://cog3of3ueh5kk" path="res://testures/Enemy_Galore_I/Golem/Armored/Golem_Armor_AttackA.png" id="1_8tnna"]
 [ext_resource type="Script" uid="uid://bvnigpm3qyp1" path="res://script/golem_pietra.gd" id="1_ajln3"]
@@ -9,6 +9,8 @@
 [ext_resource type="Texture2D" uid="uid://l6281cd0paf1" path="res://testures/Enemy_Galore_I/Golem/Armored/Golem_Armor_Hit.png" id="5_5fyst"]
 [ext_resource type="Texture2D" uid="uid://ckowpknw4rlbe" path="res://testures/Enemy_Galore_I/Golem/Armored/Golem_Armor_Run.png" id="5_7nprk"]
 [ext_resource type="Texture2D" uid="uid://df36lj8hr4th7" path="res://testures/Enemy_Galore_I/Golem/No Armor/Golem_DeathA.png" id="6_hs4sa"]
+[ext_resource type="AudioStream" uid="uid://dgckcpwnmndim" path="res://music/sfx/GolemPietra_Damage.wav" id="10_hs4sa"]
+[ext_resource type="AudioStream" uid="uid://bnbbg0x6i5eig" path="res://music/sfx/GolemPietra_Death.wav" id="11_3s6ge"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1so7u"]
 atlas = ExtResource("1_8tnna")
@@ -460,6 +462,15 @@ target_position = Vector2(-5.79198e-05, 16)
 
 [node name="SpikeSpawnPoint" type="Marker2D" parent="."]
 position = Vector2(0, -23)
+
+[node name="GolemPietraHurt" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("10_hs4sa")
+volume_db = -15.0
+bus = &"SFX"
+
+[node name="GolemPietraDeath" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("11_3s6ge")
+bus = &"SFX"
 
 [connection signal="body_entered" from="PlayerDetectionArea" to="." method="_on_player_detection_area_body_entered"]
 [connection signal="body_exited" from="PlayerDetectionArea" to="." method="_on_player_detection_area_body_exited"]

@@ -20,6 +20,8 @@ var attack_spawn_called: bool = false
 @onready var spike_spawn_point: Marker2D = $SpikeSpawnPoint
 @onready var ray_cast_floor: RayCast2D = $RayCastFloor
 @onready var ray_cast_front: RayCast2D = $RayCastFront
+@onready var audiohurt = $GolemPietraHurt
+@onready var audiodeath = $GolemPietraDeath
 
 # --- Variabili Floating ---
 @export var float_amplitude: float = 5.0
@@ -148,6 +150,7 @@ func change_state(new_state: State) -> void:
 			can_attack = false
 			time_since_last_attack = 0.0
 		State.HURT:
+			audiohurt.play()
 			animated_sprite.play("hurt")
 			velocity.x = 0
 		State.DEAD:

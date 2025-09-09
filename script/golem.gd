@@ -7,6 +7,7 @@ var movement_speed = 40
 @onready var min_distance = 100
 @onready var hurtbox = $Hurtbox
 @onready var audiohurt = $GolemHurt
+@onready var audiodeath = $GolemDeath
 
 var palladifuoco = preload("res://scene/fireball.tscn")
 var direction = Vector2.ZERO  # Aggiunta direzione per il movimento
@@ -109,6 +110,7 @@ func take_damage(amount: int):
 		is_dead = true
 		can_attack = false
 		set_collision_layer_value(1, false)
+		audiodeath.play()
 		anim.play("death")
 		set_physics_process(false)
 		await anim.animation_finished
