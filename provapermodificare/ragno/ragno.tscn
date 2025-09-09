@@ -1,8 +1,10 @@
-[gd_scene load_steps=33 format=3 uid="uid://km2jwsltrngq"]
+[gd_scene load_steps=35 format=3 uid="uid://km2jwsltrngq"]
 
 [ext_resource type="Texture2D" uid="uid://by81cmgk6k36g" path="res://testures/enemy/Spider Sprite Sheet.png" id="1_hk6si"]
 [ext_resource type="Script" uid="uid://cnvc3y1sytq75" path="res://provapermodificare/ragno/ragno.gd" id="1_lr5nt"]
 [ext_resource type="Texture2D" uid="uid://ceb6slvb45lw0" path="res://testures/enemy/spiderdamage.png" id="2_mruxg"]
+[ext_resource type="AudioStream" uid="uid://bwc5fxscvgh5j" path="res://music/sfx/Spider_Damage.wav" id="4_872u0"]
+[ext_resource type="AudioStream" uid="uid://bxyweguwu3okd" path="res://music/sfx/Spider_Death.wav" id="5_b512v"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_b53gc"]
 atlas = ExtResource("2_mruxg")
@@ -252,6 +254,14 @@ shape = SubResource("RectangleShape2D_o787w")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 3.5)
 shape = SubResource("RectangleShape2D_wuebr")
+
+[node name="RagnoHurt" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_872u0")
+bus = &"SFX"
+
+[node name="RagnoDeath" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_b512v")
+bus = &"SFX"
 
 [connection signal="body_entered" from="PlayerDetectionArea" to="." method="_on_detect_area_body_entered"]
 [connection signal="body_exited" from="PlayerDetectionArea" to="." method="_on_player_detection_area_body_exited"]

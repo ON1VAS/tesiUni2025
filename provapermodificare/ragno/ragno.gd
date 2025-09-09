@@ -6,6 +6,8 @@ var movement_speed = 100
 @onready var hp = 20
 @onready var min_distance = 300
 @onready var hurtbox = $Hurtbox
+@onready var audiohurt = $RagnoHurt
+@onready var audiodeath = $RagnoDeath
 
 var exp = preload("res://scene/exp_points.tscn")
 
@@ -107,6 +109,7 @@ func _on_cooldown_timer_timeout():
 
 func EnemyDamage(slime_dam):
 	hp -= slime_dam
+	audiohurt.play()
 	anim.play("damage")
 	$TimerDannoPreso.start()
 	
@@ -143,6 +146,7 @@ func take_damage(amount: int):
 		is_dead = true
 		set_collision_layer_value(1, false)
 		set_physics_process(false)
+		audiodeath.play()
 		anim.play("morte")
 		await anim.animation_finished
 		if death_sig_emitted == 0:

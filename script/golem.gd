@@ -6,6 +6,7 @@ var movement_speed = 40
 @onready var hp = 20
 @onready var min_distance = 100
 @onready var hurtbox = $Hurtbox
+@onready var audiohurt = $GolemHurt
 
 var palladifuoco = preload("res://scene/fireball.tscn")
 var direction = Vector2.ZERO  # Aggiunta direzione per il movimento
@@ -102,6 +103,7 @@ func take_damage(amount: int):
 	hp -= amount
 	
 	if hp > 0:
+		audiohurt.play()
 		anim.play("damage")
 	if hp <= 0:
 		is_dead = true
