@@ -1,151 +1,174 @@
 extends CharacterBody2D
 
+# --- Tuning ---
+var movement_speed := 100
+var min_distance := 30
+var damage := 15
 
-var movement_speed = 100 
-@onready var player = get_tree().get_first_node_in_group("giocatore") 
-@onready var anim = $AnimatedSprite2D
-@onready var hp = 20
-@onready var min_distance = 30
-@onready var hurtbox = $Hurtbox
-@onready var sword_hitbox = $Pungiglione/CollisionShape2D
-@onready var hitbox_timer = $HitboxTimer
+var attack_windup := 0.10      # preparazione prima dello scatto
+var dash_speed := 320.0        # velocità dello scatto
+var dash_distance := 200.0      # distanza coperta dallo scatto
+var attack_recover := 0.35     # recovery dopo lo scatto
+var attack_cooldown := 0.60    # tempo minimo dal termine dell'attacco
+var hurt_stun := 0.25
+var knockback := 120.0
+
+# --- State machine ---
+enum State { CHASE, WINDUP, DASH, RECOVER, HURT, DEAD }
+var state : State = State.CHASE
+var can_attack := true
+var attack_dir := Vector2.ZERO
+var last_attack_end_time := 0.0
+
+# controllo del dash
+var dash_remaining := 0.0
+
+# --- Nodes ---
+@onready var player = get_tree().get_first_node_in_group("giocatore")
+@onready var anim : AnimatedSprite2D = $AnimatedSprite2D
+@onready var hurtbox : Area2D = $Hurtbox
+@onready var sword_hitbox : CollisionShape2D = $Pungiglione/CollisionShape2D
+@onready var hitbox_area : Area2D = $Pungiglione
 @onready var audiohurt = $ApeHurt
 @onready var audiodeath = $ApeDeath
+@onready var hitbox_timer : Timer = $HitboxTimer
 
-var damage = 15
-var is_attacking = false
-var attack_direction = Vector2.ZERO
-var attack_cooldown = 1 #Tempo di attesa tra gli attacchi
-var last_attack_time = 0.0
-#servono pe capire quando il nemico è morto e far progredire i progressi della wave
+var hp := 20
+var is_dead := false
 signal dead
-var death_sig_emitted = 0
-var is_dead = false
 
-func _ready():
-	print(self.name)
+func _ready() -> void:
 	anim.play("move")
-	sword_hitbox.disabled = true #disattivato di default
-	$Pungiglione.set_collision_layer_value(2, true)  # Abilita layer 2 (player_weapon)
-	$Pungiglione.set_collision_mask_value(6, true) #abilita la maschera per colpire i nemici
+	sword_hitbox.disabled = true
+	hitbox_area.set_collision_layer_value(2, true)
+	hitbox_area.set_collision_mask_value(6, true)
 	hurtbox.set_collision_layer_value(6, true)
 	hurtbox.set_collision_mask_value(2, true)
 	if not hitbox_timer.timeout.is_connected(_on_hitbox_timer_timeout):
 		hitbox_timer.timeout.connect(_on_hitbox_timer_timeout)
-	if $Hurtbox.area_entered.is_connected(_on_hurtbox_area_entered):
-		$Hurtbox.area_entered.disconnect(_on_hurtbox_area_entered)
-	$Hurtbox.area_entered.connect(_on_hurtbox_area_entered)
-	$Pungiglione.body_entered.connect(_on_pungiglione_body_entered)
+	if hurtbox.area_entered.is_connected(_on_hurtbox_area_entered):
+		hurtbox.area_entered.disconnect(_on_hurtbox_area_entered)
+	hurtbox.area_entered.connect(_on_hurtbox_area_entered)
+	hitbox_area.body_entered.connect(_on_pungiglione_body_entered)
 
 func _physics_process(delta: float) -> void:
-	if player.global_position.x < self.global_position.x:
-		anim.flip_h = false
-		sword_hitbox.position.x = -10.5  # Aggiorna posizione incornata
-	else:
-		anim.flip_h = true
-		sword_hitbox.position.x = 10.5
-	
-	
-	
-	if is_attacking:
-		# Durante l'attacco, muovi l'ape in diagonale
-		velocity = attack_direction * movement_speed * 1.5  # Aumenta la velocità durante l'attacco
-		move_and_slide()
-	elif hp > 0:
-		var direction = (player.global_position - global_position).normalized()
-		if global_position.distance_to(player.global_position) > min_distance:
-			velocity = direction * movement_speed
-			move_and_slide()
-		else:
+	# flip + offset del pungiglione
+	var flip_left = player.global_position.x < global_position.x
+	anim.flip_h = not flip_left
+	sword_hitbox.position.x = -10.5 if flip_left else 10.5
+
+	match state:
+		State.CHASE:
+			var dir = (player.global_position - global_position).normalized()
+			if global_position.distance_to(player.global_position) > min_distance:
+				velocity = dir * movement_speed
+				move_and_slide()
+			else:
+				velocity = Vector2.ZERO
+			# attacca solo se è passato il cooldown
+			if can_attack and (Time.get_ticks_msec() / 1000.0 - last_attack_end_time) >= attack_cooldown:
+				start_windup(dir)
+
+		State.WINDUP:
 			velocity = Vector2.ZERO
-		
-		# Decidi quando fare l'attacco speciale (qui uso una probabilità del 10% ogni frame)
-		if not is_attacking and (last_attack_time + attack_cooldown) < Engine.get_physics_frames():
-			perform_sting_attack(direction)
-# Configurazione hitbox per ogni animazione perchè se cambio gli sprite urlo, accomodiamo per i prossimi attacchi anche
-var attack_properties = {
-	"attack": {"delay": 0.1, "duration": 0.4, "keyframes": [1,3]},
-	"sting_attack": {"delay": 0.1, "duration": 0.4, "keyframes": [1, 3]},
-}
+			move_and_slide()
 
-func perform_sting_attack(direction: Vector2):
-	is_attacking = true
-	# Scegli una direzione diagonale basata sulla direzione verso il giocatore
-	attack_direction = direction
+		State.DASH:
+			# muovi per coprire una distanza reale
+			var step = min(dash_remaining, dash_speed * delta)
+			var motion = attack_dir * step
+			var col := move_and_collide(motion)
+			dash_remaining -= step
+			if col or dash_remaining <= 0.0:
+				sword_hitbox.disabled = true
+				start_recover()
+
+		State.RECOVER:
+			velocity = Vector2.ZERO
+			move_and_slide()
+
+		State.HURT, State.DEAD:
+			move_and_slide()
+
+# --- Attack sequence ---
+func start_windup(dir: Vector2) -> void:
+	can_attack = false
+	state = State.WINDUP
+	attack_dir = dir
 	anim.play("sting_attack")
-	last_attack_time = Engine.get_physics_frames()
-	# Attiva l'hitbox dopo un breve ritardo
-	await get_tree().create_timer(attack_properties["sting_attack"]["delay"]).timeout
+	await get_tree().create_timer(attack_windup).timeout
+	if state != State.WINDUP:
+		return
+	start_dash()
+
+func start_dash() -> void:
+	state = State.DASH
+	dash_remaining = dash_distance
 	sword_hitbox.disabled = false
-	# Disattiva l'hitbox dopo la durata
-	await get_tree().create_timer(attack_properties["sting_attack"]["duration"]).timeout
-	sword_hitbox.disabled = true
+
+func start_recover() -> void:
+	state = State.RECOVER
 	anim.play("move")
-	# Termina l'attacco dopo un po'
-	await get_tree().create_timer(0.5).timeout
-	is_attacking = false
+	await get_tree().create_timer(attack_recover).timeout
+	if state != State.RECOVER:
+		return
+	end_attack()
+
+func end_attack() -> void:
+	state = State.CHASE
+	last_attack_end_time = Time.get_ticks_msec() / 1000.0
+	can_attack = true
 	anim.play("move")
 
-func _on_animated_sprite_2d_animation_finished() -> void:
-	if $AnimatedSprite2D.animation in attack_properties.keys():
-		if $AnimatedSprite2D.animation == "sting_attack" and is_attacking:
-			return
-		sword_hitbox.disabled = true #Non mi serve più tenerla attiva
-		$AnimatedSprite2D.play("move")
-
-func take_damage(amount: int):
+# --- Damage / Hurt ---
+func take_damage(amount: int, from_dir: Vector2 = Vector2.ZERO) -> void:
 	if is_dead:
 		return
-		
 	hp -= amount
-	
 	if hp > 0:
+		state = State.HURT
+		can_attack = false
+		sword_hitbox.disabled = true
+		velocity = -from_dir.normalized() * knockback
 		audiohurt.play()
 		anim.play("hurt")
-	if hp <= 0:
-		is_dead = true
-		set_collision_layer_value(1, false)
-		audiodeath.play()
-		anim.play("death")
-		set_physics_process(false)
-		await anim.animation_finished
-		if death_sig_emitted == 0:
-			print("ape: so morto")
-			dead.emit()
-			death_sig_emitted += 1
-		queue_free()
+		await get_tree().create_timer(hurt_stun).timeout
+		velocity = Vector2.ZERO
+		if not is_dead:
+			state = State.CHASE
+			anim.play("move")
+		can_attack = true
+	else:
+		die()
 
+func die() -> void:
+	if is_dead:
+		return
+	is_dead = true
+	state = State.DEAD
+	set_collision_layer_value(1, false)
+	sword_hitbox.disabled = true
+	velocity = Vector2.ZERO
+	audiodeath.play()
+	anim.play("death")
+	set_physics_process(false)
+	await anim.animation_finished
+	dead.emit()
+	queue_free()
 
+# --- Signals/Hit detection ---
 func _on_hitbox_timer_timeout() -> void:
-	var current_anim = $AnimatedSprite2D.animation
-	
-	if current_anim in attack_properties:
-		var props = attack_properties[current_anim]
-		
-		if sword_hitbox.disabled:
-			# Attiva hitbox
-			sword_hitbox.disabled = false
-			hitbox_timer.start(props.duration)  # Durata hitbox
-		else:
-			# Disattiva hitbox
-			sword_hitbox.disabled = true
-			
-			# Se ci sono più keyframe, programma la prossima attivazione
-			if props.keyframes.size() > 1:
-				var next_keyframe = props.keyframes[1]
-				hitbox_timer.start(next_keyframe)  # Attiva il prossimo keyframe
-			else:
-				hitbox_timer.stop()  # Ferma il timer se non ci sono più keyframeon)
-
+	pass
 
 func _on_hurtbox_area_entered(area: Area2D) -> void:
-	if area.is_in_group("player_weapon") and !is_dead:
-		anim.play("attack")
-		take_damage(player.damage)
-
+	if area.is_in_group("player_weapon") and not is_dead:
+		var dir := (global_position - area.global_position)
+		var dmg := 1
+		if area.get_parent().has_method("get"): # evita errori se non esiste
+			if "damage" in area.get_parent():
+				dmg = area.get_parent().damage
+		take_damage(dmg, dir)
 
 func _on_pungiglione_body_entered(body: Node2D) -> void:
-	print("Hitbox ha colpito: ", body.name)
-	if body.is_in_group("giocatore"):
-		print("E' un giocatore! Infliggo danno")
+	if state == State.DASH and body.is_in_group("giocatore"):
 		body.Damage(damage)
