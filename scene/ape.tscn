@@ -1,9 +1,11 @@
-[gd_scene load_steps=24 format=3 uid="uid://dvtsyd4yk0nba"]
+[gd_scene load_steps=29 format=3 uid="uid://dvtsyd4yk0nba"]
 
 [ext_resource type="Script" uid="uid://coo3rs8m4bhkw" path="res://script/ape.gd" id="1_1ism8"]
 [ext_resource type="Texture2D" uid="uid://b4bynv33vav3p" path="res://testures/Legacy-Fantasy - High Forest 2.3/Mob/Small Bee/Attack/Attack-Sheet.png" id="1_4ticg"]
 [ext_resource type="Texture2D" uid="uid://dpxmcfa8g8cel" path="res://testures/Legacy-Fantasy - High Forest 2.3/Mob/Small Bee/Hit/Hit-Sheet.png" id="3_1ism8"]
 [ext_resource type="Texture2D" uid="uid://eheyrq2vdjqq" path="res://testures/Legacy-Fantasy - High Forest 2.3/Mob/Small Bee/Fly/Fly-Sheet.png" id="4_qg2cn"]
+[ext_resource type="AudioStream" uid="uid://bijecl3sdg7xv" path="res://music/sfx/Hornet_Damage.wav" id="5_4k6bp"]
+[ext_resource type="AudioStream" uid="uid://coj4d87rskv3y" path="res://music/sfx/Hornet_Death.wav" id="6_hmgge"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qg2cn"]
 atlas = ExtResource("1_4ticg")
@@ -21,11 +23,23 @@ region = Rect2(128, 0, 64, 64)
 atlas = ExtResource("1_4ticg")
 region = Rect2(192, 0, 64, 64)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_o0agj"]
+atlas = ExtResource("3_1ism8")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2i7u7"]
+atlas = ExtResource("3_1ism8")
+region = Rect2(0, 0, 64, 64)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_y21ln"]
 atlas = ExtResource("3_1ism8")
 region = Rect2(192, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jlyx0"]
+atlas = ExtResource("3_1ism8")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1xkim"]
 atlas = ExtResource("3_1ism8")
 region = Rect2(128, 0, 64, 64)
 
@@ -86,14 +100,23 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_o0agj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2i7u7")
+}, {
+"duration": 1.2,
 "texture": SubResource("AtlasTexture_y21ln")
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_jlyx0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1xkim")
 }],
 "loop": false,
 "name": &"death",
-"speed": 5.0
+"speed": 2.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -153,7 +176,9 @@ script = ExtResource("1_1ism8")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_2gki6")
-animation = &"sting_attack"
+animation = &"death"
+frame = 4
+frame_progress = 1.0
 
 [node name="PlayerDetectionArea" type="Area2D" parent="."]
 collision_layer = 2
@@ -177,6 +202,14 @@ position = Vector2(-10.5, 13)
 shape = SubResource("RectangleShape2D_6ay0e")
 
 [node name="HitboxTimer" type="Timer" parent="."]
+
+[node name="ApeHurt" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_4k6bp")
+bus = &"SFX"
+
+[node name="ApeDeath" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_hmgge")
+bus = &"SFX"
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_hurtbox_area_entered"]

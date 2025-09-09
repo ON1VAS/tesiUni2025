@@ -45,6 +45,8 @@ var max_jump_height: float = 200.0
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
 @onready var ray_front: RayCast2D = $RayCastFront
 @onready var ray_floor: RayCast2D = $RayCastFloor
+@onready var audiohurt = $SlimeHurt
+@onready var audiodeath = $SlimeDeath
 
 #servono pe capire quando il nemico è morto e far progredire i progressi della wave
 signal dead
@@ -242,12 +244,15 @@ func take_damage(amount: int):
 	hp -= amount
 	
 	if hp > 0:
+		audiohurt.play()
 		anim.play("hurt")
 	if hp <= 0:
 		set_collision_layer_value(1, false)
+		audiodeath.play()
 		anim.play("death")
 		set_physics_process(false)
 		await anim.animation_finished
+		await audiodeath.finished
 		if death_sig_emitted == 0:
 			dead.emit()
 			death_sig_emitted += 1

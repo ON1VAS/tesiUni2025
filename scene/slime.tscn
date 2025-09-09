@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://dcskbt4mltl8y"]
+[gd_scene load_steps=38 format=3 uid="uid://dcskbt4mltl8y"]
 
 [ext_resource type="Texture2D" uid="uid://cfpky73d1uvc6" path="res://testures/Enemy_Galore_I/Slime/Slime_Spiked_Idle.png" id="1_08lxr"]
 [ext_resource type="Script" uid="uid://gs863t5c6ws5" path="res://script/slime.gd" id="1_p3a6y"]
@@ -6,6 +6,8 @@
 [ext_resource type="Texture2D" uid="uid://ce5oxn35dbs64" path="res://testures/Enemy_Galore_I/Slime/Slime_Spiked_Death.png" id="2_q8ldp"]
 [ext_resource type="Texture2D" uid="uid://dvbi01v4krqjr" path="res://testures/Enemy_Galore_I/Slime/Slime_Spiked_Hit.png" id="3_yn13l"]
 [ext_resource type="Texture2D" uid="uid://cmi1py54d56qu" path="res://testures/Enemy_Galore_I/Slime/Slime_Spiked_Run.png" id="6_yn13l"]
+[ext_resource type="AudioStream" uid="uid://ymc4g4ga1bjp" path="res://music/sfx/Slime_Damage.wav" id="7_oa5pk"]
+[ext_resource type="AudioStream" uid="uid://xa6jlkpwnx7m" path="res://music/sfx/Slime_Death.wav" id="8_a0ytv"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ilr4w"]
 atlas = ExtResource("2_q8ldp")
@@ -126,7 +128,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"death",
-"speed": 5.0
+"speed": 2.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -232,7 +234,9 @@ script = ExtResource("1_p3a6y")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_ilr4w")
-animation = &"idle"
+animation = &"death"
+frame = 5
+frame_progress = 1.0
 
 [node name="PlayerDetectionArea" type="Area2D" parent="."]
 collision_layer = 2
@@ -271,6 +275,12 @@ target_position = Vector2(-5.79198e-05, 16)
 [node name="CooldownTimer" type="Timer" parent="."]
 wait_time = 0.5
 one_shot = true
+
+[node name="SlimeHurt" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("7_oa5pk")
+
+[node name="SlimeDeath" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("8_a0ytv")
 
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_hurtbox_area_entered"]
 [connection signal="body_entered" from="SlamHitbox" to="." method="_on_slam_hitbox_body_entered"]

@@ -34,6 +34,8 @@ var is_dead = false
 @onready var ray_front: RayCast2D = $RayCastFront
 @onready var ray_floor: RayCast2D = $RayCastFloor
 @onready var incornata: Area2D = $Incornata
+@onready var audiohurt = $CinghialeHurt
+@onready var audiodeath = $CinghialeDeath
 
 # ===== PROPRIETÀ ATTACCHI =====
 var attack_properties = {
@@ -186,11 +188,13 @@ func take_damage(amount: int):
 	if hp <= 0:
 		_die()
 	else:
+		audiohurt.play()
 		await anim.animation_finished
 		anim.play("move")
 
 func _die():
 	set_collision_layer_value(1, false)
+	audiodeath.play()
 	anim.play("death")
 	set_physics_process(false)
 	await anim.animation_finished

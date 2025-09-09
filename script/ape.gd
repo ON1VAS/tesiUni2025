@@ -9,6 +9,8 @@ var movement_speed = 100
 @onready var hurtbox = $Hurtbox
 @onready var sword_hitbox = $Pungiglione/CollisionShape2D
 @onready var hitbox_timer = $HitboxTimer
+@onready var audiohurt = $ApeHurt
+@onready var audiodeath = $ApeDeath
 
 var damage = 15
 var is_attacking = false
@@ -98,10 +100,12 @@ func take_damage(amount: int):
 	hp -= amount
 	
 	if hp > 0:
+		audiohurt.play()
 		anim.play("hurt")
 	if hp <= 0:
 		is_dead = true
 		set_collision_layer_value(1, false)
+		audiodeath.play()
 		anim.play("death")
 		set_physics_process(false)
 		await anim.animation_finished

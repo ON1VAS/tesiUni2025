@@ -1,10 +1,12 @@
-[gd_scene load_steps=30 format=3 uid="uid://d2n7yyyc73rwo"]
+[gd_scene load_steps=32 format=3 uid="uid://d2n7yyyc73rwo"]
 
 [ext_resource type="Texture2D" uid="uid://jkav20rl7otp" path="res://testures/Legacy-Fantasy - High Forest 2.3/Mob/Boar/Run/Run-Sheet.png" id="1_6ji4v"]
 [ext_resource type="Script" uid="uid://dhd43r2uv3vtk" path="res://scene/cinghiale.gd" id="1_ruqhr"]
 [ext_resource type="Texture2D" uid="uid://b0gaj26314nye" path="res://testures/Legacy-Fantasy - High Forest 2.3/Mob/Boar/Hit-Vanish/Hit-Sheet-White.png" id="2_6ji4v"]
 [ext_resource type="Texture2D" uid="uid://du060dx2wljsi" path="res://testures/Legacy-Fantasy - High Forest 2.3/Mob/Boar/Hit-Vanish/Hit-Sheet.png" id="3_ruqhr"]
 [ext_resource type="Texture2D" uid="uid://bnpjlil2md33s" path="res://testures/Legacy-Fantasy - High Forest 2.3/Mob/Boar/Walk/Walk-Base-Sheet.png" id="4_6ji4v"]
+[ext_resource type="AudioStream" uid="uid://cee3ahiq7ct8" path="res://music/sfx/Orc_Damage.wav" id="6_7krfj"]
+[ext_resource type="AudioStream" uid="uid://ct0bv5aledbac" path="res://music/sfx/Orc_Death.wav" id="7_j5ccd"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6ji4v"]
 atlas = ExtResource("3_ruqhr")
@@ -228,5 +230,14 @@ shape = SubResource("RectangleShape2D_6ji4v")
 [node name="CooldownTimer" type="Timer" parent="."]
 wait_time = 0.5
 one_shot = true
+
+[node name="CinghialeHurt" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_7krfj")
+volume_db = -6.0
+bus = &"SFX"
+
+[node name="CinghialeDeath" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("7_j5ccd")
+bus = &"SFX"
 
 [connection signal="timeout" from="CooldownTimer" to="." method="_on_charge_attack_timeout"]
