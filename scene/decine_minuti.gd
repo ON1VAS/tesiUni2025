@@ -1,3 +1,4 @@
+#decineMinuti.gd
 extends VBoxContainer
 
 @export var values: Array[int] = [0,1]

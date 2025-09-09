@@ -1,9 +1,9 @@
+#TimerSelector.gd
 extends Control
 
 @onready var conferma_button = $VBoxContainer/pulsanti/conferma
 @onready var annulla_button = $VBoxContainer/pulsanti/annulla
-@onready var decineMinuti = $VBoxContainer/HBoxContainer/decineMinuti/Label3
-@onready var unitaMinuti = $VBoxContainer/HBoxContainer/unitaMinuti/Label4
+@onready var valoreMinuti = $VBoxContainer/HBoxContainer/minuti/minutiSelezionati
 @onready var motivolabel = $VBoxContainer/TextEdit
 
 signal annulla_orario
@@ -12,11 +12,10 @@ signal conferma_iniziato
 func _ready():
 	conferma_button.pressed.connect(_on_confirm_pressed)
 	annulla_button.pressed.connect(_on_cancel_pressed)
-	$VBoxContainer/HBoxContainer/decineMinuti.decina_changed.connect($VBoxContainer/HBoxContainer/unitaMinuti.set_max_value_from_decina)
 
 func _on_confirm_pressed():
 	#calcolo minuti di riflessione
-	var minuti_interi = int(decineMinuti.text) * 10 + int(unitaMinuti.text)
+	var minuti_interi = int(valoreMinuti.text)
 	var motivo = motivolabel.get_text()
 	if motivo.is_empty():
 		motivo = "non specificato"
@@ -30,3 +29,25 @@ func _on_confirm_pressed():
 
 func _on_cancel_pressed():
 	annulla_orario.emit()
+
+func _input(event):
+	#se la TextEdit ha il focus, non facciamo nulla (serve a scrivere)
+	if motivolabel.has_focus():
+		return
+	
+	#Incrementa minuti
+	if event.is_action_pressed("ui_up"):
+		$VBoxContainer/HBoxContainer/minuti._on_button_up_pressed()
+	
+	#Decrementa minuti
+	elif event.is_action_pressed("ui_down"):
+		$VBoxContainer/HBoxContainer/minuti._on_button_down_pressed()
+	
+	#va avanti al textedit
+	elif event.is_action_pressed("ui_accept") and GlobalStats.in_menu:
+		if !motivolabel.has_focus():
+			motivolabel.grab_focus()
+		else:
+			_on_confirm_pressed()
+			
+		

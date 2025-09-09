@@ -1,10 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://bi18x11emhua"]
+[gd_scene load_steps=7 format=3 uid="uid://bi18x11emhua"]
 
 [ext_resource type="Script" uid="uid://btshb2cmmgqwt" path="res://scene/timer_selector.gd" id="1_qxxub"]
 [ext_resource type="Texture2D" uid="uid://da8moeshvudgb" path="res://testures/Legacy-Fantasy - High Forest 2.3/HUD/Base-01.png" id="2_x4mk2"]
 [ext_resource type="Theme" uid="uid://c3usv1irpubfp" path="res://theme/theme2.tres" id="3_3ypxs"]
-[ext_resource type="Script" uid="uid://dpl5ovtups6ua" path="res://scene/decine_minuti.gd" id="3_t0e23"]
-[ext_resource type="Script" uid="uid://tpfxj7bkf0y3" path="res://scene/unita_minuti.gd" id="4_2rpnw"]
+[ext_resource type="Script" uid="uid://u0yjx5bpbtfk" path="res://script/minuti.gd" id="4_j2l6x"]
 [ext_resource type="Theme" uid="uid://l2vc7oc1ypof" path="res://theme/theme1.tres" id="5_mkuok"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_w2js5"]
@@ -60,40 +59,22 @@ texture_filter = 1
 layout_mode = 2
 alignment = 1
 
-[node name="decineMinuti" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
+[node name="minuti" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
-script = ExtResource("3_t0e23")
+script = ExtResource("4_j2l6x")
 
-[node name="minuti1Up" type="Button" parent="VBoxContainer/HBoxContainer/decineMinuti"]
-layout_mode = 2
-theme = ExtResource("5_mkuok")
-text = " + "
-
-[node name="Label3" type="Label" parent="VBoxContainer/HBoxContainer/decineMinuti"]
-layout_mode = 2
-theme = ExtResource("3_3ypxs")
-horizontal_alignment = 1
-
-[node name="minuti1Down" type="Button" parent="VBoxContainer/HBoxContainer/decineMinuti"]
-layout_mode = 2
-theme = ExtResource("5_mkuok")
-text = " - "
-
-[node name="unitaMinuti" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
-layout_mode = 2
-script = ExtResource("4_2rpnw")
-
-[node name="minuti2Up" type="Button" parent="VBoxContainer/HBoxContainer/unitaMinuti"]
+[node name="up" type="Button" parent="VBoxContainer/HBoxContainer/minuti"]
 layout_mode = 2
 theme = ExtResource("5_mkuok")
 text = " + "
 
-[node name="Label4" type="Label" parent="VBoxContainer/HBoxContainer/unitaMinuti"]
+[node name="minutiSelezionati" type="Label" parent="VBoxContainer/HBoxContainer/minuti"]
 layout_mode = 2
 theme = ExtResource("3_3ypxs")
 horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="minuti2Down" type="Button" parent="VBoxContainer/HBoxContainer/unitaMinuti"]
+[node name="down" type="Button" parent="VBoxContainer/HBoxContainer/minuti"]
 layout_mode = 2
 theme = ExtResource("5_mkuok")
 text = " - "
