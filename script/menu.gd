@@ -14,13 +14,10 @@ func _ready():
 #LevelFlow.start_run(LevelFlow.Mode.SURVIVOR_MODE)
 #get_tree().change_scene_to_packed(LevelFlow.get_current_scene())
 
-
-func _on_gioca_pressed() -> void:
-	TransitionScreen.transition()
-	await TransitionScreen.on_transition_finished
-	#cambio scena
-	get_tree().change_scene_to_file("res://scene/hub_map.tscn")
-
+func _input(event):
+	if event.is_action_pressed("esc_button"):
+		_on_chiudi_pressed()
+		_on_opzioni_closed_pressed()
 
 func _on_esci_pressed() -> void:
 	get_tree().quit()

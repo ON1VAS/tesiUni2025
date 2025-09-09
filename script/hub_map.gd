@@ -162,6 +162,11 @@ func _input(event):
 		
 		inventoryUI.open_inventory(player)  #Questo chiama già _refresh_list()
 	
+	if event.is_action_pressed("esc_button") and GlobalStats.in_menu:
+		_on_timer_selector_annulla_orario()
+		_on_log_viewer_annulla_log()
+		inventoryUI._on_close_pressed()
+	
 	#debug per vedere gli oggetti
 	if event.is_action_pressed("give_items"):
 		
