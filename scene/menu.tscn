@@ -60,7 +60,8 @@ text = "Gioca"
 
 [node name="Survivor" type="Button" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "ProvaDaniele"
+text = "Prova Savino
+Play & wait"
 
 [node name="Opzioni" type="Button" parent="MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 30)
