@@ -3,106 +3,140 @@ extends CharacterBody2D
 
 # --- Variabili Esportabili ---
 @export var lifetime: float = 2.0
-@export var animation_name: String = "attack"  # Rimossa animazione predefinita
+@export var animation_name: String = "attack"
 @export var gravity: float = 980.0
 @export var damage_amount: int = 5
-@export var variation: int = 1 
-@export var throw_speed: float = 200.0  # Velocità ridotta
-var target_direction: Vector2 = Vector2.ZERO
+@export var variation: int = 1
+@export var throw_speed: float = 200.0
+@export var aim_rotates_sprite: bool = true
+@export var sprite_forward_angle: float = +PI / 2  # se lo sprite "punta" verso l’alto, usa -PI/2
+
+# --- Target/Direzione ---
+var target_direction: Vector2 = Vector2.RIGHT
+var has_custom_target: bool = false
+var custom_target_pos: Vector2 = Vector2.ZERO
 
 # --- Riferimenti ai Nodi ---
 @onready var player = get_tree().get_first_node_in_group("giocatore")
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
-@onready var hitbox_area: Area2D = $HitboxArea 
+@onready var hitbox_area: Area2D = $HitboxArea
 @onready var despawn_timer: Timer = $DespawnTimer
 
 # --- Variabili Interne ---
 var has_hit_target: bool = false
 var is_despawning: bool = false
-var ground_level: float = 0.0
-var signals_connected = false  # Flag per controllare i segnali
+var ground_level: float = 135.0
+var signals_connected: bool = false
+
+# --------------------------------------------------------------
+
+func _compute_initial_direction() -> void:
+	var tgt := Vector2.ZERO
+	if has_custom_target:
+		tgt = custom_target_pos
+	elif is_instance_valid(player):
+		tgt = player.global_position
+	else:
+		tgt = global_position + Vector2.RIGHT
+
+	var dir := tgt - global_position
+	if dir.length() < 0.001:
+		dir = Vector2.RIGHT
+	target_direction = dir.normalized()
+
+	if aim_rotates_sprite:
+		rotation = target_direction.angle() + sprite_forward_angle
+
+func set_target_position(pos: Vector2) -> void:
+	has_custom_target = true
+	custom_target_pos = pos
+	if variation == 3:
+		_compute_initial_direction()
+		velocity = target_direction * throw_speed
 
 func set_variation(type: int) -> void:
 	variation = type
 	match variation:
-		1:  # Spine dal terreno
-			if animated_sprite: 
+		1:
+			if animated_sprite:
 				animated_sprite.modulate = Color.WHITE
-			damage_amount = 5 * DebuffManager.enemy_damage_multiplier()
-			# Disabilita la fisica
+			damage_amount = 10 * DebuffManager.enemy_damage_multiplier()
+			# spine dal terreno: restano fisse
 			set_physics_process(false)
-		2:  # Spine che cadono dal cielo
-			if animated_sprite: 
+		2:
+			if animated_sprite:
 				animated_sprite.modulate = Color(1, 0.5, 0.5)
 			damage_amount = 20 * DebuffManager.enemy_damage_multiplier()
-			velocity = Vector2.ZERO  # Inizia da fermo
-		3:  # Spine lanciate al giocatore
-			if animated_sprite: 
+			velocity = Vector2.ZERO
+			animation_name = "attaccoaereo"
+		3:
+			if animated_sprite:
 				animated_sprite.modulate = Color(0.5, 0.5, 1)
 			damage_amount = 10 * DebuffManager.enemy_damage_multiplier()
-			# Calcola direzione verso il giocatore
-			if player and is_instance_valid(player):
-				target_direction = (player.global_position - global_position).normalized()
-			else:
-				target_direction = Vector2(1, 0)  # Direzione di default
+			_compute_initial_direction()
+			velocity = target_direction * throw_speed
+			animation_name = "attaccoaereo"
 
 func _ready() -> void:
-	ground_level = 135
-	
-	# Connessione segnali solo se non già connessi
-	if !signals_connected:
+	# Collisions del corpo fisico: collide con terreno/muri (mask 1 come nel golem)
+	# Metti il proiettile su un layer dedicato se lo usi (qui 7 di esempio)
+	set_collision_layer_value(7, true)
+	collision_mask = 0
+	set_collision_mask_value(1, true)  # terreno/muri
+
+	# Hitbox per danno al player
+	if not signals_connected:
 		if hitbox_area:
 			hitbox_area.collision_layer = 0
+			# Assicurati che il "player_hurtbox" stia su questo layer indice 7
 			hitbox_area.set_collision_mask_value(7, true)
 			hitbox_area.body_entered.connect(_on_hitbox_area_body_entered)
-		else:
-			print_rich("[color=yellow]Spine Warning:[/color] HitboxArea non trovata. Nessun danno.")
-
 		if despawn_timer:
 			despawn_timer.wait_time = lifetime
 			despawn_timer.one_shot = true
 			despawn_timer.timeout.connect(_on_despawn_timer_timeout)
-		
 		signals_connected = true
 
-	# Riproduci animazione solo se esiste
+	# Animazione una volta sola
 	if animated_sprite:
-		if animation_name != "" && animated_sprite.sprite_frames.has_animation(animation_name):
-			animated_sprite.play(animation_name)
-		else:
-			# Riproduci un'animazione predefinita se disponibile
-			if animated_sprite.sprite_frames.get_animation_names().size() > 0:
-				animated_sprite.play(animated_sprite.sprite_frames.get_animation_names()[0])
-	
-	# Per spine di tipo 1, impostale a livello del terreno
+		var anim_to_play := animation_name
+		if anim_to_play == "" or not animated_sprite.sprite_frames.has_animation(anim_to_play):
+			var names := animated_sprite.sprite_frames.get_animation_names()
+			if names.size() > 0:
+				anim_to_play = names[0]
+		animated_sprite.play(anim_to_play)
+
+	# Variation 1 a livello terreno (come nel tuo codice originario)
 	if variation == 1:
 		global_position.y = ground_level
 
-	# Avvia il timer se esiste
+	# Avvio timer despawn
 	if despawn_timer:
 		despawn_timer.start()
 	else:
-		print_rich("[color=yellow]Spine Warning:[/color] DespawnTimer non trovato. Despawn manuale dopo 'lifetime'.")
 		await get_tree().create_timer(lifetime).timeout
 		if is_instance_valid(self):
 			queue_free()
 
+	# Safety: se siamo variation 3 ma la velocità non è stata impostata (ordine segnali),
+	# calcolala ora.
+	if variation == 3 and velocity == Vector2.ZERO:
+		_compute_initial_direction()
+		velocity = target_direction * throw_speed
+
+# --------------------------------------------------------------
+
 func _physics_process(delta: float) -> void:
 	match variation:
-		2:  # Spine che cadono dal cielo
+		2:
 			velocity.y += gravity * delta
 			move_and_slide()
-			animated_sprite.play("attaccoaereo")
-			
-			# Ferma quando raggiunge il terreno
 			if is_on_floor():
-				velocity = Vector2.ZERO
-				set_physics_process(false)
-		3:  # Spine lanciate al giocatore
-			velocity = target_direction * throw_speed
+				queue_free()
+		3:
+			# nessun ricalcolo della mira: niente jitter
 			move_and_slide()
-			
-			# Rimuovi se colpisce qualcosa
+			# se tocca qualcosa di solido (terreno/muri), despawna
 			if get_slide_collision_count() > 0:
 				queue_free()
 
@@ -114,11 +148,9 @@ func _on_despawn_timer_timeout() -> void:
 func _on_hitbox_area_body_entered(body: Node2D) -> void:
 	if has_hit_target:
 		return
-
 	if body.is_in_group("giocatore") and body.has_method("Damage"):
 		body.call("Damage", damage_amount)
 		has_hit_target = true
-
 		if despawn_timer and not despawn_timer.is_stopped():
 			despawn_timer.stop()
 		_on_despawn_timer_timeout()
