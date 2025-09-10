@@ -12,7 +12,7 @@ func _ready():
 	back_button.pressed.connect(torna_al_menu)
 	
 func _process(delta: float):
-	if GlobalStats.tempo_cooldown <= 1:
+	if GlobalStats.tempo_cooldown < 1:
 		self.visible = false
 
 func calcola_tempo():

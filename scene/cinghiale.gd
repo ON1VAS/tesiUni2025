@@ -37,6 +37,10 @@ var is_dead = false
 @onready var audiohurt = $CinghialeHurt
 @onready var audiodeath = $CinghialeDeath
 
+
+@onready var effects = $Effects
+@onready var hurt_timer = $hurtAnimTimer
+
 # ===== PROPRIETÀ ATTACCHI =====
 var attack_properties = {
 	"attack": {"delay": 0.1, "duration": 0.4},
@@ -45,6 +49,7 @@ var attack_properties = {
 
 func _ready():
 	# Configurazione iniziale
+	effects.play("RESET")
 	anim.play("move")
 	sword_hitbox.disabled = true
 	floor_max_angle = max_floor_angle
@@ -184,7 +189,7 @@ func _end_charge_with_impact():
 func take_damage(amount: int):
 	hp -= amount
 	anim.play("hurt")
-	
+	effects.play("hurt_animation")
 	if hp <= 0:
 		_die()
 	else:
@@ -217,3 +222,7 @@ func _on_incornata_body_entered(body: Node2D):
 func _on_animated_sprite_2d_animation_finished():
 	if anim.animation == "charge_anticipation" and is_charging:
 		anim.play("charge_attack")
+
+
+func _on_hurt_anim_timer_timeout() -> void:
+	effects.play("RESET")

@@ -9,6 +9,9 @@ var movement_speed = 40
 @onready var audiohurt = $GolemHurt
 @onready var audiodeath = $GolemDeath
 
+@onready var effects = $Effects
+@onready var hurt_timer = $hurtTimer
+
 var palladifuoco = preload("res://scene/fireball.tscn")
 var direction = Vector2.ZERO  # Aggiunta direzione per il movimento
 
@@ -32,6 +35,7 @@ var death_sig_emitted = 0
 var is_dead = false
 
 func _ready():
+	effects.play("RESET")
 	anim.play("move")
 	self.set_collision_layer_value(6, true)  # Abilita layer 6 (enemy_hurt)
 	self.set_collision_mask_value(2, true)   # Deve rilevare layer 2 (player_weapon)
@@ -99,6 +103,8 @@ func shoot_fireball():
 
 
 func take_damage(amount: int):
+	effects.play("hurt_animation")
+	hurt_timer.start()
 	if is_dead:
 		return
 	hp -= amount
@@ -138,3 +144,7 @@ func flip_sprite(vector):
 	elif vector.x > 0:
 		anim.flip_h = false
 		$FireballSpawnPoint.position.x = abs($FireballSpawnPoint.position.x)
+
+
+func _on_hurt_timer_timeout() -> void:
+	effects.play("RESET")

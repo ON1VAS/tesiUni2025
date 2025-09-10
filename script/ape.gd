@@ -32,6 +32,7 @@ var dash_remaining := 0.0
 @onready var audiohurt = $ApeHurt
 @onready var audiodeath = $ApeDeath
 @onready var hitbox_timer : Timer = $HitboxTimer
+
 @onready var effects = $Effects
 @onready var hurt_timer = $DamageEffectTimer
 

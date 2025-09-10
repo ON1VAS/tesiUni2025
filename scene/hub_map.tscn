@@ -6352,6 +6352,7 @@ limit_smoothed = true
 stream = ExtResource("22_t2rro")
 autoplay = true
 bus = &"Musica"
+parameters/looping = true
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 collision_layer = 129

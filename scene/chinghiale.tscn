@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://d2n7yyyc73rwo"]
+[gd_scene load_steps=35 format=3 uid="uid://d2n7yyyc73rwo"]
 
 [ext_resource type="Texture2D" uid="uid://jkav20rl7otp" path="res://testures/Legacy-Fantasy - High Forest 2.3/Mob/Boar/Run/Run-Sheet.png" id="1_6ji4v"]
 [ext_resource type="Script" uid="uid://dhd43r2uv3vtk" path="res://scene/cinghiale.gd" id="1_ruqhr"]
@@ -186,13 +186,58 @@ size = Vector2(15, 14)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6ji4v"]
 size = Vector2(11.5, 8)
 
+[sub_resource type="Animation" id="Animation_7krfj"]
+resource_name = "hurt_animation"
+length = 0.3
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0.2)]
+}
+
+[sub_resource type="Animation" id="Animation_j5ccd"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8jwjx"]
+_data = {
+&"RESET": SubResource("Animation_j5ccd"),
+&"hurt_animation": SubResource("Animation_7krfj")
+}
+
 [node name="Cinghiale" type="CharacterBody2D" groups=["enemies"]]
 script = ExtResource("1_ruqhr")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+clip_children = 2
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_rpsw2")
 animation = &"move"
+
+[node name="ColorRect" type="ColorRect" parent="AnimatedSprite2D"]
+offset_left = -45.0
+offset_top = -40.0
+offset_right = 61.0
+offset_bottom = 38.0
 
 [node name="PlayerDetectionArea" type="Area2D" parent="." groups=["enemies"]]
 collision_layer = 3
@@ -240,4 +285,13 @@ bus = &"SFX"
 stream = ExtResource("7_j5ccd")
 bus = &"SFX"
 
+[node name="hurtAnimTimer" type="Timer" parent="."]
+
+[node name="Effects" type="AnimationPlayer" parent="."]
+root_node = NodePath("../AnimatedSprite2D")
+libraries = {
+&"": SubResource("AnimationLibrary_8jwjx")
+}
+
 [connection signal="timeout" from="CooldownTimer" to="." method="_on_charge_attack_timeout"]
+[connection signal="timeout" from="hurtAnimTimer" to="." method="_on_hurt_anim_timer_timeout"]

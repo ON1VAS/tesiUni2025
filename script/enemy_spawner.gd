@@ -10,7 +10,7 @@ var current_enemies: int = 0
 
 func _ready():
 	# Carica le scene nemiche
-	enemies.append(preload("res://scene/ape.tscn"))
+	#enemies.append(preload("res://scene/ape.tscn"))
 	#enemies.append(preload("res://scene/golem.tscn"))
 	#enemies.append(preload("res://scene/chinghiale.tscn"))
 	#enemies.append(preload("res://scene/slime.tscn"))

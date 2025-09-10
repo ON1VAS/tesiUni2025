@@ -1,4 +1,4 @@
-[gd_scene load_steps=57 format=3 uid="uid://bthh718uavc0f"]
+[gd_scene load_steps=60 format=3 uid="uid://bthh718uavc0f"]
 
 [ext_resource type="Script" uid="uid://clc6vjqucdxqc" path="res://script/golem.gd" id="1_u4yfr"]
 [ext_resource type="Texture2D" uid="uid://bptabgrtorilh" path="res://testures/enemy/Golem_sheet.png" id="2_bqbus"]
@@ -376,13 +376,59 @@ radius = 160.112
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mh4gg"]
 size = Vector2(57, 43)
 
+[sub_resource type="Animation" id="Animation_i5vqd"]
+resource_name = "hurt_animation"
+length = 0.3
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D/ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0001, 0.0002, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0.419608)]
+}
+
+[sub_resource type="Animation" id="Animation_m5yr5"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D/ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_m1c6a"]
+_data = {
+&"RESET": SubResource("Animation_m5yr5"),
+&"hurt_animation": SubResource("Animation_i5vqd")
+}
+
 [node name="Golem" type="CharacterBody2D" groups=["enemies"]]
 script = ExtResource("1_u4yfr")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+clip_children = 2
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_soug6")
 animation = &"damage"
+
+[node name="ColorRect" type="ColorRect" parent="AnimatedSprite2D"]
+offset_left = -46.0
+offset_top = -43.0
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(1, 1, 1, 0)
 
 [node name="PlayerDetectionArea" type="Area2D" parent="."]
 collision_layer = 2
@@ -409,6 +455,15 @@ bus = &"SFX"
 stream = ExtResource("5_i5vqd")
 bus = &"SFX"
 
+[node name="Effects" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_m1c6a")
+}
+
+[node name="hurtTimer" type="Timer" parent="."]
+one_shot = true
+
 [connection signal="body_entered" from="PlayerDetectionArea" to="." method="_on_player_detection_area_body_entered"]
 [connection signal="body_exited" from="PlayerDetectionArea" to="." method="_on_player_detection_area_body_exited"]
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_hurtbox_area_entered"]
+[connection signal="timeout" from="hurtTimer" to="." method="_on_hurt_timer_timeout"]

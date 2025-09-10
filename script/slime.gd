@@ -48,6 +48,10 @@ var max_jump_height: float = 200.0
 @onready var audiohurt = $SlimeHurt
 @onready var audiodeath = $SlimeDeath
 
+
+@onready var effects = $Effects
+@onready var hurt_timer = $hurtTimer
+
 #servono pe capire quando il nemico è morto e far progredire i progressi della wave
 signal dead
 var death_sig_emitted = 0
@@ -55,6 +59,7 @@ var is_dead = false
 
 func _ready():
 	# Initial configuration
+	effects.play("RESET")
 	anim.play("idle")
 	slam_hitbox.disabled = true
 	floor_max_angle = max_floor_angle
@@ -239,6 +244,7 @@ func _end_jump_with_impact():
 	velocity = Vector2.ZERO
 
 func take_damage(amount: int):
+	effects.play("hurt_animation")
 	if is_dead:
 		return
 	hp -= amount
@@ -273,3 +279,7 @@ func _on_slam_hitbox_body_entered(body: Node2D):
 func _on_animated_sprite_2d_animation_finished():
 	if anim.animation == "slam_impact" and is_jumping:
 		_end_jump()
+
+
+func _on_hurt_anim_timer_timeout() -> void:
+	effects.play("RESET")
