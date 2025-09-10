@@ -116,7 +116,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"death",
-"speed": 1.0
+"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -215,7 +215,7 @@ script = ExtResource("1_1ism8")
 clip_children = 2
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_2gki6")
-animation = &"move"
+animation = &"death"
 
 [node name="ColorRect" type="ColorRect" parent="AnimatedSprite2D"]
 offset_left = -62.0
