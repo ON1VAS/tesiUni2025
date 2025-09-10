@@ -32,12 +32,17 @@ var dash_remaining := 0.0
 @onready var audiohurt = $ApeHurt
 @onready var audiodeath = $ApeDeath
 @onready var hitbox_timer : Timer = $HitboxTimer
+@onready var effects = $Effects
+@onready var hurt_timer = $DamageEffectTimer
 
 var hp := 20
 var is_dead := false
 signal dead
 
 func _ready() -> void:
+	
+	effects.play("RESET")
+	
 	anim.play("move")
 	sword_hitbox.disabled = true
 	hitbox_area.set_collision_layer_value(2, true)
@@ -122,6 +127,8 @@ func end_attack() -> void:
 
 # --- Damage / Hurt ---
 func take_damage(amount: int, from_dir: Vector2 = Vector2.ZERO) -> void:
+	effects.play("hurt_blink")
+	hurt_timer.start()
 	if is_dead:
 		return
 	hp -= amount
@@ -172,3 +179,7 @@ func _on_hurtbox_area_entered(area: Area2D) -> void:
 func _on_pungiglione_body_entered(body: Node2D) -> void:
 	if state == State.DASH and body.is_in_group("giocatore"):
 		body.Damage(damage)
+
+
+func _on_damage_effect_timer_timeout() -> void:
+	effects.play("RESET")

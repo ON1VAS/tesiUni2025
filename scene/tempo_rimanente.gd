@@ -11,11 +11,15 @@ func _ready():
 	self.visible = false
 	back_button.pressed.connect(torna_al_menu)
 	
+func _process(delta: float):
+	if GlobalStats.tempo_cooldown <= 1:
+		self.visible = false
 
 func calcola_tempo():
 	var secondi_totali = GlobalStats.tempo_cooldown
 	var minuti_rimanenti: int = (secondi_totali % 3600) / 60
 	var secondi_rimanenti: int = secondi_totali % 60
+	
 	
 	
 	if minuti_rimanenti > 0:
