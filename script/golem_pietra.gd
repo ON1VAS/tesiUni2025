@@ -25,6 +25,10 @@ var attack_spawn_called: bool = false
 @onready var audiohurt = $GolemPietraHurt
 @onready var audiodeath = $GolemPietraDeath
 
+#effetto quando prendono danno
+@onready var effects = $Effects
+@onready var hurt_timer = $HurtAnimTimer
+
 # --- Variabili Floating (ondeggiamento idle/run) ---
 @export var float_amplitude: float = 5.0
 @export var float_speed: float = 2.0
@@ -50,6 +54,7 @@ var death_sig_emitted := 0
 
 
 func _ready() -> void:
+	effects.play("RESET")
 	float_offset = randf_range(-50.0, -100.0)
 
 	if not is_instance_valid(player_ref):
@@ -333,6 +338,8 @@ func _spawn_spikes(attack_variation: int) -> void:
 
 
 func take_damage(amount: int) -> void:
+	effects.play("hurt_animation")
+	hurt_timer.start()
 	if current_state == State.DEAD or current_state == State.HURT:
 		return
 
@@ -395,3 +402,7 @@ func _update_sprite_facing_direction() -> void:
 		animated_sprite.flip_h = velocity.x < 0.0
 	else:
 		animated_sprite.flip_h = player_ref.global_position.x < global_position.x
+
+
+func _on_hurt_anim_timer_timeout() -> void:
+	effects.play("RESET")

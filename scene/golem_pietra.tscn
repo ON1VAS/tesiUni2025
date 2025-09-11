@@ -1,4 +1,4 @@
-[gd_scene load_steps=68 format=3 uid="uid://dk3ogbro6havf"]
+[gd_scene load_steps=71 format=3 uid="uid://dk3ogbro6havf"]
 
 [ext_resource type="Texture2D" uid="uid://cog3of3ueh5kk" path="res://testures/Enemy_Galore_I/Golem/Armored/Golem_Armor_AttackA.png" id="1_8tnna"]
 [ext_resource type="Script" uid="uid://bvnigpm3qyp1" path="res://script/golem_pietra.gd" id="1_ajln3"]
@@ -423,14 +423,59 @@ size = Vector2(35, 30)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_uogy3"]
 size = Vector2(11.5, 8)
 
+[sub_resource type="Animation" id="Animation_hs4sa"]
+resource_name = "hurt_animation"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D/ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.333333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0.352941)]
+}
+
+[sub_resource type="Animation" id="Animation_3s6ge"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D/ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_hyeqo"]
+_data = {
+&"RESET": SubResource("Animation_3s6ge"),
+&"hurt_animation": SubResource("Animation_hs4sa")
+}
+
 [node name="GolemPietra" type="CharacterBody2D" groups=["enemies"]]
 scale = Vector2(1.5, 1.5)
 script = ExtResource("1_ajln3")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+clip_children = 2
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_7vm2m")
 animation = &"attack3"
+
+[node name="ColorRect" type="ColorRect" parent="AnimatedSprite2D"]
+offset_left = -41.0
+offset_top = -29.0
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(1, 1, 1, 0)
 
 [node name="PlayerDetectionArea" type="Area2D" parent="."]
 collision_layer = 2
@@ -472,5 +517,14 @@ bus = &"SFX"
 stream = ExtResource("11_3s6ge")
 bus = &"SFX"
 
+[node name="Effects" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_hyeqo")
+}
+
+[node name="HurtAnimTimer" type="Timer" parent="."]
+one_shot = true
+
 [connection signal="body_entered" from="PlayerDetectionArea" to="." method="_on_player_detection_area_body_entered"]
 [connection signal="body_exited" from="PlayerDetectionArea" to="." method="_on_player_detection_area_body_exited"]
+[connection signal="timeout" from="HurtAnimTimer" to="." method="_on_hurt_anim_timer_timeout"]

@@ -9,6 +9,10 @@ var movement_speed = 100
 @onready var audiohurt = $RagnoHurt
 @onready var audiodeath = $RagnoDeath
 
+#effetto quando prendono danno
+@onready var effects = $Effects
+@onready var hurt_timer = $HurtAnimTimer
+
 var exp = preload("res://scene/exp_points.tscn")
 
 var direction = Vector2.ZERO
@@ -39,6 +43,7 @@ var death_sig_emitted = 0
 var is_dead = false
 
 func _ready():
+	effects.play("RESET")
 	anim.play("move")
 	self.set_collision_layer_value(3, true)  # Abilita layer 6 (enemy_hurt)
 	self.set_collision_mask_value(1, true)  # Deve rilevare layer 2 (player_weapon)
@@ -135,6 +140,8 @@ func _on_timer_danno_preso_timeout():
 
 
 func take_damage(amount: int):
+	effects.play("hurt_animation")
+	hurt_timer.start()
 	if is_dead:
 		return
 	hp -= amount
@@ -163,3 +170,7 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 	if area.is_in_group("player_weapon"):
 		anim.play("damage")
 		take_damage(10)  # Danno base (puoi passare un valore dal player)
+
+
+func _on_hurt_anim_timer_timeout() -> void:
+	effects.play("RESET")

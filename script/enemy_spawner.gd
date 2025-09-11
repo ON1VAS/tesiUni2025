@@ -10,12 +10,12 @@ var current_enemies: int = 0
 
 func _ready():
 	# Carica le scene nemiche
-	#enemies.append(preload("res://scene/ape.tscn"))
-	#enemies.append(preload("res://scene/golem.tscn"))
-	#enemies.append(preload("res://scene/chinghiale.tscn"))
-	#enemies.append(preload("res://scene/slime.tscn"))
-	#enemies.append(preload("res://scene/golem_pietra.tscn"))
-	#enemies.append(preload("res://provapermodificare/ragno/ragno.tscn"))
+	enemies.append(preload("res://scene/ape.tscn"))
+	enemies.append(preload("res://scene/golem.tscn"))
+	enemies.append(preload("res://scene/chinghiale.tscn"))
+	enemies.append(preload("res://scene/slime.tscn"))
+	enemies.append(preload("res://scene/golem_pietra.tscn"))
+	enemies.append(preload("res://provapermodificare/ragno/ragno.tscn"))
 
 	# Imposta e avvia il timer
 	$Timer.wait_time = spawn_interval
