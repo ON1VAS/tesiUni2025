@@ -11,6 +11,12 @@ extends CharacterBody2D
 @export var aim_rotates_sprite: bool = true
 @export var sprite_forward_angle: float = +PI / 2  # se lo sprite "punta" verso l’alto, usa -PI/2
 
+# Snap dinamico al pavimento (solo per variation 1)
+@export var floor_mask: int = 1            # usa direttamente la MASK (per layer 1 è 1, per layer 2 è 2, ecc.)
+@export var floor_snap_from_above: float = 200
+@export var floor_snap_max_dist: float = 2000
+@export var floor_snap_offset: float = 0.0
+
 # --- Target/Direzione ---
 var target_direction: Vector2 = Vector2.RIGHT
 var has_custom_target: bool = false
@@ -25,10 +31,63 @@ var custom_target_pos: Vector2 = Vector2.ZERO
 # --- Variabili Interne ---
 var has_hit_target: bool = false
 var is_despawning: bool = false
-var ground_level: float = 135.0
 var signals_connected: bool = false
+var pending_floor_snap: bool = false
+
 
 # --------------------------------------------------------------
+
+func _snap_to_floor_under_self() -> void:
+	if not is_inside_tree():
+		call_deferred("_snap_to_floor_under_self")
+		return
+
+	var world := get_world_2d()
+	if world == null:
+		call_deferred("_snap_to_floor_under_self")
+		return
+
+	var from := global_position + Vector2(0.0, -floor_snap_from_above)
+	var to := global_position + Vector2(0.0, floor_snap_max_dist)
+	var space := world.direct_space_state
+
+	var params := PhysicsRayQueryParameters2D.create(from, to)
+	params.collision_mask = floor_mask        # usa la mask *diretta* (1,2,4,...)
+	params.collide_with_bodies = true
+	params.collide_with_areas = false         # niente Aree sospese
+	params.exclude = [self]
+
+	var hit := space.intersect_ray(params)
+	if hit and "position" in hit:
+		var bottom_off := _bottom_offset_from_origin()
+		global_position.y = hit.position.y - bottom_off + floor_snap_offset
+
+
+func _bottom_offset_from_origin() -> float:
+	var off := 0.0
+
+	# 1) prova dal collider della HitboxArea (preferibile)
+	var cs := hitbox_area.get_node_or_null("CollisionShape2D")
+	if cs and cs is CollisionShape2D and cs.shape:
+		var sh = cs.shape
+		if sh is RectangleShape2D:
+			off = (sh.size.y * 0.5)
+		elif sh is CapsuleShape2D:
+			# dal centro al bordo basso: metà altezza del cilindro + raggio
+			off = (sh.height * 0.5) + sh.radius
+		elif sh is CircleShape2D:
+			off = sh.radius
+	# 2) fallback: stima dall'altezza del frame corrente dello sprite
+	elif animated_sprite and animated_sprite.sprite_frames:
+		var frames := animated_sprite.sprite_frames
+		var anim = animated_sprite.animation if animated_sprite.animation != "" else animation_name
+		if anim != "" and frames.has_animation(anim) and frames.get_frame_count(anim) > 0:
+			var tex := frames.get_frame_texture(anim, 0)
+			if tex:
+				off = float(tex.get_height()) * 0.5
+
+	return off
+
 
 func _compute_initial_direction() -> void:
 	var tgt := Vector2.ZERO
@@ -78,17 +137,16 @@ func set_variation(type: int) -> void:
 			animation_name = "attaccoaereo"
 
 func _ready() -> void:
-	# Collisions del corpo fisico: collide con terreno/muri (mask 1 come nel golem)
-	# Metti il proiettile su un layer dedicato se lo usi (qui 7 di esempio)
-	set_collision_layer_value(7, true)
+	# Collisions del corpo fisico: collide con terreno/muri (mask 1 nel tuo progetto)
+	set_collision_layer_value(7, true)  # es.: layer proiettili nemici
 	collision_mask = 0
-	set_collision_mask_value(1, true)  # terreno/muri
+	set_collision_mask_value(1, true)   # terreno/muri
 
 	# Hitbox per danno al player
 	if not signals_connected:
 		if hitbox_area:
 			hitbox_area.collision_layer = 0
-			# Assicurati che il "player_hurtbox" stia su questo layer indice 7
+			# assicurati che il player/hurtbox sia su questo bit
 			hitbox_area.set_collision_mask_value(7, true)
 			hitbox_area.body_entered.connect(_on_hitbox_area_body_entered)
 		if despawn_timer:
@@ -106,9 +164,9 @@ func _ready() -> void:
 				anim_to_play = names[0]
 		animated_sprite.play(anim_to_play)
 
-	# Variation 1 a livello terreno (come nel tuo codice originario)
-	if variation == 1:
-		global_position.y = ground_level
+	# Variation 1: snap al terreno dinamico (sostituisce il vecchio ground_level)
+	if variation == 1 or pending_floor_snap:
+		_snap_to_floor_under_self()
 
 	# Avvio timer despawn
 	if despawn_timer:
@@ -134,9 +192,7 @@ func _physics_process(delta: float) -> void:
 			if is_on_floor():
 				queue_free()
 		3:
-			# nessun ricalcolo della mira: niente jitter
 			move_and_slide()
-			# se tocca qualcosa di solido (terreno/muri), despawna
 			if get_slide_collision_count() > 0:
 				queue_free()
 

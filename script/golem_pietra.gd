@@ -93,6 +93,34 @@ func _ready() -> void:
 
 	time_since_last_attack = attack_cooldown_time
 
+# fix delle spine a pavimento che vengono spawnate non al pavimento, forzo la lettura della posizione verticale dal golem a tutto il livello in verticale
+const FLOOR_RAY_UP := 400.0
+const FLOOR_RAY_DOWN := 4000.0
+
+func _floor_y_at_x(px: float) -> float:
+	var hint_y := global_position.y
+	if ray_cast_floor and ray_cast_floor.is_colliding():
+		hint_y = ray_cast_floor.get_collision_point().y
+
+	var from := Vector2(px, hint_y - FLOOR_RAY_UP)
+	var to := Vector2(px, hint_y + FLOOR_RAY_DOWN)
+
+	var space := get_world_2d().direct_space_state
+	var params := PhysicsRayQueryParameters2D.create(from, to)
+
+	# usa esattamente la stessa mask del RayCastFloor già configurato nella scena
+	params.collision_mask = ray_cast_floor.collision_mask if ray_cast_floor else 1
+	params.collide_with_bodies = true
+	params.collide_with_areas = true
+	params.exclude = [self]  # evita di colpire il golem stesso
+
+	var hit := space.intersect_ray(params)
+	if hit and "position" in hit:
+		return hit.position.y
+
+	# fallback se proprio non trova nulla
+	return hint_y
+
 
 func _physics_process(delta: float) -> void:
 	# gravità se vuoi farlo “saltellare” nell’aria (al momento disattivata)
@@ -266,7 +294,8 @@ func _spawn_spikes(attack_variation: int) -> void:
 			var start_x := global_position.x + (dir * 50.0)
 			for i in range(num_spikes):
 				var px := start_x + (i * 50.0 * dir)
-				positions.append(Vector2(px, ground_y_pos))
+				var py := _floor_y_at_x(px)   # leggendo la Y calcolata
+				positions.append(Vector2(px, py)) # posizione segnata alla y del pavimento sottostante
 				rotations.append(0.0)
 
 		2:
@@ -300,8 +329,6 @@ func _spawn_spikes(attack_variation: int) -> void:
 		if attack_variation == 3 and is_instance_valid(player_ref):
 			if spikes_inst.has_method("set_target_position"):
 				spikes_inst.set_target_position(player_ref.global_position)
-		if spikes_inst.has_method("set_variation"):
-			spikes_inst.set_variation(attack_variation)
 		get_tree().current_scene.add_child(spikes_inst)
 
 
