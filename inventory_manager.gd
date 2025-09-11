@@ -36,7 +36,6 @@ func salva_inventario():
 	var file = FileAccess.open(INVENTARIO_PATH, FileAccess.WRITE)
 	file.store_string(JSON.stringify(to_save))
 	file.close()
-	print("Inventario salvato:", to_save)
 
 func carica_inventario():
 	if FileAccess.file_exists(INVENTARIO_PATH):
