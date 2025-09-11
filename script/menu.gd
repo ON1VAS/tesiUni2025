@@ -7,6 +7,11 @@ func _ready():
 	vbox.scale = Vector2(2,2)
 	panel.visible = false
 	audio_settings_panel.visible = false
+	
+	if vbox.get_child_count() > 0:
+		var first_button = vbox.get_child(0)
+		if first_button is Button:
+			first_button.grab_focus()
 	# Start campagna platform
 #LevelFlow.start_run(LevelFlow.Mode.PLATFORM_CAMPAIGN)
 #get_tree().change_scene_to_packed(LevelFlow.get_current_scene())

@@ -74,7 +74,6 @@ func _on_timerfinito():
 
 func _on_protagonista_player_defeated():
 	
-	
 	#toglie i bonus
 	player.reset_temp_bonus()
 	BonusManager.clear()
