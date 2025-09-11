@@ -217,6 +217,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+focus_mode = 2
 theme = ExtResource("8_wd6lm")
 theme_override_constants/side_margin = 26
 theme_override_styles/tab_focus = SubResource("StyleBoxTexture_nuiae")
@@ -274,6 +275,7 @@ theme_override_constants/separation = 30
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 6
+focus_neighbor_bottom = NodePath("../Music")
 max_value = 1.0
 step = 0.05
 
@@ -281,6 +283,8 @@ step = 0.05
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 6
+focus_neighbor_top = NodePath("../Master")
+focus_neighbor_bottom = NodePath("../SFX")
 max_value = 1.0
 step = 0.05
 
@@ -288,6 +292,8 @@ step = 0.05
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 6
+focus_neighbor_top = NodePath("../Music")
+focus_neighbor_bottom = NodePath("../../../../../Button")
 max_value = 1.0
 step = 0.05
 

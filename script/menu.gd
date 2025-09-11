@@ -3,10 +3,14 @@ extends Control
 @onready var vbox = $MarginContainer/VBoxContainer
 @onready var panel = $howtoplaypanel
 @onready var audio_settings_panel = $UI
+
+var _prev_focus: Control # per non perdere il focus di prima/dopo
+
 func _ready():
 	vbox.scale = Vector2(2,2)
 	panel.visible = false
 	audio_settings_panel.visible = false
+	
 	
 	if vbox.get_child_count() > 0:
 		var first_button = vbox.get_child(0)
@@ -37,11 +41,24 @@ func _on_chiudi_pressed() -> void:
 
 
 func _on_opzioni_pressed() -> void:
+	_prev_focus = get_viewport().gui_get_focus_owner()
+
 	audio_settings_panel.visible = true
+
+	# assicura che i controlli rispondano a ui_left/right e che W/S navighi
+	for s in audio_settings_panel.find_children("*", "HSlider", true, false):
+		s.focus_mode = Control.FOCUS_ALL
+	for b in audio_settings_panel.find_children("*", "Button", true, false):
+		b.focus_mode = Control.FOCUS_ALL
+
+	await get_tree().process_frame
+	$UI/Settings/Audio/HBoxContainer/VBoxContainer2/Master.grab_focus()
 
 
 func _on_opzioni_closed_pressed() -> void:
 	audio_settings_panel.visible = false
+	if _prev_focus and is_instance_valid(_prev_focus):
+		_prev_focus.grab_focus()
 
 
 func _on_survivor_pressed() -> void:
