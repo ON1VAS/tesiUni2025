@@ -33,7 +33,9 @@ func _on_esci_pressed() -> void:
 
 
 func _on_howtoplay_pressed() -> void:
-	panel.visible = true
+	TransitionScreen.transition()
+	await TransitionScreen.on_transition_finished
+	get_tree().change_scene_to_file("res://scene/tutorial.tscn")
 
 
 func _on_chiudi_pressed() -> void:

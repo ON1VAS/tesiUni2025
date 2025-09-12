@@ -30,3 +30,9 @@ func _update_checkboxes() -> void:
 	for child in menu.get_children():
 		if child is CheckBox:
 			child.button_pressed = active.has(child.text)
+
+
+func _on_button_pressed() -> void:
+	TransitionScreen.transition()
+	await TransitionScreen.on_transition_finished
+	get_tree().change_scene_to_file("res://scene/menu.tscn")

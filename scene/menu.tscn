@@ -81,7 +81,7 @@ text = "Opzioni"
 [node name="howtoplay" type="Button" parent="MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
-text = "Come si gioca?"
+text = "Tutorial"
 
 [node name="Esci" type="Button" parent="MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 30)
