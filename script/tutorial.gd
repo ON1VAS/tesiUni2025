@@ -2,11 +2,18 @@ extends Node2D
 @onready var sfondo = $Sprite2D
 @onready var player = $protagonista
 
+@onready var player_an_sp = $protagonista/AnimatedSprite2D
+
+
 const PLAYER_GROUP := "giocatore"
 const ENEMIES_GROUP := "enemies"
 
 @export var activation_radius: float = 280.0  # aumenta se vuoi svegliare da più lontano
 @export var one_shot_triggers: bool = true
+
+
+var shader_material = ShaderMaterial.new()
+
 
 func _process(delta):
 	# Mantieni solo la coordinata X del player
@@ -15,6 +22,11 @@ func _process(delta):
 func _ready():
 	DebuffManager.set_platform_mode(false)
 	DebuffManager.apply_to_player($protagonista)
+	
+	var shader = preload("res://scene/player.gdshader")
+	shader_material.shader = shader
+	player_an_sp.material = null #di default è spenta
+	
 	
 	for e in get_tree().get_nodes_in_group(ENEMIES_GROUP):
 		_set_active_recursive(e, false)
@@ -73,3 +85,18 @@ func _on_activation_enter(body: Node2D, enemy: Node, area: Area2D) -> void:
 	_set_active_recursive(enemy, true)
 	if one_shot_triggers:
 		area.set_deferred("monitoring", false)
+
+
+func _on_area_2d_body_entered(body: Node2D) -> void:
+	player_an_sp.material = shader_material
+
+
+func _on_area_2d_body_exited(body: Node2D) -> void:
+	player_an_sp.material = null
+
+
+func _on_torna_al_menu_body_entered(body):
+	if body.name == "protagonista":
+		TransitionScreen.transition()
+		await TransitionScreen.on_transition_finished
+		get_tree().change_scene_to_file("res://scene/menu.tscn")
