@@ -12,6 +12,8 @@ extends Node2D
 @onready var canc_hitbox = $hitboxes/CollisionShape2D12
 @onready var final_message: Label = $CanvasLayer/FinalMessage  # 👈 il label del messaggio
 @onready var timer: Timer = $FinalTimer  # 👈 un Timer in scena (one_shot = true, wait_time = 20)
+@onready var player_an_sp = $protagonista/AnimatedSprite2D
+var shader_material = ShaderMaterial.new()
 
 func _process(delta):
 	# Mantieni solo la coordinata X del player
@@ -21,6 +23,9 @@ func _process(delta):
 func _ready() -> void:
 	DebuffManager.set_platform_mode(true)
 	DebuffManager.apply_to_player($protagonista)
+	var shader = preload("res://scene/player.gdshader")
+	shader_material.shader = shader
+	player_an_sp.material = null #di default è spenta
 	boss_trigger.body_entered.connect(_on_boss_trigger_body_entered)
 	hud.visible = false
 	
