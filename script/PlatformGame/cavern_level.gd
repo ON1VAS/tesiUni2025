@@ -6,7 +6,17 @@ const ENEMIES_GROUP := "enemies"
 @export var activation_radius: float = 280.0  # aumenta se vuoi svegliare da più lontano
 @export var one_shot_triggers: bool = true
 
+#toglie l'evidenziato
+@onready var player = $protagonista
+@onready var player_an_sp = $protagonista/AnimatedSprite2D
+var shader_material = ShaderMaterial.new()
+
 func _ready() -> void:
+	#toglie l'evidenziato
+	var shader = preload("res://scene/player.gdshader")
+	shader_material.shader = shader
+	player_an_sp.material = null #di default è spenta
+	
 	if $protagonista and not $protagonista.is_in_group(PLAYER_GROUP):
 		$protagonista.add_to_group(PLAYER_GROUP)
 
