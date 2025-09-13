@@ -3,6 +3,8 @@ extends CharacterBody2D
 @onready var sword_hitbox = $SwordHitbox/CollisionShape2D
 @onready var hitbox_timer = $HitboxTimer
 @onready var healthbar = $HealthBar
+@onready var death_overlay: CanvasLayer = $DeathOverlay
+
 
 var pending_respawn_pos: Vector2 = Vector2.INF
 var is_dying: bool = false  # guardia per evitare retrigger
@@ -224,7 +226,9 @@ func _on_animated_sprite_2d_animation_finished() -> void:
 		else:
 			pending_respawn_pos = Vector2.INF
 			killbox_death = false
-		# attesa 5 secondi e cambio scena al menu
+		# attesa 5 secondi e cambio scena al menu, accendo il layout quando perde il giocatore
+			if death_overlay and LevelFlow.current_mode != LevelFlow.Mode.SURVIVOR_MODE:
+				death_overlay.show_countdown(5)
 			await get_tree().create_timer(5.0).timeout
 			get_tree().change_scene_to_file("res://scene/menu.tscn")
 	# pulizie comuni

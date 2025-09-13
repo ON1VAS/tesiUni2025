@@ -1,4 +1,4 @@
-[gd_scene load_steps=90 format=3 uid="uid://cm1ru7bxfj1s0"]
+[gd_scene load_steps=91 format=3 uid="uid://cm1ru7bxfj1s0"]
 
 [ext_resource type="Script" uid="uid://bs5jcynrust28" path="res://script/player.gd" id="1_fvtld"]
 [ext_resource type="Texture2D" uid="uid://boyyqx4je6gf" path="res://testures/free_knight/Colour1/NoOutline/120x80_PNGSheets/_Idle.png" id="1_xo3ru"]
@@ -14,6 +14,7 @@
 [ext_resource type="Texture2D" uid="uid://dwlhvkjlul70c" path="res://testures/free_knight/Colour1/NoOutline/120x80_PNGSheets/_Death.png" id="6_dk1vr"]
 [ext_resource type="Texture2D" uid="uid://bvub4cikyq5o0" path="res://testures/free_knight/Colour1/NoOutline/120x80_PNGSheets/_Hit.png" id="8_34jf3"]
 [ext_resource type="Texture2D" uid="uid://bjb7ha54rmfp" path="res://testures/free_knight/Colour1/NoOutline/120x80_PNGSheets/_Roll.png" id="13_u7b46"]
+[ext_resource type="PackedScene" uid="uid://cvv475suihlio" path="res://scene/death_overlay.tscn" id="15_j4wxg"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_u7b46"]
 shader = ExtResource("2_34jf3")
@@ -625,6 +626,9 @@ scale = Vector2(0.25, 0.25)
 max_value = 150.0
 step = 1.0
 show_percentage = false
+
+[node name="DeathOverlay" parent="." instance=ExtResource("15_j4wxg")]
+layer = 50
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="timeout" from="HitboxTimer" to="." method="_on_hitbox_timer_timeout"]
