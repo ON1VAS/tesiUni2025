@@ -13,7 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://kdoujkbui58j" path="res://testures/Platform/Tiles/Assets/Assets.png" id="10_jofqr"]
 [ext_resource type="Texture2D" uid="uid://c11vq1xy8sp50" path="res://testures/Platform/Pixel fantasy world Demo/Object/Object.png" id="11_t610n"]
 [ext_resource type="Texture2D" uid="uid://d1vbsbf5c7r6y" path="res://testures/gh-platform/Other Tiles2.png" id="12_ig2q2"]
-[ext_resource type="Script" uid="uid://doqgpmiwc1nnh" path="res://script/PlatformGame/boss_hud.gd" id="14_ig2q2"]
+[ext_resource type="Script" uid="uid://dewdh6t2mwsg1" path="res://script/PlatformGame/boss_hud.gd" id="14_ig2q2"]
 [ext_resource type="PackedScene" uid="uid://bbbpaq32ig55f" path="res://scene/boss.tscn" id="14_t610n"]
 [ext_resource type="Texture2D" uid="uid://bsevtcyq1h3y1" path="res://testures/Platform/idle sheet-Sheet.png" id="16_8fyo7"]
 

@@ -11,11 +11,16 @@ const ENEMIES_GROUP := "enemies"
 @onready var sprite2D5: Node2D = $Sprite2D5
 @onready var sprite2D3: Node2D = $Sprite2D3
 @onready var sprite2D4: Node2D = $Sprite2D4
+@onready var player_an_sp = $protagonista/AnimatedSprite2D
+var shader_material = ShaderMaterial.new()
 
 func _ready() -> void:
 	# piattaforma on + debuff
 	DebuffManager.set_platform_mode(true)
 	DebuffManager.apply_to_player(player)
+	var shader = preload("res://scene/player.gdshader")
+	shader_material.shader = shader
+	player_an_sp.material = null #di default è spenta
 
 	# assicurati che il player sia nel gruppo corretto
 	if player and not player.is_in_group(PLAYER_GROUP):
