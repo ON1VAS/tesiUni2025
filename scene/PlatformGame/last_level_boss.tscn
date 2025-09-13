@@ -1,4 +1,4 @@
-[gd_scene load_steps=76 format=4 uid="uid://dd88pislcxii"]
+[gd_scene load_steps=75 format=4 uid="uid://dd88pislcxii"]
 
 [ext_resource type="Texture2D" uid="uid://b3acf2mly7iw6" path="res://testures/Platform/FinalAreaPixelArts/Grass_background_1.png" id="1_ctof8"]
 [ext_resource type="Script" uid="uid://d24dba7mpbn43" path="res://script/PlatformGame/last_level_boss.gd" id="1_r52rp"]
@@ -3241,9 +3241,6 @@ size = Vector2(436, 24)
 a = Vector2(-545, 13)
 b = Vector2(-471.171, 107.72)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_danrp"]
-size = Vector2(252, 308)
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_be84h"]
 size = Vector2(1725, 20)
 
@@ -3534,10 +3531,6 @@ position = Vector2(-72, -75)
 skew = -0.10472
 shape = SubResource("SegmentShape2D_8fyo7")
 
-[node name="CollisionShape2D9" type="CollisionShape2D" parent="hitboxes"]
-position = Vector2(1054, -29)
-shape = SubResource("RectangleShape2D_danrp")
-
 [node name="CollisionShape2D10" type="CollisionShape2D" parent="hitboxes"]
 position = Vector2(2041.5, 113)
 shape = SubResource("RectangleShape2D_be84h")
@@ -3620,6 +3613,10 @@ one_way_collision = true
 [node name="CollisionShape2D24" type="CollisionShape2D" parent="hitboxes"]
 position = Vector2(2923.91, -180.5)
 shape = SubResource("RectangleShape2D_22ley")
+
+[node name="CollisionPolygon2D3" type="CollisionPolygon2D" parent="hitboxes"]
+position = Vector2(930.083, -180.611)
+polygon = PackedVector2Array(-2.08264, -0.389313, -2.08264, 317.611, 248.917, 317.611, 248.917, 207.611, 239.917, 189.611, 217.917, 189.611, 217.917, 16.6107, 208.917, -0.389313)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(2654, 83)
