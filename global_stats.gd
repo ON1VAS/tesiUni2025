@@ -1,7 +1,7 @@
 extends Node
 
 # Percorsi file salvataggio
-#var in_intermezzo: bool = false
+var in_intermezzo: bool = false
 var save_file_path = "user://timestamp.save"   # per timestamp (tempo reale)
 const SAVE_PATH := "user://save_data.json"     # per energia
 var recovery_log_path := "user://recovery_log.txt" # per log di recupero energia

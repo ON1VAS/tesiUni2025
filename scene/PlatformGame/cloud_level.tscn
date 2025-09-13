@@ -1,4 +1,4 @@
-[gd_scene load_steps=89 format=4 uid="uid://d3kv4y6lbsnxj"]
+[gd_scene load_steps=90 format=4 uid="uid://d3kv4y6lbsnxj"]
 
 [ext_resource type="Script" uid="uid://bljqwrjvsitdn" path="res://scene/PlatformGame/cloud_level.gd" id="1_6llef"]
 [ext_resource type="Texture2D" uid="uid://csutod4m3svrj" path="res://testures/Platform/CloudBackgrounds/Clouds/Clouds 5/1.png" id="2_krp7c"]
@@ -6151,6 +6151,9 @@ size = Vector2(131, 14)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ykhav"]
 size = Vector2(148, 987)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pedn0"]
+size = Vector2(56.1743, 318.131)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ufuu8"]
 size = Vector2(661.875, 31.125)
 
@@ -6578,6 +6581,10 @@ shape = SubResource("RectangleShape2D_bewdf")
 [node name="CollisionShape2D56" type="CollisionShape2D" parent="hitboxes"]
 position = Vector2(2924, 134.5)
 shape = SubResource("RectangleShape2D_ykhav")
+
+[node name="CollisionShape2D57" type="CollisionShape2D" parent="hitboxes"]
+position = Vector2(2829.09, -395.935)
+shape = SubResource("RectangleShape2D_pedn0")
 
 [node name="Area2D" parent="." instance=ExtResource("8_rja2y")]
 position = Vector2(2973, -787)

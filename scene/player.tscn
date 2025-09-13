@@ -596,9 +596,7 @@ script = ExtResource("1_fvtld")
 texture_filter = 1
 material = SubResource("ShaderMaterial_u7b46")
 sprite_frames = SubResource("SpriteFrames_dk1vr")
-animation = &"attack"
-frame = 3
-frame_progress = 1.0
+animation = &"idle"
 offset = Vector2(4, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
