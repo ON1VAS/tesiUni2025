@@ -8978,6 +8978,7 @@ position = Vector2(-448, 216)
 [node name="Camera2D" type="Camera2D" parent="protagonista"]
 position = Vector2(0, -38)
 zoom = Vector2(1.8, 1.8)
+limit_top = -350
 limit_smoothed = true
 
 [node name="hitboxes" type="StaticBody2D" parent="."]
