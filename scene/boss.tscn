@@ -1,4 +1,4 @@
-[gd_scene load_steps=75 format=3 uid="uid://bbbpaq32ig55f"]
+[gd_scene load_steps=76 format=3 uid="uid://bbbpaq32ig55f"]
 
 [ext_resource type="Script" uid="uid://cwq26myvkrpnd" path="res://script/boss.gd" id="1_ot3je"]
 [ext_resource type="Texture2D" uid="uid://ccra3kfey2pbi" path="res://testures/Undead executioner puppet/png/attacking.png" id="2_tcgrh"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://bghd1mpj3r5fi" path="res://testures/Undead executioner puppet/png/idle2.png" id="5_27m4v"]
 [ext_resource type="Texture2D" uid="uid://dvflwo26eesp6" path="res://testures/Undead executioner puppet/png/skill1.png" id="6_b5yaj"]
 [ext_resource type="Texture2D" uid="uid://u3kgcg0v5git" path="res://testures/Undead executioner puppet/png/summon.png" id="6_tcgrh"]
+[ext_resource type="AudioStream" uid="uid://ba0ix0x3ufpgv" path="res://music/sfx/sfx23-dimensionalbreak2-338376.mp3" id="8_gtfqc"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ar14e"]
 atlas = ExtResource("2_tcgrh")
@@ -551,6 +552,7 @@ step = 1.0
 show_percentage = false
 
 [node name="BossDeath" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("8_gtfqc")
 bus = &"SFX"
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animation_finished"]
