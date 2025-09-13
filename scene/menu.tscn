@@ -65,12 +65,12 @@ size_flags_vertical = 8
 [node name="Platform" type="Button" parent="MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
-text = "ProvaAlessio"
+text = "Platform"
 
 [node name="Survivor" type="Button" parent="MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
-text = "Prova Savino"
+text = "Game & Wait"
 
 [node name="Opzioni" type="Button" parent="MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 30)
