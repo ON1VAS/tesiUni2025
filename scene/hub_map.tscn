@@ -6427,7 +6427,6 @@ debug_color = Color(0.688775, 0.497531, 0.0883892, 0.42)
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="RewardNotifier" parent="CanvasLayer" instance=ExtResource("23_wsx1d")]
-visible = false
 
 [node name="BackgroundOverlay" type="ColorRect" parent="CanvasLayer"]
 visible = false

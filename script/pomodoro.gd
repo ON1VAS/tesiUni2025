@@ -18,7 +18,7 @@ func _ready():
 	shader_material.shader = shader
 	player_an_sp.material = null #di default è spenta, dovrebbe almeno
 	GlobalStats.is_sleeping = false
-	
+	GlobalStats.in_menu = false
 	#attiva bonus oggetti
 	player.apply_temp_bonus()
 	#setup timer
