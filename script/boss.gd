@@ -21,6 +21,7 @@ var FireOrbScene = preload("res://scene/dark_orb.tscn")
 @onready var attack_timer: Timer = $AttackTimer
 @onready var teleport_timer: Timer = $TeleportTimer
 @onready var healthbar: ProgressBar = $HealthBar
+@onready var audiodeath: AudioStreamPlayer2D = $BossDeath
 var damage = 10 * DebuffManager.enemy_damage_multiplier()
 var is_dead = false
 var can_move = true
@@ -175,6 +176,7 @@ func take_damage(amount: int):
 		set_collision_layer_value(1, false)
 		attack_timer.stop()
 		teleport_timer.stop()
+		audiodeath.play()
 		anim.play("death")
 		set_physics_process(false)
 		await anim.animation_finished

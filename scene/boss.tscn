@@ -550,6 +550,9 @@ max_value = 250.0
 step = 1.0
 show_percentage = false
 
+[node name="BossDeath" type="AudioStreamPlayer2D" parent="."]
+bus = &"SFX"
+
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animation_finished"]
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_hurtbox_area_entered"]
 [connection signal="body_entered" from="ScytheHitbox1" to="." method="_on_scythe_hitbox_1_body_entered"]
