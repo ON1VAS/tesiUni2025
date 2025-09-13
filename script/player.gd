@@ -229,6 +229,9 @@ func _on_animated_sprite_2d_animation_finished() -> void:
 		# attesa 5 secondi e cambio scena al menu, accendo il layout quando perde il giocatore
 			if death_overlay and LevelFlow.current_mode != LevelFlow.Mode.SURVIVOR_MODE:
 				death_overlay.show_countdown(5)
+			
+			DebuffManager.clear_all()
+			DebuffManager.set_platform_mode(false) # spegne anche effetti runtime (vignetta ecc.)
 			await get_tree().create_timer(5.0).timeout
 			get_tree().change_scene_to_file("res://scene/menu.tscn")
 	# pulizie comuni
