@@ -84,14 +84,14 @@ func use_item(item_name: String, player: Node):
 	var item = entry["item"]
 
 	if not entry["active"]:
+		#Mette il bonus “in coda” per la prossima run:
 		BonusManager.add_bonus(item.bonus_key, item.bonus_value)
-		player.apply_temp_bonus()
 		entry["quantity"] -= 1
 		entry["active"] = true
 
 		if entry["quantity"] <= 0:
 			items.erase(item_name)
-	salva_inventario()
+		salva_inventario()
 
 #assegna i reward
 func assegna_reward(minuti: int):

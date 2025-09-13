@@ -30,6 +30,7 @@ var molla = preload("res://items/molla.tres")
 var regen_potion = preload("res://items/regen_potion.tres")
 
 func _ready():
+	#GlobalStats.in_intermezzo = false
 	var shader = preload("res://scene/player.gdshader")
 	shader_material.shader = shader
 	player_an_sp.material = null #di default è spenta
@@ -46,9 +47,9 @@ func _ready():
 	timer_selector.visible = false
 	background_overlay.visible = false
 	tempo_rimanente.visible = false
-	BonusManager.clear()
-	InventoryManager.reset_used_items()
-	player.reset_temp_bonus()
+	#BonusManager.clear()
+	#InventoryManager.reset_used_items()
+	#player.reset_temp_bonus()
 	player.hide_health_bar()
 	if GlobalStats.im_back:
 		tempo_rimanente.calcola_tempo()
@@ -168,7 +169,8 @@ func _input(event):
 		inventoryUI._on_close_pressed()
 	
 	#debug per vedere gli oggetti
-	#if event.is_action_pressed("give_items"):
+	if event.is_action_pressed("give_items"):
+		GlobalStats.tempo_cooldown = 5
 		#InventoryManager.add_item(mela)
 		#InventoryManager.add_item(piuma)
 		#InventoryManager.add_item(carne)

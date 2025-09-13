@@ -99,7 +99,6 @@ func _on_activation_enter(body: Node2D, enemy: Node, area: Area2D) -> void:
 	if one_shot_triggers:
 		area.set_deferred("monitoring", false)
 
-# ----------------- Tuo codice esistente -----------------
 
 func load_dialogues():
 	var file = FileAccess.open("res://dialogue/dialogues.json", FileAccess.READ)
@@ -171,6 +170,6 @@ func scene_change():
 	await TransitionScreen.on_transition_finished
 	get_tree().change_scene_to_file("res://scene/hub_map.tscn")
 
-# ---------- MODIFICA RICHIESTA: NIENTE RIMANDO ALL’HUB SE MUORI ----------
+
 func _on_protagonista_player_defeated() -> void:
 	pass

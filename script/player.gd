@@ -268,9 +268,9 @@ func show_health_bar():
 
 #nel caso siano valori numerici li cambia, nel caso sia booleani li rende true
 func apply_temp_bonus():
-	if GlobalStats.in_intermezzo:
-		print("apply_temp_bonus: intermezzo attivo, non applico")
-		return
+	#if GlobalStats.in_intermezzo:
+		#print("apply_temp_bonus: intermezzo attivo, non applico")
+		#return
 	for key in BonusManager.active_bonus:
 		if not base_stats.has(key):
 			continue  # ignora bonus non riconosciuti

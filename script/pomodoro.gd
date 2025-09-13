@@ -13,13 +13,15 @@ var time_left: float
 signal timerfinito
 
 func _ready():
+	#GlobalStats.in_intermezzo = false
 	#disattiva la shader luminosa attorno al player
 	var shader = preload("res://scene/player.gdshader")
 	shader_material.shader = shader
 	player_an_sp.material = null #di default è spenta, dovrebbe almeno
 	GlobalStats.is_sleeping = false
 	GlobalStats.in_menu = false
-	#attiva bonus oggetti
+	
+	await get_tree().process_frame
 	player.apply_temp_bonus()
 	#setup timer
 	time_left = GlobalStats.secondi_totali
@@ -69,6 +71,7 @@ func _on_timerfinito():
 	#toglie i bonus
 	player.reset_temp_bonus()
 	BonusManager.clear()
+	InventoryManager.reset_used_items()
 	scene_change("res://scene/hub_map.tscn")
 
 
@@ -77,6 +80,7 @@ func _on_protagonista_player_defeated():
 	#toglie i bonus
 	player.reset_temp_bonus()
 	BonusManager.clear()
+	InventoryManager.reset_used_items()
 	player.hide_health_bar()
 	var timer = Timer.new()
 	timer.wait_time = 2.0
