@@ -17,7 +17,6 @@ var shader_material = ShaderMaterial.new()
 func _ready() -> void:
 	# piattaforma on + debuff
 	DebuffManager.set_platform_mode(true)
-	DebuffManager.add_debuff("NO_JUMP")
 	DebuffManager.apply_to_player(player)
 	var shader = preload("res://scene/player.gdshader")
 	shader_material.shader = shader
