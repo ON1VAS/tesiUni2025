@@ -70,14 +70,7 @@ void fragment() {
 
 	_recalc_scene_and_refresh()
 
-	if LOG:
-		var cs := get_tree().current_scene
-		var scene_name := "null"
-		var in_group := false
-		if cs != null:
-			scene_name = cs.name
-			in_group = cs.is_in_group("PLATFORM_CAMPAIGN")
-		print("[VignetteOverlay] ready  size=", rect.size, "  scene=", scene_name, "  in_group=", in_group)
+
 
 
 func _on_viewport_resized() -> void:
@@ -97,7 +90,3 @@ func _recalc_scene_and_refresh() -> void:
 func _refresh_visibility() -> void:
 	var show := DebuffManager.platform_mode and DebuffManager.is_vignette_active()
 	rect.visible = show
-	if LOG:
-		print("[VignetteOverlay] refresh  visible=", rect.visible,
-			  "  platform_mode=", DebuffManager.platform_mode,
-			  "  debuff=", DebuffManager.is_vignette_active())
