@@ -11,6 +11,10 @@ extends CharacterBody2D
 @export var aim_rotates_sprite: bool = true
 @export var sprite_forward_angle: float = +PI / 2  # se lo sprite "punta" verso l’alto, usa -PI/2
 
+@export var damage_enable_frame: int = 3  # 0-based: 3 = 4º frame
+@onready var hitbox_shape: CollisionShape2D = $HitboxArea/CollisionShape2D
+
+
 # Snap dinamico al pavimento (solo per variation 1)
 @export var floor_mask: int = 1            # usa direttamente la MASK (per layer 1 è 1, per layer 2 è 2, ecc.)
 @export var floor_snap_from_above: float = 200
@@ -163,7 +167,11 @@ func _ready() -> void:
 			if names.size() > 0:
 				anim_to_play = names[0]
 		animated_sprite.play(anim_to_play)
-
+		animated_sprite.frame_changed.connect(_on_animated_sprite_changed)  # <— unico hook
+	
+	# Serve per non attivare subito le hitbox 
+	if variation == 1 and is_instance_valid(hitbox_shape):
+		hitbox_shape.disabled = true
 	# Variation 1: snap al terreno dinamico (sostituisce il vecchio ground_level)
 	if variation == 1 or pending_floor_snap:
 		_snap_to_floor_under_self()
@@ -210,3 +218,13 @@ func _on_hitbox_area_body_entered(body: Node2D) -> void:
 		if despawn_timer and not despawn_timer.is_stopped():
 			despawn_timer.stop()
 		_on_despawn_timer_timeout()
+
+
+func _on_animated_sprite_changed() -> void:
+	if variation != 1:
+		return
+	if not is_instance_valid(animated_sprite) or not is_instance_valid(hitbox_shape):
+		return
+	# appena raggiunge/oltrepassa il frame target, riabilita la hitbox
+	if hitbox_shape.disabled and animated_sprite.frame >= damage_enable_frame:
+		hitbox_shape.disabled = false

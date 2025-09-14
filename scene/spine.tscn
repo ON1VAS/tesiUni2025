@@ -53,10 +53,10 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_n0j6n")
 }, {
-"duration": 1.0,
+"duration": 1.5,
 "texture": SubResource("AtlasTexture_3r403")
 }, {
-"duration": 1.0,
+"duration": 2.0,
 "texture": SubResource("AtlasTexture_l4bqs")
 }, {
 "duration": 1.0,
@@ -99,7 +99,9 @@ script = ExtResource("1_bw132")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_63fx4")
-animation = &"attaccoaereo"
+animation = &"attack"
+frame = 9
+frame_progress = 1.0
 
 [node name="HitboxArea" type="Area2D" parent="."]
 
@@ -115,5 +117,6 @@ one_shot = true
 position = Vector2(1, 3)
 shape = SubResource("RectangleShape2D_yp6j5")
 
+[connection signal="animation_changed" from="AnimatedSprite2D" to="." method="_on_animated_sprite_changed"]
 [connection signal="body_entered" from="HitboxArea" to="." method="_on_hitbox_area_body_entered"]
 [connection signal="timeout" from="DespawnTimer" to="." method="_on_despawn_timer_timeout"]
