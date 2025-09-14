@@ -215,7 +215,7 @@ func _on_animated_sprite_2d_animation_finished() -> void:
 			
 			# 3) ricarica la vita (o quello che preferisci per le killbox)
 			if health <= 0:
-				health = max(1, int(currentMaxHealth * 0.5))  # mezza vita SOLO per killbox
+				health =- 20  # spawni 
 			SetHealthBar()
 			$AnimatedSprite2D.play("idle")
 			velocity = Vector2.ZERO
