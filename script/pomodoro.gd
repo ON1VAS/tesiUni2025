@@ -36,7 +36,8 @@ func _on_timer_timeout():
 	time_left -= 1
 	#regen vita data da regen potion
 	if player.regen and player.health < player.MAX_HEALTH:
-		player.health += 1
+		player.health += 2
+		player.SetHealthBar()
 		print("vita: ", player.health)
 	if time_left <= 0:
 		timer.stop()

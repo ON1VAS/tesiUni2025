@@ -6,7 +6,7 @@
 [resource]
 script = ExtResource("1_axtlo")
 name = "pozione di rigenerazione"
-description = "regen di 1hp al secondo"
+description = "Rigenerazione di 2 hp al secondo"
 icon = ExtResource("1_474sn")
 bonus_key = "regen"
 bonus_value = 1
