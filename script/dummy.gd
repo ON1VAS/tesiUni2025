@@ -25,7 +25,7 @@ func take_damage(amount: int):
 
 func show_damage_text(amount: int):
 	var label := Label.new()
-	label.text = "Dummy: %d danni persi" % amount
+	label.text = "%d danni" % amount
 	label.modulate = Color.RED
 	label.add_theme_font_size_override("font_size", 16)
 	get_tree().current_scene.add_child(label)
