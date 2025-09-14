@@ -244,9 +244,9 @@ func _end_jump_with_impact():
 	velocity = Vector2.ZERO
 
 func take_damage(amount: int):
-	effects.play("hurt_animation")
 	if is_dead:
 		return
+	effects.play("hurt_animation")
 	hp -= amount
 	
 	if hp > 0:
@@ -256,6 +256,7 @@ func take_damage(amount: int):
 		set_collision_layer_value(1, false)
 		audiodeath.play()
 		anim.play("death")
+		is_dead = true
 		set_physics_process(false)
 		await anim.animation_finished
 		await audiodeath.finished
