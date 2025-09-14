@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://dfd1p0qa8l632" path="res://script/VignetteOverlay.gd" id="1_kopod"]
 
 [node name="CanvasLayer" type="CanvasLayer"]
-layer = 100
+layer = 50
 script = ExtResource("1_kopod")
 
 [node name="Vignette" type="ColorRect" parent="."]
