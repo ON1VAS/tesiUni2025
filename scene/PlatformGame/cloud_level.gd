@@ -18,6 +18,7 @@ func _ready() -> void:
 	# piattaforma on + debuff
 	DebuffManager.set_platform_mode(true)
 	DebuffManager.apply_to_player(player)
+	
 	var shader = preload("res://scene/player.gdshader")
 	shader_material.shader = shader
 	player_an_sp.material = null #di default è spenta
