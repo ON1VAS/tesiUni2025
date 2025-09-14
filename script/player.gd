@@ -9,6 +9,8 @@ extends CharacterBody2D
 var pending_respawn_pos: Vector2 = Vector2.INF
 var is_dying: bool = false  # guardia per evitare retrigger
 var killbox_death := false # per risolvere bug della killzone
+var saved_health_before_killbox: int = -1
+@export var killbox_hp_penalty: int = 20  # quanti HP togli al respawn da killbox
 
 const GRAVITY = 400.0
 const JUMP_FORCE = -244
@@ -179,10 +181,14 @@ func SetHealthBar(): #imposto barretta vita
 func Damage (dam): #la vita diminuisce di un certo dam
 	if is_invincible:
 		return
+	# se il personaggio cade in killbox, salva in temporanea la vita
+	if killbox_death and saved_health_before_killbox < 0 and (health - dam) <= 0:
+		saved_health_before_killbox = health
 	health-= dam #fa diminuire la vita in base a quanto danno prendi
 	SetHealthBar() #aggiorna la healthbar in "tempo reale"
 	if health <= 0: #pe capire se funziona, qua po se deve fa la roba dell acrepaggine
 		die()
+	
 
 
 func die():
@@ -209,36 +215,58 @@ func _on_animated_sprite_2d_animation_finished() -> void:
 		$AnimatedSprite2D.play("idle")
 	elif $AnimatedSprite2D.animation == "death":
 		if killbox_death and pending_respawn_pos != Vector2.INF:
-			global_position = pending_respawn_pos
-			pending_respawn_pos = Vector2.INF
-			killbox_death = false
-			
-			# 3) ricarica la vita (o quello che preferisci per le killbox)
-			if health <= 0:
-				health =- 20  # spawni 
-			SetHealthBar()
-			$AnimatedSprite2D.play("idle")
-			velocity = Vector2.ZERO
-			is_invincible = false
-			is_rolling = false
-			jumps_done = 0
-			is_dying = false
+			var base_hp = saved_health_before_killbox
+			if base_hp < 0:
+				base_hp = currentMaxHealth
+
+			# Se non hai abbastanza HP per sopravvivere al penalty -> morte normale
+			if base_hp <= killbox_hp_penalty:
+				# comportati come morte generica
+				pending_respawn_pos = Vector2.INF
+				killbox_death = false
+				saved_health_before_killbox = -1
+
+				if death_overlay and LevelFlow.current_mode != LevelFlow.Mode.SURVIVOR_MODE:
+					death_overlay.show_countdown(5)
+				DebuffManager.clear_all()
+				DebuffManager.set_platform_mode(false)
+				await get_tree().create_timer(5.0).timeout
+				get_tree().change_scene_to_file("res://scene/menu.tscn")
+			else:
+				# --- Respawn killbox con penalty ---
+				global_position = pending_respawn_pos
+				pending_respawn_pos = Vector2.INF
+				killbox_death = false
+
+				var new_hp = base_hp - killbox_hp_penalty
+				health = clamp(new_hp, 1, currentMaxHealth)
+				saved_health_before_killbox = -1
+				SetHealthBar()
+
+				$AnimatedSprite2D.play("idle")
+				velocity = Vector2.ZERO
+				is_invincible = false
+				is_rolling = false
+				jumps_done = 0
+				is_dying = false
 		else:
+			# --- Morte generica ---
 			pending_respawn_pos = Vector2.INF
 			killbox_death = false
-		# attesa 5 secondi e cambio scena al menu, accendo il layout quando perde il giocatore
+			saved_health_before_killbox = -1
+
 			if death_overlay and LevelFlow.current_mode != LevelFlow.Mode.SURVIVOR_MODE:
 				death_overlay.show_countdown(5)
-			
 			DebuffManager.clear_all()
-			DebuffManager.set_platform_mode(false) # spegne anche effetti runtime (vignetta ecc.)
+			DebuffManager.set_platform_mode(false)
 			await get_tree().create_timer(5.0).timeout
 			get_tree().change_scene_to_file("res://scene/menu.tscn")
-	# pulizie comuni
-		pending_respawn_pos = Vector2.INF
-		killbox_death = false
+
+		# pulizie comuni
 		set_physics_process(true)
 		set_process(true)
+
+
 
 
 func _on_hitbox_timer_timeout() -> void:
