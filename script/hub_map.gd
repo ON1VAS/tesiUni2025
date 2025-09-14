@@ -29,6 +29,8 @@ var carne = preload("res://items/cosciotta_carne.tres")
 var molla = preload("res://items/molla.tres")
 var regen_potion = preload("res://items/regen_potion.tres")
 
+var maxshow = 0
+
 func _ready():
 	#GlobalStats.in_intermezzo = false
 	var shader = preload("res://scene/player.gdshader")
@@ -41,7 +43,7 @@ func _ready():
 	npcEleonore.connect("body_exited", _on_npc_body_exited.bind("npc_Eleonore"))
 	startGame.connect("body_entered", _on_start_game_area_entered)
 	startGame.connect("body_exited", _on_start_game_area_exited)
-	
+	maxshow = 0
 	#carica dialoghi
 	load_dialogues()
 	timer_selector.visible = false
@@ -171,11 +173,11 @@ func _input(event):
 	#debug per vedere gli oggetti
 	if event.is_action_pressed("give_items"):
 		GlobalStats.tempo_cooldown = 5
-		#InventoryManager.add_item(mela)
-		#InventoryManager.add_item(piuma)
-		#InventoryManager.add_item(carne)
-		#InventoryManager.add_item(molla)
-		#InventoryManager.add_item(regen_potion)
+		InventoryManager.add_item(mela)
+		InventoryManager.add_item(piuma)
+		InventoryManager.add_item(carne)
+		InventoryManager.add_item(molla)
+		InventoryManager.add_item(regen_potion)
 		
 	if can_start_dialogue and player_in_range and event.is_action_pressed("ui_accept"):
 		_start_dialogue()
@@ -314,6 +316,16 @@ func _on_tempo_rimanente_annulla_tempo_rimanente() -> void:
 	
 
 func mostra_reward_post_gioco():
+	
+	
 	for item in InventoryManager.pending_rewards:
-		RewardNotifier.show_reward("     Hai ottenuto: %s" % item.name, null)
+		if maxshow <= 4:
+			maxshow +=1
+			RewardNotifier.show_reward("Hai ottenuto: %s" % item.name, null)
+		
+		else:
+			
+			return
+		if maxshow > 5:
+			RewardNotifier.show_reward("e altri premi", null)
 	InventoryManager.pending_rewards.clear()

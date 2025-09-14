@@ -97,7 +97,7 @@ func carica_dati():
 		var content = file.get_as_text()
 		file.close()
 		var data = JSON.parse_string(content)
-		if data and data.has("tempo_cooldown"):
+		if data and data.has("tempo_cooldown"): #gestisce timer
 			tempo_cooldown = data["tempo_cooldown"]
 			print("Tempo cooldown caricato:", tempo_cooldown)
 			if tempo_cooldown > 0:
