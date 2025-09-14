@@ -56,7 +56,8 @@ func format_time(seconds:float) -> String:
 
 func scene_change(Scena: String):
 	#assegna ricompense prima del cambio scena
-	var minuti_giocati = int(GlobalStats.secondi_totali / 60)
+	var minuti_giocati = int((GlobalStats.secondi_totali - (GlobalStats.tempo_cooldown / 3))/60) + 1
+	print("minuti giocati: ", minuti_giocati)
 	if minuti_giocati > 0:
 		InventoryManager.assegna_reward(1 + minuti_giocati)
 	

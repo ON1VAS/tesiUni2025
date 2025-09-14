@@ -130,9 +130,7 @@ func _handle_charge_state(delta: float):
 	# Movimento durante la carica
 	velocity.x = attack_direction.x * movement_speed * charge_speed_multiplier
 	
-	print("→ Charge dir:", attack_direction.x, 
-	  " ray_front:", ray_front.get_collider(), 
-	  " is_on_wall:", is_on_wall())
+	
 	# Controllo collisioni
 	if ray_front.is_colliding() :
 		var collider = ray_front.get_collider()
@@ -204,7 +202,6 @@ func _die():
 	set_physics_process(false)
 	await anim.animation_finished
 	if death_sig_emitted == 0:
-			print("ape: so morto")
 			dead.emit()
 			death_sig_emitted += 1
 	queue_free()
