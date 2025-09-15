@@ -18,7 +18,7 @@
 [ext_resource type="Texture2D" uid="uid://djp12utixdqct" path="res://testures/Enemy_Galore_I/Slime/Slime_Spiked_Ability.png" id="13_5g16k"]
 [ext_resource type="Texture2D" uid="uid://j3pjf38vcse3" path="res://testures/Platform/FinalAreaPixelArts/Tiles.png" id="15_ww6yf"]
 [ext_resource type="Texture2D" uid="uid://bqcirtba7bm2p" path="res://testures/Legacy-Fantasy - High Forest 2.3/Assets/Tiles.png" id="18_1it6f"]
-[ext_resource type="AudioStream" uid="uid://d2x11kngx2u54" path="res://music/forest_fantasy.mp3" id="19_abp7u"]
+[ext_resource type="AudioStream" uid="uid://db0ck2d2m5sdh" path="res://music/forest_fantasy.mp3" id="19_abp7u"]
 [ext_resource type="Texture2D" uid="uid://cdsx6tu5otur" path="res://testures/Legacy-Fantasy - High Forest 2.3/Assets/Tree-Assets.png" id="19_pp3pk"]
 [ext_resource type="Texture2D" uid="uid://kdoujkbui58j" path="res://testures/Platform/Tiles/Assets/Assets.png" id="20_b8t8i"]
 [ext_resource type="PackedScene" uid="uid://dybv8bvuue87v" path="res://script/PlatformGame/LevelEndPortal.tscn" id="21_355h4"]
@@ -7803,7 +7803,6 @@ limit_smoothed = true
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="protagonista"]
 stream = ExtResource("19_abp7u")
-volume_db = -10.0
 autoplay = true
 bus = &"Musica"
 
