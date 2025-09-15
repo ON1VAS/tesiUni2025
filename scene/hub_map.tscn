@@ -6476,7 +6476,7 @@ vertical_alignment = 1
 [node name="AreaLog" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AreaLog"]
-position = Vector2(406, 468.5)
+position = Vector2(411, 465)
 shape = SubResource("RectangleShape2D_4hjmu")
 debug_color = Color(0.388235, 0.101961, 0.517647, 0.419608)
 
@@ -6486,6 +6486,29 @@ debug_color = Color(0.388235, 0.101961, 0.517647, 0.419608)
 position = Vector2(-6, 429)
 shape = SubResource("RectangleShape2D_t2rro")
 debug_color = Color(0.639739, 0.356704, 0.965752, 0.42)
+
+[node name="TimerSpiegazione" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
+[node name="LabelSpiegazione" type="Label" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 92.0
+offset_top = 330.0
+offset_right = 669.0
+offset_bottom = 403.0
+grow_horizontal = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 9
+theme_override_font_sizes/font_size = 15
+text = "-Riposa ai tavoli per giocare!
+-Controlla i tuoi riposi precedenti dai libri al centro della stanza
+-Esci a sinistra per tornare al menu
+-Premi tab per aprire l'inventario"
+horizontal_alignment = 1
+metadata/_edit_use_anchors_ = true
 
 [connection signal="body_entered" from="areaRiposo" to="." method="_on_area_riposo_body_entered"]
 [connection signal="body_exited" from="areaRiposo" to="." method="_on_area_riposo_body_exited"]
@@ -6497,3 +6520,4 @@ debug_color = Color(0.639739, 0.356704, 0.965752, 0.42)
 [connection signal="body_exited" from="AreaLog" to="." method="_on_area_log_body_exited"]
 [connection signal="body_entered" from="AreaTornaMenu" to="." method="_on_area_torna_menu_body_entered"]
 [connection signal="body_exited" from="AreaTornaMenu" to="." method="_on_area_torna_menu_body_exited"]
+[connection signal="timeout" from="TimerSpiegazione" to="." method="_on_spiegazione_timer_timeout"]

@@ -12,6 +12,8 @@ extends Node2D
 @onready var log_viewer = $CanvasLayer/LogViewer
 @onready var inventoryUI = $CanvasLayer/InventoryUI
 @onready var RewardNotifier = $CanvasLayer/RewardNotifier
+@onready var LabelSpiegazione = $LabelSpiegazione
+@onready var TimerSpiegazione = $TimerSpiegazione
 var player_in_range = false
 var can_start_dialogue = true  # Nuovo flag per controllare la possibilità di iniziare dialogo
 var dialogues = {}
@@ -58,6 +60,9 @@ func _ready():
 		GlobalStats.im_back = false
 	#mostra i reward nel caso ce ne siano
 	mostra_reward_post_gioco()
+	
+	LabelSpiegazione.visible = true
+	TimerSpiegazione.start()
 	
 	if GlobalStats.is_sleeping:
 		tempo_rimanente.scale = Vector2(2, 2)
@@ -329,3 +334,7 @@ func mostra_reward_post_gioco():
 		if maxshow > 5:
 			RewardNotifier.show_reward("e altri premi", null)
 	InventoryManager.pending_rewards.clear()
+
+
+func _on_spiegazione_timer_timeout():
+	LabelSpiegazione.visible = false

@@ -26,7 +26,7 @@ func mostra_tutti_i_log():
 		log_text.scroll_to_line((log_text.get_line_count() - 1))
 
 	else:
-		log_text.append_text("📂 Nessun log trovato.")
+		log_text.append_text("Nessun log trovato.")
 
 func torna_al_menu():
 	annulla_log.emit()
