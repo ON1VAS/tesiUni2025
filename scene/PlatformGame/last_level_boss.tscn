@@ -1,4 +1,4 @@
-[gd_scene load_steps=77 format=4 uid="uid://dd88pislcxii"]
+[gd_scene load_steps=78 format=4 uid="uid://dd88pislcxii"]
 
 [ext_resource type="Texture2D" uid="uid://b3acf2mly7iw6" path="res://testures/Platform/FinalAreaPixelArts/Grass_background_1.png" id="1_ctof8"]
 [ext_resource type="Script" uid="uid://d24dba7mpbn43" path="res://script/PlatformGame/last_level_boss.gd" id="1_r52rp"]
@@ -15,6 +15,7 @@
 [ext_resource type="Texture2D" uid="uid://d1vbsbf5c7r6y" path="res://testures/gh-platform/Other Tiles2.png" id="12_ig2q2"]
 [ext_resource type="Script" uid="uid://dewdh6t2mwsg1" path="res://script/PlatformGame/boss_hud.gd" id="14_ig2q2"]
 [ext_resource type="PackedScene" uid="uid://bbbpaq32ig55f" path="res://scene/boss.tscn" id="14_t610n"]
+[ext_resource type="AudioStream" uid="uid://b5iqh5yjknkoq" path="res://music/BossBattle.ogg" id="15_danrp"]
 [ext_resource type="Texture2D" uid="uid://bsevtcyq1h3y1" path="res://testures/Platform/idle sheet-Sheet.png" id="16_8fyo7"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_fo1gq"]
@@ -3642,6 +3643,12 @@ position = Vector2(0, -38)
 zoom = Vector2(1.8, 1.8)
 limit_right = 3901
 limit_smoothed = true
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="protagonista"]
+stream = ExtResource("15_danrp")
+volume_db = -5.778
+autoplay = true
+bus = &"Musica"
 
 [node name="Boss" parent="." instance=ExtResource("14_t610n")]
 position = Vector2(1610, -93)

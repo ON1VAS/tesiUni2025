@@ -1,4 +1,4 @@
-[gd_scene load_steps=93 format=4 uid="uid://d3kv4y6lbsnxj"]
+[gd_scene load_steps=94 format=4 uid="uid://d3kv4y6lbsnxj"]
 
 [ext_resource type="Script" uid="uid://bljqwrjvsitdn" path="res://scene/PlatformGame/cloud_level.gd" id="1_6llef"]
 [ext_resource type="Texture2D" uid="uid://csutod4m3svrj" path="res://testures/Platform/CloudBackgrounds/Clouds/Clouds 5/1.png" id="2_krp7c"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://kdoujkbui58j" path="res://testures/Platform/Tiles/Assets/Assets.png" id="6_if16e"]
 [ext_resource type="Texture2D" uid="uid://bvuxusn2vhpx7" path="res://testures/Platform/Tiles/Social/Assets.png" id="7_rja2y"]
 [ext_resource type="PackedScene" uid="uid://dybv8bvuue87v" path="res://script/PlatformGame/LevelEndPortal.tscn" id="8_rja2y"]
+[ext_resource type="AudioStream" uid="uid://dw6tjb8vk2qey" path="res://music/cloud_fantasy.mp3" id="9_wvs1l"]
 [ext_resource type="Script" uid="uid://cus5fgmqw84e8" path="res://scene/Killbox.gd" id="10_fdjgo"]
 [ext_resource type="Script" uid="uid://b0j3qw2sx74c1" path="res://script/PlatformGame/hazard_do_t.gd" id="11_g22s5"]
 [ext_resource type="PackedScene" uid="uid://d2n7yyyc73rwo" path="res://scene/chinghiale.tscn" id="12_ufuu8"]
@@ -6232,6 +6233,12 @@ position = Vector2(0, -38)
 zoom = Vector2(1.8, 1.8)
 limit_bottom = 285
 limit_smoothed = true
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="protagonista"]
+stream = ExtResource("9_wvs1l")
+volume_db = -15.0
+autoplay = true
+bus = &"Musica"
 
 [node name="hitboxes" type="StaticBody2D" parent="."]
 light_mask = 129

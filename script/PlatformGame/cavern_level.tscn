@@ -1,4 +1,4 @@
-[gd_scene load_steps=60 format=4 uid="uid://b2i5uslgbudfg"]
+[gd_scene load_steps=61 format=4 uid="uid://b2i5uslgbudfg"]
 
 [ext_resource type="Script" uid="uid://dmymx22h2u50l" path="res://script/PlatformGame/cavern_level.gd" id="1_7vmgf"]
 [ext_resource type="Texture2D" uid="uid://bwmekpdefyteg" path="res://testures/Platform/Cave Tileset/_Complete_static_BG_(288 x 208).png" id="1_xg6fw"]
@@ -17,6 +17,7 @@
 [ext_resource type="PackedScene" uid="uid://bthh718uavc0f" path="res://scene/golem.tscn" id="14_4781p"]
 [ext_resource type="PackedScene" uid="uid://dk3ogbro6havf" path="res://scene/golem_pietra.tscn" id="15_5b80h"]
 [ext_resource type="PackedScene" uid="uid://dvtsyd4yk0nba" path="res://scene/ape.tscn" id="16_yy58x"]
+[ext_resource type="AudioStream" uid="uid://bvpctd256vfhg" path="res://music/cavern_fantasy.mp3" id="18_5b80h"]
 
 [sub_resource type="Gradient" id="Gradient_1wsuo"]
 offsets = PackedFloat32Array(0)
@@ -2124,6 +2125,12 @@ position = Vector2(1, -89)
 position = Vector2(0, -38)
 zoom = Vector2(1.8, 1.8)
 limit_smoothed = true
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="protagonista"]
+stream = ExtResource("18_5b80h")
+volume_db = -15.0
+autoplay = true
+bus = &"Musica"
 
 [node name="Sprite2D2" type="Sprite2D" parent="."]
 position = Vector2(808.5, 40)

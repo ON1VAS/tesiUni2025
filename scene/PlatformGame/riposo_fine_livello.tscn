@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=4 uid="uid://dtis60sf33m70"]
+[gd_scene load_steps=26 format=4 uid="uid://dtis60sf33m70"]
 
 [ext_resource type="Texture2D" uid="uid://jxosx0rfkavg" path="res://testures/Platform/Falo/Bonfire_1.png" id="1_qaxeu"]
 [ext_resource type="Script" uid="uid://chms7jg60oesy" path="res://scene/PlatformGame/riposo_fine_livello.gd" id="1_vp8rb"]
@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://ceespetvsurf5" path="res://testures/Platform/Cave Tileset/Gray_Tile_Terrain (16 x 16).png" id="6_5s1m8"]
 [ext_resource type="PackedScene" uid="uid://b5b4vmci7f6h5" path="res://scene/inventory_ui.tscn" id="9_d1o0m"]
 [ext_resource type="PackedScene" uid="uid://cm1ru7bxfj1s0" path="res://scene/player.tscn" id="10_33s0a"]
+[ext_resource type="AudioStream" uid="uid://bwavslavqc12j" path="res://music/Sanctuary.wav" id="11_5s1m8"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_upsad"]
 animations = [{
@@ -330,6 +331,12 @@ scale = Vector2(0.5, 0.5)
 
 [node name="protagonista" parent="." instance=ExtResource("10_33s0a")]
 position = Vector2(723, -65)
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("11_5s1m8")
+volume_db = -8.254
+autoplay = true
+bus = &"Musica"
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Continua" to="." method="_on_continua_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Riposa" to="." method="_on_riposa_pressed"]

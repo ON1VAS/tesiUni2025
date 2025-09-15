@@ -1,4 +1,4 @@
-[gd_scene load_steps=91 format=4 uid="uid://bfb3n5ulrxtxq"]
+[gd_scene load_steps=92 format=4 uid="uid://bfb3n5ulrxtxq"]
 
 [ext_resource type="PackedScene" uid="uid://cm1ru7bxfj1s0" path="res://scene/player.tscn" id="1_5kiuu"]
 [ext_resource type="Script" uid="uid://p03x4ile571r" path="res://script/game.gd" id="1_81276"]
@@ -18,6 +18,7 @@
 [ext_resource type="Texture2D" uid="uid://djp12utixdqct" path="res://testures/Enemy_Galore_I/Slime/Slime_Spiked_Ability.png" id="13_5g16k"]
 [ext_resource type="Texture2D" uid="uid://j3pjf38vcse3" path="res://testures/Platform/FinalAreaPixelArts/Tiles.png" id="15_ww6yf"]
 [ext_resource type="Texture2D" uid="uid://bqcirtba7bm2p" path="res://testures/Legacy-Fantasy - High Forest 2.3/Assets/Tiles.png" id="18_1it6f"]
+[ext_resource type="AudioStream" uid="uid://d2x11kngx2u54" path="res://music/forest_fantasy.mp3" id="19_abp7u"]
 [ext_resource type="Texture2D" uid="uid://cdsx6tu5otur" path="res://testures/Legacy-Fantasy - High Forest 2.3/Assets/Tree-Assets.png" id="19_pp3pk"]
 [ext_resource type="Texture2D" uid="uid://kdoujkbui58j" path="res://testures/Platform/Tiles/Assets/Assets.png" id="20_b8t8i"]
 [ext_resource type="PackedScene" uid="uid://dybv8bvuue87v" path="res://script/PlatformGame/LevelEndPortal.tscn" id="21_355h4"]
@@ -7799,6 +7800,12 @@ position = Vector2(0, -38)
 zoom = Vector2(2.5, 2.5)
 limit_bottom = 280
 limit_smoothed = true
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="protagonista"]
+stream = ExtResource("19_abp7u")
+volume_db = -10.0
+autoplay = true
+bus = &"Musica"
 
 [node name="Area2Dscudo" type="Area2D" parent="."]
 visible = false
