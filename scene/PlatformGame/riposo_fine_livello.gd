@@ -18,6 +18,16 @@ func _ready() -> void:
 	GlobalStats.in_intermezzo = true
 	RestLock.lock_changed.connect(_refresh_ui)
 	_refresh_ui()
+	#renderlo navigabile
+	for n in $MarginContainer/VBoxContainer.get_children():
+		if n is Button:
+			n.focus_mode = Control.FOCUS_ALL
+
+	await get_tree().process_frame
+	if not continue_btn.disabled:
+		continue_btn.grab_focus()
+	else:
+		rest_btn.grab_focus()
 
 func _on_riposa_pressed() -> void:
 	if RestLock.is_active():
@@ -80,6 +90,13 @@ func _refresh_ui() -> void:
 		else:
 			rest_btn.disabled = false
 			rest_btn.text = "Riposa"
+	# --- Se il bottone con focus viene disabilitato, sposta il focus ---
+	if continue_btn.disabled and continue_btn.has_focus():
+		if not rest_btn.disabled:
+			rest_btn.grab_focus()
+		else:
+			$MarginContainer/VBoxContainer/Inventario.grab_focus()
+
 
 func _format_time(rem: int) -> String:
 	var minutes: int = rem / 60
@@ -93,3 +110,28 @@ func _get_player_reference() -> Node:
 func _on_inventario_pressed() -> void:
 	GlobalStats.in_menu = true
 	inventoryUI.open_inventory(player)
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("esc_button") and GlobalStats.in_menu:
+		if is_instance_valid(inventoryUI):
+			if inventoryUI.has_method("_on_close_pressed"):
+				inventoryUI._on_close_pressed()
+			elif inventoryUI.has_method("close_inventory"):
+				inventoryUI.close_inventory()
+			elif inventoryUI.has_method("close"):
+				inventoryUI.close()
+		GlobalStats.in_menu = false
+
+		# opzionale: blocca ulteriore propagazione
+		get_viewport().set_input_as_handled()
+
+		await get_tree().process_frame
+		_refocus_menu()
+
+func _refocus_menu() -> void:
+	if not continue_btn.disabled:
+		continue_btn.grab_focus()
+	elif not rest_btn.disabled:
+		rest_btn.grab_focus()
+	else:
+		$MarginContainer/VBoxContainer/Inventario.grab_focus()
