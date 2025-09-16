@@ -28,7 +28,7 @@ const DEBUFF = {
 	"LOW_DAMAGE": "LOW_DAMAGE",
 	"ATTACK_DELAY": "ATTACK_DELAY",
 	"NO_ROLL": "NO_ROLL",
-	"NO_JUMP": "NO_JUMP",
+	"HALF_JUMP": "HALF_JUMP",
 	"HP_DRAIN": "HP_DRAIN",
 	"INVERT_COMMANDS": "INVERT_COMMANDS",
 	"ENEMY_DAMAGE_UP": "ENEMY_DAMAGE_UP",
@@ -43,7 +43,7 @@ var DEBUFF_ICON: Dictionary = {
 	"LOW_DAMAGE": preload("res://testures/Platform/DebuffIcons/low_damage.png"),
 	"ATTACK_DELAY": preload("res://testures/Platform/DebuffIcons/attack_delay.png"),
 	"NO_ROLL": preload("res://testures/Platform/DebuffIcons/no_roll.png"),
-	"NO_JUMP": preload("res://testures/Platform/DebuffIcons/no_jump.png"),
+	"HALF_JUMP": preload("res://testures/Platform/DebuffIcons/no_jump.png"),
 	"HP_DRAIN": preload("res://testures/Platform/DebuffIcons/hp_drain.png"),
 	"INVERT_COMMANDS": preload("res://testures/Platform/DebuffIcons/invert.png"),
 	"ENEMY_DAMAGE_UP": preload("res://testures/Platform/DebuffIcons/enemy_up.png"),
@@ -113,7 +113,7 @@ func apply_to_player(player: Node) -> void:
 	if active_debuffs.has(DEBUFF.NO_ROLL):
 		if "can_roll" in player: player.can_roll = false
 
-	if active_debuffs.has(DEBUFF.NO_JUMP):
+	if active_debuffs.has(DEBUFF.HALF_JUMP):
 		if "jump_force" in player and "JUMP_FORCE" in player:
 			player.can_jump = true
 			player.ignore_jump_input = false

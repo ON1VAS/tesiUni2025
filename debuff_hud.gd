@@ -1,6 +1,7 @@
 extends CanvasLayer
 
 const MAX_ICONS := 9  # quante icone mostrare al massimo (poi appare +N)
+const ICON_SIZE := Vector2i(20, 20) # se l'inspector dovesse non essere letto, 20 px è il min
 
 @onready var icons_row: HBoxContainer = $MarginContainer/Icons
 
@@ -38,7 +39,10 @@ func _rebuild_icons() -> void:
 			continue
 		var tr := TextureRect.new()
 		tr.texture = tex
+		tr.custom_minimum_size = ICON_SIZE
 		tr.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		tr.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+		tr.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 		tr.tooltip_text = _tooltip_for(n)
 		icons_row.add_child(tr)
 		shown += 1
@@ -70,7 +74,7 @@ func _sorted_names(names_in) -> Array[String]:
 	var order := {
 		"HP_DRAIN": 0,
 		"SLOW": 1,
-		"NO_JUMP": 2,
+		"HALF_JUMP": 2,
 		"NO_ROLL": 3,
 		"ATTACK_DELAY": 4,
 		"LOW_DAMAGE": 5,

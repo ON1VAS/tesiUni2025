@@ -8,12 +8,15 @@ script = ExtResource("1_o0yfs")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 custom_minimum_size = Vector2(16, 16)
-offset_right = 40.0
-offset_bottom = 40.0
-scale = Vector2(0.6, 0.6)
+offset_right = 26.0
+offset_bottom = 26.0
+scale = Vector2(0.1, 0.1)
 pivot_offset = Vector2(8, 8)
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
+
+[node name="ColorRect" type="ColorRect" parent="MarginContainer"]
+layout_mode = 2
 
 [node name="Icons" type="HBoxContainer" parent="MarginContainer"]
 custom_minimum_size = Vector2(16, 16)
