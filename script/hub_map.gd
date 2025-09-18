@@ -176,13 +176,13 @@ func _input(event):
 		inventoryUI._on_close_pressed()
 	
 	#debug per vedere gli oggetti
-	if event.is_action_pressed("give_items"):
-		GlobalStats.tempo_cooldown = 5
-		InventoryManager.add_item(mela)
-		InventoryManager.add_item(piuma)
-		InventoryManager.add_item(carne)
-		InventoryManager.add_item(molla)
-		InventoryManager.add_item(regen_potion)
+	#if event.is_action_pressed("give_items"):
+		#GlobalStats.tempo_cooldown = 5
+		#InventoryManager.add_item(mela)
+		#InventoryManager.add_item(piuma)
+		#InventoryManager.add_item(carne)
+		#InventoryManager.add_item(molla)
+		#InventoryManager.add_item(regen_potion)
 		
 	if can_start_dialogue and player_in_range and event.is_action_pressed("ui_accept"):
 		_start_dialogue()
