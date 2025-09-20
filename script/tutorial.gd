@@ -35,13 +35,13 @@ func _ready():
 func _on_debuff_salto_body_entered(body: Node2D) -> void:
 	if body.is_in_group("giocatore"):
 		DebuffManager.set_platform_mode(true)
-		DebuffManager.add_debuff("NO_JUMP")
+		DebuffManager.add_debuff("HALF_JUMP")
 		DebuffManager.apply_to_player(player)
 
 
 func _on_debuff_salto_body_exited(body: Node2D) -> void:
 	if body.is_in_group("giocatore"):
-		DebuffManager.remove_debuff("NO_JUMP")
+		DebuffManager.remove_debuff("HALF_JUMP")
 		DebuffManager.apply_to_player(player)
 		DebuffManager.set_platform_mode(false)
 
