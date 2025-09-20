@@ -8881,8 +8881,8 @@ offset_bottom = 10.0
 theme_override_constants/line_spacing = 4
 theme_override_constants/outline_size = 6
 theme_override_font_sizes/font_size = 20
-text = "Se riposassi, aspetteresti 5 minuti,
-aspettando e usando questi minuti
+text = "Se riposassi, aspetteresti 5 minuti.
+Usa questi minuti di pausa
 per altre attività non videoludiche"
 horizontal_alignment = 1
 
