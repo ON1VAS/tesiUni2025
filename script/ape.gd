@@ -5,10 +5,10 @@ var movement_speed := 100
 var min_distance := 30
 var damage := 15
 
-var attack_windup := 0.20      # preparazione prima dello scatto
+var attack_windup := 0.30     # preparazione prima dello scatto
 var dash_speed := 320.0        # velocità dello scatto
 var dash_distance := 200.0      # distanza coperta dallo scatto
-var attack_recover := 0.35     # recovery dopo lo scatto
+var attack_recover := 0.40     # recovery dopo lo scatto
 var attack_cooldown := 0.60    # tempo minimo dal termine dell'attacco
 var hurt_stun := 0.25
 var knockback := 120.0
