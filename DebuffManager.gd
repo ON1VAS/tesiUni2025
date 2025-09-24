@@ -16,7 +16,7 @@ var platform_mode: bool = false  # true quando siamo in un livello platform
 var active_debuffs: = {}         # set di string -> true
 var command_inverted := false
 var _invert_timer := 0.0
-var invert_interval := 2.0       # ogni 2s può flippare
+var invert_interval := 5.0       # ogni 5s può flippare
 
 # Per perdita HP ogni 10s
 var _hp_drain_timer_running := false
